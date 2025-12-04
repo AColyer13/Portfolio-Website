@@ -27,6 +27,14 @@ export const About: React.FC = () => {
                   download
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={e => {
+                    // fallback to relative path if absolute fails
+                    fetch('/files/Resume Dec2025.pdf', { method: 'HEAD' })
+                      .catch(() => {
+                        window.location.href = 'files/Resume Dec2025.pdf';
+                        e.preventDefault();
+                      });
+                  }}
                 >
                   <span className="uil uil-file-alt"></span> Download Resume
                 </a>
@@ -43,6 +51,12 @@ export const About: React.FC = () => {
                 src="/images/IMG_4874.JPEG"
                 className="img-fluid mx-auto d-block"
                 alt="desk setup photo"
+                onError={e => {
+                  const target = e.currentTarget;
+                  if (target.src.endsWith('/images/IMG_4874.JPEG')) {
+                    target.src = 'images/IMG_4874.JPEG';
+                  }
+                }}
               />
             </div>
           </div>

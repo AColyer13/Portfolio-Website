@@ -20,6 +20,12 @@ export const Projects: React.FC = () => {
                     src={project.imageUrl}
                     alt="Portfolio image"
                     className="img-fluid"
+                    onError={e => {
+                      const target = e.currentTarget;
+                      if (target.src.endsWith(project.imageUrl)) {
+                        target.src = project.imageUrl.replace(/^\//, '');
+                      }
+                    }}
                   />
                   {project.liveUrl && (
                     <a
