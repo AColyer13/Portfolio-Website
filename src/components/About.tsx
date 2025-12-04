@@ -22,7 +22,7 @@ export const About: React.FC = () => {
 
               <div className="custom-btn-group mt-4">
                 <a
-                  href="files/Resume Dec2025.pdf"
+                  href="/files/Resume Dec2025.pdf"
                   className="btn mr-lg-2 custom-btn"
                   download
                   target="_blank"
@@ -40,7 +40,7 @@ export const About: React.FC = () => {
           <div className="col-lg-5 col-md-12 col-12 d-flex align-items-center justify-content-center">
             <div className="about-image svg">
               <img
-                src="images/IMG_4874.JPEG"
+                src="/images/IMG_4874.JPEG"
                 className="img-fluid mx-auto d-block"
                 alt="desk setup photo"
               />
