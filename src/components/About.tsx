@@ -22,19 +22,11 @@ export const About: React.FC = () => {
 
               <div className="custom-btn-group mt-4">
                 <a
-                  href="/files/Resume Dec2025.pdf"
+                  href="files/Resume Dec2025.pdf"
                   className="btn mr-lg-2 custom-btn"
                   download
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={e => {
-                    // fallback to relative path if absolute fails
-                    fetch('/files/Resume Dec2025.pdf', { method: 'HEAD' })
-                      .catch(() => {
-                        window.location.href = 'files/Resume Dec2025.pdf';
-                        e.preventDefault();
-                      });
-                  }}
                 >
                   <span className="uil uil-file-alt"></span> Download Resume
                 </a>
@@ -48,15 +40,9 @@ export const About: React.FC = () => {
           <div className="col-lg-5 col-md-12 col-12 d-flex align-items-center justify-content-center">
             <div className="about-image svg">
               <img
-                src="/images/IMG_4874.JPEG"
+                src="images/IMG_4874.JPEG"
                 className="img-fluid mx-auto d-block"
                 alt="desk setup photo"
-                onError={e => {
-                  const target = e.currentTarget;
-                  if (target.src.endsWith('/images/IMG_4874.JPEG')) {
-                    target.src = 'images/IMG_4874.JPEG';
-                  }
-                }}
               />
             </div>
           </div>
