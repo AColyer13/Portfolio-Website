@@ -86,11 +86,11 @@ export const projects: Project[] = [
   },
   {
     id: 2,
-    title: 'Swimming Techniques',
+    title: 'Swimming Website',
     tech: 'HTML, CSS, JS',
     imageUrl: 'images/Swimmingsiteicon.png',
-    liveUrl: 'https://acolyer13.github.io/Swimming-Techniques-V2/index.html',
-    githubUrl: 'https://github.com/acolyer13/Swimming-Techniques-V2',
+    liveUrl: 'https://acolyer13.github.io/Swim-Teaching-Website/',
+    githubUrl: 'https://github.com/AColyer13/Swim-Teaching-Website',
   },
   {
     id: 3,
@@ -98,7 +98,7 @@ export const projects: Project[] = [
     tech: 'JavaScript',
     imageUrl: 'images/vikingsquizicon.png',
     liveUrl: 'https://acolyer13.github.io/vikes-quiz-app/',
-    githubUrl: 'https://github.com/acolyer13/vikes-quiz-app',
+    githubUrl: 'https://github.com/AColyer13/vikes-quiz-app',
   },
   {
     id: 4,
