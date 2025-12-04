@@ -1,73 +1,117 @@
-# React + TypeScript + Vite
+# Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive personal portfolio built with React and TypeScript, designed to showcase your skills, projects, and contact information.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Table of Contents
+- [Project Purpose](#project-purpose)
+- [Tech Stack](#tech-stack)
+- [File & Folder Structure](#file--folder-structure)
+- [Key Features](#key-features)
+- [Setup & Development](#setup--development)
+- [Customization](#customization)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Project Purpose
+This website is a professional portfolio to present your background, skills, and work. It’s optimized for performance, accessibility, and easy updates.
 
-## Expanding the ESLint configuration
+## Tech Stack
+- **Frontend:** React (TypeScript)
+- **Build Tool:** Vite
+- **Styling:** Custom CSS, Bootstrap utility classes
+- **Icons:** Icon fonts (GitHub, LinkedIn)
+- **Email Integration:** EmailJS (client-side email)
+- **Map:** Google Maps iframe
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## File & Folder Structure
+```
+public/           # Static assets (images, files)
+src/
+  App.tsx         # Main app component
+  main.tsx        # React entry point
+  App.css         # Global styles
+  index.css       # Base styles
+  assets/         # Images, icons
+  components/     # Modular React components
+    About.tsx
+    Contact.tsx   # Contact form, info, map
+    Footer.tsx
+    Navbar.tsx
+    Projects.tsx
+    Resume.tsx
+    Skills.tsx
+    index.ts      # Barrel file
+  data/
+    portfolio.ts  # Project/skills data
+index.html        # Main HTML entry
+package.json      # Dependencies/scripts
+vite.config.ts    # Vite config
+tsconfig*.json    # TypeScript configs
+eslint.config.js  # Linting rules
+README.md         # Project documentation
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Key Features
+- **Responsive Design:** Adapts to desktop and mobile
+- **Navigation:** Sticky navbar
+- **About Section:** Bio and summary
+- **Skills Section:** Visual skills listing
+- **Projects Section:** Showcase with links
+- **Resume Section:** Download/view resume
+- **Contact Section:**
+  - Form (name, email, message)
+  - EmailJS integration (no backend needed)
+  - Google Map (Edina, MN)
+  - Contact card (phone, email, social links)
+- **Footer:** Social icons, copyright
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Setup & Development
+1. **Install dependencies:**
+   ```powershell
+   npm install
+   ```
+2. **Start development server:**
+   ```powershell
+   npm run dev
+   ```
+3. **View in browser:**
+   Open [http://localhost:5173](http://localhost:5173)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Customization
+- **Projects/Skills:** Edit `src/data/portfolio.ts`
+- **Bio/Contact Info:** Update respective components in `src/components/`
+- **Theme/Colors:** Edit `App.css`
+- **Add Sections:** Create new components in `src/components/`
+
+## Deployment
+- Build for production:
+  ```powershell
+  npm run build
+  ```
+- Deploy the `dist/` folder to your preferred static host (e.g., Netlify, Vercel, GitHub Pages).
+
+## Contributing
+- Fork the repo and create a feature branch
+- Follow code style and TypeScript conventions
+- Submit pull requests with clear descriptions
+
+## License
+This project is open source and available under the MIT License.
+
+---
+
+### Additional Notes
+- **Accessibility:** Form fields are labeled, interactive elements use proper roles/attributes.
+- **Performance:** Vite enables fast reloads and optimized builds.
+- **Extensibility:** Easily add new sections, update data, or change styles.
+- **No backend required:** EmailJS handles contact form submissions securely from the client.
+- **Security:** Map iframe uses lazy loading; external links use `rel="noopener noreferrer"`.
+
+---
+
+If you have questions or want to extend the site, check the source code or reach out via the contact form!
