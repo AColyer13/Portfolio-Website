@@ -86,7 +86,7 @@ export const projects: Project[] = [
   },
   {
     id: 2,
-    title: 'Swimming Techniques v2',
+    title: 'Swimming Techniques',
     tech: 'HTML, CSS, JS',
     imageUrl: 'images/Swimmingsiteicon.png',
     liveUrl: 'https://acolyer13.github.io/Swimming-Techniques-V2/index.html',
@@ -110,11 +110,11 @@ export const projects: Project[] = [
   },
   {
     id: 5,
-    title: 'DashConnect Build Fetch #4',
+    title: 'Build, Fetch, and Display API',
     tech: 'JavaScript, Fetch API',
     imageUrl: 'images/dashconnecticon.png',
-    liveUrl: 'https://acolyer13.github.io/DashConnect-Build-Fetch/',
-    githubUrl: 'https://github.com/acolyer13/DashConnect-Build-Fetch',
+    liveUrl: 'https://acolyer13.github.io/Build-Fetch-Display/',
+    githubUrl: 'https://github.com/AColyer13/Build-Fetch-Display',
   },
   {
     id: 6,
