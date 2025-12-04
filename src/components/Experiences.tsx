@@ -1,7 +1,8 @@
 import React from 'react';
 import { timeline } from '../data/portfolio';
 
-export const Resume: React.FC = () => {
+
+export const Experiences: React.FC = () => {
   return (
     <section
       className="resume py-5 d-lg-flex justify-content-center align-items-center"

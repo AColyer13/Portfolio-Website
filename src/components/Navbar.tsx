@@ -43,14 +43,14 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
             </li>
             <li className="nav-item">
               <a
-                href="#resume"
-                className={`nav-link ${activeSection === 'resume' ? 'active' : ''}`}
+                href="#experience"
+                className={`nav-link ${activeSection === 'experience' ? 'active' : ''}`}
                 onClick={() => {
-                  onNavigate('resume');
+                  onNavigate('experience');
                   setIsMenuOpen(false);
                 }}
               >
-                <span data-hover="Resume">Resume</span>
+                <span data-hover="Experiences">Experiences</span>
               </a>
             </li>
             <li className="nav-item">

@@ -45,27 +45,33 @@ export const skills: Skill[] = [
 export const timeline: TimelineItem[] = [
   {
     year: 'Present',
-    title: 'Software Developer & Sr. Technical Instructor',
-    company: 'Hashmap Labs/App Academy',
-    description: 'Company has shifted away from Ruby on Rails and more toward Python/Flask at this point. Consistently ranked as a top performer. Continued to teach, build internal tooling, and develop curriculum. Played critical role in implementing MERN stack curriculum. Used JSForce to automate many work flows, including notetaking with students, allowing instructors to take on double their original caseloads',
+    title: 'AI Search Quality Evaluator',
+    company: 'Activus Connect – Remote',
+    description: 'Evaluating Search results to improve AI algorithms and enhance user experience.',
   },
   {
-    year: '2018',
-    title: 'Software Developer & Technical Instructor',
-    company: 'Hashmap Labs/App Academy',
-    description: 'After attending App Academy as a student. I received an offer to teach at a competitor in the Bay Area. Instead I took that offer and leveraged it for a role with a/A. Working here is where my skills really started to accelerate. Created tests, lectures, apps, and instructional videos designed to teach students the ins and outs of Javascript, PostgreSQL, React, Redux, and Ruby on Rails',
+    year: '2022',
+    title: 'Account Executive',
+    company: 'Citizen Observer – St. Paul, MN',
+    description: 'Closed adoption of tip411 across 6 municipalities via 100+ customized demos. 95% outbound.',
   },
   {
-    year: '2017',
-    title: 'Freelance Developer',
-    company: 'Taylor Agency',
-    description: 'Still getting my feet wet with the industry. Did some contracting work this year building websites for one of my old bosses. I also attended a bootcamp to learn the ins and outs of pro development. Mostly working in JS, HTML, & CSS.',
+    year: '2021',
+    title: 'Sales Development Representative',
+    company: 'Digital River – Minnetonka, MN',
+    description: 'Secured a $500K deal with a game called Rec Room through targeted outreach.',
   },
   {
-    year: '2014',
-    title: 'CSR/Bookkeeper',
-    company: 'S&G Global Holdings',
-    description: 'The beginning of my career and my first foray into programming. In this role I automated over 100 hours of data entry work per week using Python.',
+    year: '2020',
+    title: 'Account Executive',
+    company: 'INRY – Eden Prairie, MN',
+    description: 'Managed a pipeline of over $400K, managed RFPs for companies like Kohler & Heineken.',
+  },
+  {
+    year: '2019',
+    title: 'Business Development Representative',
+    company: 'Epicor Software – St. Louis Park, MN',
+    description: 'Qualified $3.7M in opportunities; added $1.1M to pipeline; earned Excellence Award.',
   },
 ];
 

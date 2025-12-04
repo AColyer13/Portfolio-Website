@@ -3,7 +3,7 @@ import {
   Navbar,
   About,
   Skills,
-  Resume,
+  Experiences,
   Projects,
   Contact,
   Footer,
@@ -22,7 +22,7 @@ function App() {
       <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
       <About />
       <Skills />
-      <Resume />
+      <Experiences />
       <Projects />
       <Contact />
       <Footer />
