@@ -380,7 +380,7 @@ a:hover {
 }
 
 .portfolio-item {
-  margin-bottom: 2rem;
+  margin-bottom: 1.2rem; /* reduced from 2rem */
 }
 
 .portfolio-item-inner {
@@ -389,6 +389,8 @@ a:hover {
   overflow: hidden;
   border: 1px solid var(--border-color);
   transition: all 0.3s ease;
+  min-height: 370px; /* reduce height for better fit */
+  max-width: 98%; /* slightly reduce width */
 }
 
 .portfolio-item-inner:hover {
@@ -400,7 +402,7 @@ a:hover {
 .portfolio-item-img {
   position: relative;
   overflow: hidden;
-  height: 250px;
+  height: 200px; /* reduce image height from 250px */
 }
 
 .portfolio-item-img img {
@@ -441,7 +443,7 @@ a:hover {
 }
 
 .portfolio-item-inner .body {
-  padding: 1.5rem;
+  padding: 1.1rem; /* reduce padding from 1.5rem */
   text-align: center;
 }
 
