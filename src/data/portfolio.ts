@@ -81,8 +81,8 @@ export const projects: Project[] = [
     title: 'Event Center Website v2',
     tech: 'HTML, CSS, JS',
     imageUrl: 'images/Eventcentericon.png',
-    liveUrl: 'https://acolyer13.github.io/Event-Center-Website-v2/index.html',
-    githubUrl: 'https://github.com/acolyer13/Event-Center-Website-v2',
+    liveUrl: 'https://acolyer13.github.io/Event-Center-Example-Website/',
+    githubUrl: 'https://github.com/AColyer13/Event-Center-Example-Website',
   },
   {
     id: 2,
