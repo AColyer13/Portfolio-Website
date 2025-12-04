@@ -1,0 +1,60 @@
+/* Remove default Vite styles - we'll use our custom styles */
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Contact section layout tweaks */
+.contact .contact-form .row {
+  gap: 0.5rem 0; /* tighten vertical gap */
+}
+
+@media (min-width: 992px) {
+  .contact .contact-form .row {
+    column-gap: 0.75rem; /* slightly tighter column gap */
+  }
+}
+
+/* Force name + email to sit on one line on desktop */
+.contact .form-row-two {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 992px) {
+  .contact .form-row-two {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 0.75rem; /* reduce gap between name/email */
+  }
+  .contact .form-row-two .form-control {
+    width: 100%;
+  }
+}
+
+/* Make the message textarea longer but responsive */
+.contact textarea.form-control {
+  min-height: 150px; /* slightly less tall */
+}
+@media (min-width: 992px) {
+  .contact textarea.form-control {
+    min-height: 200px; /* slightly less tall on desktop */
+  }
+}
+
+/* Map/card sizing to align better with the form */
+.contact .google-map iframe {
+  width: 100%;
+  height: clamp(280px, 38vh, 460px); /* slightly less tall */
+}
+
+.contact .contact-info {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.contact .submit-btn {
+  cursor: pointer;
+}
