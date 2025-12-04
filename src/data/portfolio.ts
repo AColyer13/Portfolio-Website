@@ -78,7 +78,7 @@ export const timeline: TimelineItem[] = [
 export const projects: Project[] = [
   {
     id: 1,
-    title: 'Event Center Website v2',
+    title: 'Event Center Website',
     tech: 'HTML, CSS, JS',
     imageUrl: 'images/Eventcentericon.png',
     liveUrl: 'https://acolyer13.github.io/Event-Center-Example-Website/',
@@ -119,7 +119,7 @@ export const projects: Project[] = [
   {
     id: 6,
     title: 'Mechanic Website',
-    tech: 'HTML, CSS, JS',
+    tech: 'Python, HTML, CSS, JS',
     imageUrl: 'images/mechanicapiicon.png',
     liveUrl: 'https://acolyer13.github.io/Mechanic-Website/',
     githubUrl: 'https://github.com/AColyer13/Mechanic-API---Copy-with-Testing-and-Documentation',
