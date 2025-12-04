@@ -1,3 +1,15 @@
+/* Adaptive spacing for About section below navbar */
+
+/* Spacer below navbar for consistent gap */
+.navbar-spacer {
+  height: 32px;
+}
+
+@media (max-width: 576px) {
+  .navbar-spacer {
+    height: 8px;
+  }
+}
 :root {
   --primary-color: #7c3aed;
   --white-color: #ffffff;

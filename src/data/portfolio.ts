@@ -47,19 +47,19 @@ export const timeline: TimelineItem[] = [
     year: 'Present',
     title: 'AI Search Quality Evaluator',
     company: 'Activus Connect – Remote',
-    description: 'Evaluating Search results to improve AI algorithms and enhance user experience.',
+    description: 'Evaluating search results to improve AI algorithms and enhance user experience.',
   },
   {
     year: '2022',
     title: 'Account Executive',
     company: 'Citizen Observer – St. Paul, MN',
-    description: 'Closed adoption of tip411 across 6 municipalities via 100+ customized demos. 95% outbound.',
+    description: 'Closed adoption of tip411 across six municipalities via 100+ customized demos.',
   },
   {
     year: '2021',
     title: 'Sales Development Representative',
     company: 'Digital River – Minnetonka, MN',
-    description: 'Secured a $500K deal with a game called Rec Room through targeted outreach.',
+    description: 'Secured a $500K deal with a Video Game Company through targeted outreach.',
   },
   {
     year: '2020',

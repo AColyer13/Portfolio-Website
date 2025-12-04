@@ -19,25 +19,12 @@ function App() {
   };
 
   useEffect(() => {
-    const updatePadding = () => {
-      const navbar = navbarRef.current;
-      if (navbar) {
-        const height = navbar.offsetHeight;
-        const aboutSection = document.getElementById('about');
-        if (aboutSection) {
-          aboutSection.style.paddingTop = `${height - 10}px`;
-        }
-      }
-    };
-
-    updatePadding();
-    window.addEventListener('resize', updatePadding);
-    return () => window.removeEventListener('resize', updatePadding);
+    // Removed JS padding logic; now handled by CSS for responsive spacing
   }, []);
 
   return (
     <>
-      <Navbar ref={navbarRef} activeSection={activeSection} onNavigate={handleNavigate} />
+      <Navbar ref={navbarRef as React.Ref<HTMLElement>} activeSection={activeSection} onNavigate={handleNavigate} />
       <About />
       <Skills />
       <Experiences />
