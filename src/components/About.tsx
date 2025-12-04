@@ -17,7 +17,7 @@ export const About: React.FC = () => {
               </h1>
 
               <p>
-                With 7 years of professional experience in JavaScript, React, Node, and MongoDB, and a newfound expertise in DynamoDB, I specialize in building efficient, scalable solutions that tackle real-world problems. My career started with automating tasks that saved my team hundreds of hours, and since then, I've been combining my engineering and teaching skills at App Academy, where I developed MERN stack and data structure/algorithm curriculums. I thrive on turning complex challenges into streamlined, innovative solutions, and I'm eager to bring that same drive and expertise to a dynamic team ready to push the boundaries of technology.
+               Previous sales professional with hands on experience managing $2M+ in pipeline. Now developing full stack applications using React, Python, Flask, and SQL. I can combine my previous business insight with technical problem solving to build solutions that align with future development needs.
               </p>
 
               <div className="custom-btn-group mt-4">
