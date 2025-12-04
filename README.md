@@ -5,19 +5,7 @@ A modern, responsive personal portfolio built with React and TypeScript, designe
 ---
 
 ## Table of Contents
-- [Project Purpose](#project-purpose)
-- [Tech Stack](#tech-stack)
-- [File & Folder Structure](#file--folder-structure)
-- [Key Features](#key-features)
-- [Setup & Development](#setup--development)
-- [Customization](#customization)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
 
----
-
-## Project Purpose
 This website is a professional portfolio to present your background, skills, and work. It’s optimized for performance, accessibility, and easy updates.
 
 ## Tech Stack
@@ -103,7 +91,7 @@ README.md         # Project documentation
 ## License
 This project is open source and available under the MIT License.
 
----
+
 
 ### Additional Notes
 - **Accessibility:** Form fields are labeled, interactive elements use proper roles/attributes.
