@@ -121,7 +121,7 @@ export const projects: Project[] = [
     title: 'Mechanic Website',
     tech: 'Python, HTML, CSS, JS',
     imageUrl: 'images/mechanicapiicon.png',
-    liveUrl: 'https://acolyer13.github.io/Mechanic-Website/',
+    liveUrl: 'https://mechanicshopapi.web.app/',
     githubUrl: 'https://github.com/AColyer13/Mechanic-API---Copy-with-Testing-and-Documentation',
   },
 ];
