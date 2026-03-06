@@ -52,7 +52,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
               </li>
               <li className="nav-item">
                 <a
-                  href="#resume"
+                  href="#experience"
                   className={`nav-link ${activeSection === 'experience' ? 'active' : ''}`}
                   onClick={() => {
                     onNavigate('experience');
@@ -64,7 +64,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
               </li>
               <li className="nav-item">
                 <a
-                  href="#project"
+                  href="#projects"
                   className={`nav-link ${activeSection === 'project' ? 'active' : ''}`}
                   onClick={() => {
                     onNavigate('project');

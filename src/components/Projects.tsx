@@ -3,7 +3,7 @@ import { projects } from '../data/portfolio';
 
 export const Projects: React.FC = () => {
   return (
-    <section className="project py-5" id="project">
+    <section className="project py-5" id="projects">
       <div className="container">
         <div className="col-md-6">
           <h2>My Projects</h2>

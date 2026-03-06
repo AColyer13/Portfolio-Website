@@ -23,7 +23,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className="App">
       <Navbar ref={navbarRef as React.Ref<HTMLElement>} activeSection={activeSection} onNavigate={handleNavigate} />
       <About />
       <Skills />
@@ -31,7 +31,7 @@ function App() {
       <Projects />
       <Contact />
       <Footer />
-    </>
+    </div>
   );
 }
 
