@@ -10,6 +10,8 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+# Generated if you copy dist locally to preview Pages; not source of truth (see public/)
+docs
 *.local
 
 # Editor directories and files

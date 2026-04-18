@@ -79,12 +79,12 @@ README.md         # Project documentation
 - **Add Sections:** Create new components in `src/components/`
 
 ## Deployment
-CI runs **`npm run build`** and copies **`dist/`** into **`docs/`** on **`main`**, then commits and pushes (see **`.github/workflows/deploy.yml`**). GitHub Pages must publish **`/docs`**, not the repo root.
+CI runs **`npm run build`** and publishes **`dist/`** to the **`gh-pages`** branch (see **`.github/workflows/deploy.yml`**). **`public/`** on **`main`** is the only committed copy of static assets (images, PDFs, etc.); the live site is built output, not a second folder you maintain beside **`public/`**.
 
-1. **Settings → Pages → Deploy from a branch:** branch **`main`**, folder **`/docs`**.  
-   If you use **`/` (root)** instead, GitHub serves the **source** `index.html` (with `main.tsx`) and the site stays blank.
+1. **Settings → Pages → Deploy from a branch:** branch **`gh-pages`**, folder **`/` (root)**.  
+   Do **not** publish **`main` → `/`**, or GitHub will serve source **`index.html`** and **`main.tsx`** errors appear.
 2. Push to **`main`** or run the workflow manually (**Actions → Deploy Vite site to GitHub Pages → Run workflow**).
-3. **Settings → Actions → General → Workflow permissions:** **Read and write** (needed so CI can push the **`docs/`** update).
+3. **Settings → Actions → General → Workflow permissions:** **Read and write** (needed so CI can update **`gh-pages`**).
 
 The live URL is `https://<user>.github.io/<repo>/` (e.g. **`/Portfolio-Website/`**).
 
