@@ -79,13 +79,13 @@ README.md         # Project documentation
 - **Add Sections:** Create new components in `src/components/`
 
 ## Deployment
-The live site is the Vite + React app under `src/`, built with `npm run build` and deployed by `.github/workflows/deploy.yml`.
+The live site is built from the **repo root** (`npm run build` produces `dist/`) and published by **`.github/workflows/deploy.yml`**. You do **not** use **Deploy from a branch** or a **`/docs`** folder for this project.
 
-1. Push to `main` (or run the workflow manually with **Actions → Deploy Vite site to GitHub Pages → Run workflow**).
-2. **Repository → Settings → Pages → Build and deployment:** set **Source** to **GitHub Actions** (not “Deploy from a branch” and not `/docs`).
-3. Under **GitHub Actions**, use the workflow **Deploy Vite site to GitHub Pages** (`deploy.yml`). That job uploads the `dist/` folder from the Vite build.
+1. Push to `main` (or **Actions → Deploy Vite site to GitHub Pages → Run workflow**).
+2. **Settings → Pages → Build and deployment → Source:** choose **GitHub Actions** (not “Deploy from a branch”).
+3. The workflow **Deploy Vite site to GitHub Pages** uploads the contents of **`dist/`** to your site. That becomes the **site root** at `https://<user>.github.io/<repo>/` (e.g. `/Portfolio-Website/` for this repo).
 
-If you still see a Jekyll page instead of the app, set **Pages → Source** to **GitHub Actions** as above. The tiny **`docs/`** folder is only for repos that still use **branch → `/docs`** (so `jekyll-build-pages` does not error). Once you use **only** GitHub Actions for Pages, you can delete **`docs/`**.
+If **Source** is still **Deploy from a branch** (root or `/docs`), switch it to **GitHub Actions** so Jekyll does not run on the repo.
 
 A `.nojekyll` file under `public/` is copied into `dist/` for static hosting.
 
