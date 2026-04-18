@@ -1,5 +1,0 @@
-# Minimal Jekyll site for legacy `actions/jekyll-build-pages` (expects `/docs` to exist).
-# Production traffic should come from the Vite workflow: `.github/workflows/deploy.yml`
-title: Portfolio
-description: Placeholder — not the live React app
-theme: jekyll-theme-primer

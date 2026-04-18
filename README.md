@@ -79,23 +79,15 @@ README.md         # Project documentation
 - **Add Sections:** Create new components in `src/components/`
 
 ## Deployment
-This repo includes a GitHub Actions workflow at `.github/workflows/deploy.yml` that builds and deploys to GitHub Pages.
+The live site is the Vite + React app under `src/`, built with `npm run build` and deployed by `.github/workflows/deploy.yml`.
 
-1. Push to `main`.
-2. In GitHub repo settings, set Pages source to **GitHub Actions** (not `Deploy from a branch`).
-3. The workflow builds with `npm run build` and deploys `dist/` automatically.
+1. Push to `main` (or run the workflow manually with **Actions → Deploy Vite site to GitHub Pages → Run workflow**).
+2. **Repository → Settings → Pages → Build and deployment:** set **Source** to **GitHub Actions** (not “Deploy from a branch” and not `/docs`).
+3. Under **GitHub Actions**, use the workflow **Deploy Vite site to GitHub Pages** (`deploy.yml`). That job uploads the `dist/` folder from the Vite build.
 
-### If Actions runs `jekyll-build-pages` / `style.scss` / “No such file … `/docs`”
-That job comes from GitHub’s **Jekyll Pages** workflow (`actions/jekyll-build-pages@v1`), **not** from `.github/workflows/deploy.yml` (Vite). It **chdirs into `/docs`**; if that folder was missing, the build failed with `ENOENT`.
+If you still see a Jekyll placeholder or README-style page, Pages is not using this workflow yet—fix the **Pages** source as above. Disable any extra **pages build and deployment** workflow in the Actions tab if it runs `jekyll-build-pages` instead of `deploy.yml`.
 
-This repo now includes a **minimal `docs/` Jekyll site** so that legacy job can succeed if it still runs. **You should still prefer only the Vite deploy:**
-
-1. **Settings → Pages → Build and deployment**
-2. Set **Source** to **GitHub Actions** (not “Deploy from a branch”).
-3. Under **GitHub Actions**, pick the workflow **Deploy Vite site to GitHub Pages** (file: `deploy.yml`) as the publisher for Pages.
-4. **Actions** tab → open **pages build and deployment** (or any workflow whose logs show `jekyll-build-pages`). If that workflow file exists in `.github/workflows/` on GitHub, **delete it** so only `deploy.yml` runs. If you do not see it locally, use **Add file** on GitHub or delete from the **Actions** workflow file link — it may exist only on the remote default branch.
-
-The live React app is always the **`npm run build` output** uploaded by `deploy.yml`. A `.nojekyll` file under `public/` is copied into `dist/` for static hosting.
+A `.nojekyll` file under `public/` is copied into `dist/` for static hosting.
 
 For manual production builds:
 ```powershell
