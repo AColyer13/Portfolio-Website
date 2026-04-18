@@ -44,6 +44,7 @@ jobs:
         run: |
           if grep -qF 'main.tsx' dist/index.html; then
             echo "dist/index.html still references main.tsx — deploy dist/ from CI, not source index.html."
+            echo "Raw .tsx on GitHub Pages is served as application/octet-stream; browsers reject it for type=module."
             exit 1
           fi
 
