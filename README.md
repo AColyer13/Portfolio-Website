@@ -79,13 +79,13 @@ README.md         # Project documentation
 - **Add Sections:** Create new components in `src/components/`
 
 ## Deployment
-The live site is built from the **repo root** (`npm run build` produces `dist/`) and published by **`.github/workflows/deploy.yml`**. You do **not** use **Deploy from a branch** or a **`/docs`** folder for this project.
+CI runs **`npm run build`** and pushes **only `dist/`** to the **`gh-pages`** branch (see **`.github/workflows/deploy.yml`**). GitHub Pages must publish **that** branch, not **`main`**.
 
-1. Push to `main` (or **Actions → Deploy Vite site to GitHub Pages → Run workflow**).
-2. **Settings → Pages → Build and deployment → Source:** choose **GitHub Actions** (not “Deploy from a branch”).
-3. The workflow **Deploy Vite site to GitHub Pages** uploads the contents of **`dist/`** to your site. That becomes the **site root** at `https://<user>.github.io/<repo>/` (e.g. `/Portfolio-Website/` for this repo).
+1. Push to **`main`** (or **Actions → Deploy Vite site to GitHub Pages → Run workflow**).
+2. **Settings → Pages → Build and deployment → Deploy from a branch:** branch **`gh-pages`**, folder **`/ (root)`** (not **`main`**). If **`main`** is selected, the site serves source **`index.html`** and **`main.tsx`** errors appear.
+3. After the workflow runs, the live bundle is at `https://<user>.github.io/<repo>/` (e.g. **`/Portfolio-Website/`**).
 
-If **Source** is still **Deploy from a branch** (root or `/docs`), switch it to **GitHub Actions** so Jekyll does not run on the repo.
+**Repo → Settings → Actions → General → Workflow permissions:** set **Read and write** if the workflow cannot push to **`gh-pages`**.
 
 A `.nojekyll` file under `public/` is copied into `dist/` for static hosting.
 

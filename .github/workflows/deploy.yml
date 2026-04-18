@@ -1,7 +1,11 @@
-# Publishes npm run build output (dist/). In the repo: Settings → Pages →
-# Build and deployment → Source must be "GitHub Actions". If Source is
-# "Deploy from a branch", the live site will load /src/main.tsx from the
-# repo root and break (404).
+# Builds the Vite app and pushes ONLY dist/ to the orphan branch `gh-pages`.
+#
+# GitHub Pages must publish that branch (not `main`):
+#   Settings → Pages → Build and deployment → Deploy from a branch
+#   Branch: gh-pages, folder: / (root)
+#
+# If Source is left on "main" / (root), the site will keep serving source
+# index.html and you will see main.tsx MIME / module errors.
 name: Deploy Vite site to GitHub Pages
 
 on:
@@ -10,16 +14,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,29 +39,18 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # Must match GitHub Pages URL: …/Portfolio-Website/ (not site root).
           VITE_BASE_PATH: /Portfolio-Website/
 
-      - name: Verify production bundle (built HTML must not reference main.tsx)
+      - name: Verify production bundle (must not reference main.tsx)
         run: |
           if grep -qF 'main.tsx' dist/index.html; then
-            echo "dist/index.html still references main.tsx — deploy dist/ from CI, not source index.html."
-            echo "Raw .tsx on GitHub Pages is served as application/octet-stream; browsers reject it for type=module."
+            echo "dist/index.html still references main.tsx."
             exit 1
           fi
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Push dist to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: ./dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          force_orphan: true
