@@ -2,6 +2,14 @@ import React from 'react';
 import { projects } from '../data/portfolio';
 
 export const Projects: React.FC = () => {
+  const uniqueProjects = projects.filter((project, index, allProjects) => {
+    const key = `${project.title}|${project.githubUrl}|${project.liveUrl ?? ''}`;
+    return allProjects.findIndex((candidate) => {
+      const candidateKey = `${candidate.title}|${candidate.githubUrl}|${candidate.liveUrl ?? ''}`;
+      return candidateKey === key;
+    }) === index;
+  });
+
   return (
     <section className="project py-5" id="projects">
       <div className="container">
@@ -9,7 +17,7 @@ export const Projects: React.FC = () => {
           <h2>My Projects</h2>
         </div>
         <div className="row portfolio-grid text-center" id="portfolio-masonry-wrap">
-          {projects.map((project) => (
+          {uniqueProjects.map((project) => (
             <div
               key={project.id}
               className="col-md-6 col-lg-4 portfolio-item mockup"

@@ -6,7 +6,7 @@ export default defineConfig({
   base: '/Portfolio-Website/', // Set base for GitHub Pages
   plugins: [react()],
   build: {
-    outDir: 'docs', // Output build to docs folder
+    outDir: 'dist', // Keep build output separate from source assets
     emptyOutDir: true,
   },
   publicDir: 'public', // Serve static assets from public/

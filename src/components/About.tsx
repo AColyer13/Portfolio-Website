@@ -17,12 +17,12 @@ export const About: React.FC = () => {
               </h1>
 
               <p>
-               Previous sales professional with hands on experience managing $2M+ in pipeline. Now developing full stack applications using React, Python, Flask, and SQL. I can combine my previous business insight with technical problem solving to build solutions that align with future development needs.
+               Former sales professional with hands-on experience managing $2M+ pipelines. Now developing full-stack applications and combining my business insight with technical problem solving to build solutions that align with any future development needs.
               </p>
 
               <div className="custom-btn-group mt-4">
                 <a
-                  href="files/Resume Dec2025.pdf"
+                  href="files/AdamColyerResume2026v1.pdf"
                   className="btn mr-lg-2 custom-btn"
                   download
                   target="_blank"
