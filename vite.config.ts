@@ -42,7 +42,8 @@ export default defineConfig(({ mode }) => {
       outDir: path.join(projectRoot, 'dist'),
       emptyOutDir: true,
     },
-    publicDir: 'public',
+    // Relative to Vite `root` (src/), the default `public` would be src/public — use repo-root public/.
+    publicDir: path.join(projectRoot, 'public'),
     test: {
       environment: 'jsdom',
       setupFiles: ['./src/test/setup.ts'],
