@@ -1,117 +1,72 @@
 # Portfolio Website
 
-A modern, responsive personal portfolio built with React and TypeScript, designed to showcase your skills, projects, and contact information.
+Personal portfolio (React + TypeScript + Vite).
 
-https://acolyer13.github.io/Portfolio-Website/
+**Live site:** https://acolyer13.github.io/Portfolio-Website/
 
----
+## Tech stack
 
-## Table of Contents
+- React (TypeScript), Vite
+- Custom CSS + Bootstrap (CDN)
+- Icons: Font Awesome, Unicons (CDN)
+- Contact: EmailJS (client-side)
+- Map: Google Maps embed
 
-This website is a professional portfolio to present your background, skills, and work. It’s optimized for performance, accessibility, and easy updates.
+## Project layout
 
-## Tech Stack
-- **Frontend:** React (TypeScript)
-- **Build Tool:** Vite
-- **Styling:** Custom CSS, Bootstrap utility classes
-- **Icons:** Icon fonts (GitHub, LinkedIn)
-- **Email Integration:** EmailJS (client-side email)
-- **Map:** Google Maps iframe
-
-## File & Folder Structure
 ```
-public/           # Static assets (images, files)
+public/          # Static assets (PDF, images); copied to dist/
 src/
-  App.tsx         # Main app component
-  main.tsx        # React entry point
-  App.css         # Global styles
-  index.css       # Base styles
-  assets/         # Images, icons
-  components/     # Modular React components
-    About.tsx
-    Contact.tsx   # Contact form, info, map
-    Footer.tsx
-    Navbar.tsx
-    Projects.tsx
-    Resume.tsx
-    Skills.tsx
-    index.ts      # Barrel file
-  data/
-    portfolio.ts  # Project/skills data
-index.html        # Main HTML entry
-package.json      # Dependencies/scripts
-vite.config.ts    # Vite config
-tsconfig*.json    # TypeScript configs
-eslint.config.js  # Linting rules
-README.md         # Project documentation
+  components/    # UI sections
+  data/          # portfolio.ts — projects, skills, timeline
+  utils/         # e.g. base URL helpers for GitHub Pages
 ```
 
-## Key Features
-- **Responsive Design:** Adapts to desktop and mobile
-- **Navigation:** Sticky navbar
-- **About Section:** Bio and summary
-- **Skills Section:** Visual skills listing
-- **Projects Section:** Showcase with links
-- **Resume Section:** Download/view resume
-- **Contact Section:**
-  - Form (name, email, message)
-  - EmailJS integration (no backend needed)
-  - Google Map (Edina, MN)
-  - Contact card (phone, email, social links)
-- **Footer:** Social icons, copyright
+## Setup
 
-## Setup & Development
-1. **Install dependencies:**
-   ```powershell
-   npm install
-   ```
-2. **Start development server:**
-   ```powershell
-   npm run dev
-   ```
-3. **View in browser:**
-   Open [http://localhost:5173](http://localhost:5173)
-
-## Customization
-- **Projects/Skills:** Edit `src/data/portfolio.ts`
-- **Bio/Contact Info:** Update respective components in `src/components/`
-- **Theme/Colors:** Edit `App.css`
-- **Add Sections:** Create new components in `src/components/`
-
-## Deployment
-On every push to **`main`** (except commits that only change **`docs/**`), CI runs **`npm run build`** and commits the output into **`docs/`** on **`main`** (see **`.github/workflows/deploy.yml`**). **`public/`** stays the only place you maintain static assets; **`docs/`** is generated—do not edit it by hand.
-
-1. **Settings → Pages → Deploy from a branch:** branch **`main`**, folder **`/docs`** (not **`/`** at repo root).  
-   **`main` + `/`** serves the Vite **source** `index.html`, which loads **`main.tsx`**; GitHub serves that as **`application/octet-stream`**, so module loading fails. **`/docs`** holds the **built** site; the public URL is still **`https://<user>.github.io/<repo>/`** (e.g. **`/Portfolio-Website/`**).
-2. Push to **`main`** or run the workflow manually (**Actions → Deploy Vite site to GitHub Pages → Run workflow**). The first run creates **`docs/`** if it is missing.
-3. **Settings → Actions → General → Workflow permissions:** **Read and write** (so CI can commit **`docs/`**).
-
-The live URL is `https://<user>.github.io/<repo>/` (e.g. **`/Portfolio-Website/`**).
-
-A `.nojekyll` file under `public/` is copied into `dist/` for static hosting.
-
-For manual production builds:
-```powershell
-npm run build
+```bash
+npm install
+npm run dev
 ```
+
+Open http://localhost:5173
+
+## Scripts
+
+| Command | Purpose |
+|--------|---------|
+| `npm run dev` | Dev server |
+| `npm run build` | Production build |
+| `npm run preview` | Preview production build locally |
+| `npm run preview:pages` | Build then preview (useful before deploy) |
+| `npm run lint` | ESLint |
+| `npm run test` | Unit tests (Vitest) |
+
+## Customize
+
+- **Projects / skills / timeline:** `src/data/portfolio.ts`
+- **Copy & sections:** `src/components/`
+- **Theme:** `src/App.css`, `src/index.css`
+
+## Deployment (GitHub Pages)
+
+On push to `main` (changes outside `docs/` only), CI runs tests, builds with `VITE_BASE_PATH=/Portfolio-Website/`, and commits the output into **`docs/`** on `main` (see `.github/workflows/deploy.yml`).
+
+**GitHub Pages:** Settings → Build and deployment → **Deploy from a branch** → Branch **main**, folder **`/docs`**.  
+Do not use **`/` (root)** on `main` for the published site—that would serve the repo’s source `index.html` instead of the built bundle.
+
+Manual production-like build:
+
+```bash
+VITE_BASE_PATH=/Portfolio-Website/ npm run build
+```
+
+Then compare `dist/` to what CI publishes into `docs/`.
 
 ## Contributing
-- Fork the repo and create a feature branch
-- Follow code style and TypeScript conventions
-- Submit pull requests with clear descriptions
+
+PRs welcome; match existing style and run `npm run lint` and `npm run test` before submitting.
 
 ## License
-This project is open source and available under the MIT License.
 
-
-
-### Additional Notes
-- **Accessibility:** Form fields are labeled, interactive elements use proper roles/attributes.
-- **Performance:** Vite enables fast reloads and optimized builds.
-- **Extensibility:** Easily add new sections, update data, or change styles.
-- **No backend required:** EmailJS handles contact form submissions securely from the client.
-- **Security:** Map iframe uses lazy loading; external links use `rel="noopener noreferrer"`.
-
----
-
-If you have questions or want to extend the site, check the source code or reach out via the contact form!
+MIT — see [LICENSE](LICENSE).

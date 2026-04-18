@@ -1,9 +1,5 @@
-# Builds on push to main and commits dist/ into docs/ on the same branch.
-#
-# GitHub Pages: Settings → Pages → Deploy from a branch → Branch: main, Folder: /docs
-#
-# You cannot use main + / (root): that serves source index.html and main.tsx (wrong MIME).
-# The live site URL is still https://<user>.github.io/<repo>/ — docs/ is only the publish folder.
+# Push to main (except docs-only) → test, build, commit dist/ into docs/ for GitHub Pages.
+# Pages: Deploy from branch → main → /docs. See README.
 name: Deploy Vite site to GitHub Pages
 
 on:
@@ -35,6 +31,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Test
+        run: npm run test
 
       - name: Build
         run: npm run build

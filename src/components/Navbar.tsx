@@ -5,13 +5,12 @@ interface NavbarProps {
   onNavigate: (section: string) => void;
 }
 
-export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
-  ({ activeSection, onNavigate }, ref: React.ForwardedRef<HTMLElement>) => {
+export function Navbar({ activeSection, onNavigate }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   return (
     <header>
-      <nav ref={ref} className="navbar navbar-expand-md navbar-light headroom headroom--top headroom--not-bottom sticky-top">
+      <nav className="navbar navbar-expand-md navbar-light headroom headroom--top headroom--not-bottom sticky-top">
         <div className="container">
           <button
             className="navbar-toggler"
@@ -92,4 +91,4 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       </nav>
     </header>
   );
-});
+}

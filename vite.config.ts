@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 
 /** Vite expects base with leading and trailing slashes. */
@@ -7,16 +7,13 @@ function normalizeBase(raw: string): string {
   return withSlash.endsWith('/') ? withSlash : `${withSlash}/`
 }
 
-// Production `base` must match the Pages URL path:
-// - Project site: https://<user>.github.io/<repo>/  → e.g. VITE_BASE_PATH=/Portfolio-Website/
-// - User site:   https://<user>.github.io/         → VITE_BASE_PATH=/
-// CI sets VITE_BASE_PATH for this repo’s GitHub Pages project URL.
-// https://vite.dev/config/
+// `base` in production: set VITE_BASE_PATH to match your Pages URL (see README).
 export default defineConfig(({ mode }) => {
   const productionBase = normalizeBase(
     process.env.VITE_BASE_PATH ?? '/Portfolio-Website/',
   )
-  const base = mode === 'development' ? '/' : productionBase
+  const base =
+    mode === 'development' || mode === 'test' ? '/' : productionBase
   return {
     base,
     plugins: [
@@ -36,5 +33,9 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
     },
     publicDir: 'public',
+    test: {
+      environment: 'jsdom',
+      setupFiles: ['./src/test/setup.ts'],
+    },
   }
 })

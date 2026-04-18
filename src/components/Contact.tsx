@@ -25,21 +25,23 @@ export const Contact: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    const form = formRef.current;
+    if (!form) return;
 
+    setIsSubmitting(true);
     try {
-      if (formRef.current) {
-        if (timestampRef.current) {
-          timestampRef.current.value = new Date().toISOString();
-        }
-        await emailjs.sendForm('default_service', 'template_6dk6wl5', formRef.current);
-        alert('Sent!');
-        setFormData({ name: '', message: '', email: '' });
-        formRef.current.reset();
+      if (timestampRef.current) {
+        timestampRef.current.value = new Date().toISOString();
       }
+      await emailjs.sendForm('default_service', 'template_6dk6wl5', form);
+      alert('Sent!');
+      setFormData({ name: '', message: '', email: '' });
+      form.reset();
     } catch (error) {
       alert('Failed to send email. Please try again.');
       console.error('Error sending email:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

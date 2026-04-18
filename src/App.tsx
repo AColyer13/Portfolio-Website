@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Navbar,
   About,
@@ -12,19 +12,13 @@ import './App.css';
 
 function App() {
   const [activeSection, setActiveSection] = useState('about');
-  const navbarRef = useRef<HTMLElement>(null);
-
-  const handleNavigate = (section: string) => {
-    setActiveSection(section);
-  };
-
-  useEffect(() => {
-    // Removed JS padding logic; now handled by CSS for responsive spacing
-  }, []);
 
   return (
     <div className="App">
-      <Navbar ref={navbarRef as React.Ref<HTMLElement>} activeSection={activeSection} onNavigate={handleNavigate} />
+      <Navbar
+        activeSection={activeSection}
+        onNavigate={setActiveSection}
+      />
       <About />
       <Skills />
       <Experiences />
