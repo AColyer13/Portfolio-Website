@@ -6,6 +6,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Adam - Portfolio</title>
 
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // #region agent log
+        ;(function () {
+          var endpoint =
+            'http://127.0.0.1:7463/ingest/a02f0bfb-867b-4f75-8328-dcee3542df58'
+          function send(payload) {
+            fetch(endpoint, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Debug-Session-Id': 'f9716f',
+              },
+              body: JSON.stringify(
+                Object.assign(
+                  { sessionId: 'f9716f', timestamp: Date.now() },
+                  payload,
+                ),
+              ),
+            }).catch(function () {})
+          }
+          var mod = document.querySelector('script[type="module"]')
+          var raw = mod && mod.getAttribute('src')
+          if (!raw) {
+            send({
+              location: 'index.html:DOMContentLoaded',
+              message: 'no module script element',
+              data: { href: location.href },
+              hypothesisId: 'H5',
+            })
+            return
+          }
+          var abs = new URL(raw, location.href).href
+          fetch(abs, { method: 'GET', cache: 'no-store' })
+            .then(function (r) {
+              send({
+                location: 'index.html:DOMContentLoaded',
+                message: 'module URL fetch probe',
+                data: {
+                  moduleSrc: abs,
+                  status: r.status,
+                  contentType: r.headers.get('content-type'),
+                  ok: r.ok,
+                  href: location.href,
+                },
+                hypothesisId: 'H1',
+              })
+            })
+            .catch(function (e) {
+              send({
+                location: 'index.html:DOMContentLoaded',
+                message: 'module URL fetch failed',
+                data: {
+                  moduleSrc: abs,
+                  err: String(e),
+                  href: location.href,
+                },
+                hypothesisId: 'H2',
+              })
+            })
+        })()
+        // #endregion
+      })
+    </script>
+
     <!-- Bootstrap CSS -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
