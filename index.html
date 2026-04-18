@@ -10,6 +10,8 @@
       document.addEventListener('DOMContentLoaded', function () {
         // #region agent log
         ;(function () {
+          var h = location.hostname
+          if (h !== 'localhost' && h !== '127.0.0.1') return
           var endpoint =
             'http://127.0.0.1:7463/ingest/a02f0bfb-867b-4f75-8328-dcee3542df58'
           function send(payload) {
@@ -84,13 +86,6 @@
     <!-- Unicons -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" />
 
-    <!-- Email.js -->
-    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script type="text/javascript">
-      (function () {
-        emailjs.init("S590pep4moIqEJb8m");
-      })();
-    </script>
   </head>
   <body>
     <div id="root"></div>

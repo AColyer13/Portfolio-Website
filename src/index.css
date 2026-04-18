@@ -254,7 +254,8 @@ a:hover {
   padding: 2rem 1.5rem;
   text-align: center;
   transition: all 0.3s ease;
-  height: 150px;
+  min-height: 150px;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;

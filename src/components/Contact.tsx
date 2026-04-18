@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -27,11 +28,11 @@ export const Contact: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      if (window.emailjs && formRef.current) {
+      if (formRef.current) {
         if (timestampRef.current) {
           timestampRef.current.value = new Date().toISOString();
         }
-        await window.emailjs.sendForm('default_service', 'template_6dk6wl5', formRef.current);
+        await emailjs.sendForm('default_service', 'template_6dk6wl5', formRef.current);
         alert('Sent!');
         setFormData({ name: '', message: '', email: '' });
         formRef.current.reset();
@@ -153,9 +154,3 @@ export const Contact: React.FC = () => {
     </section>
   );
 };
-
-declare global {
-  interface Window {
-    emailjs: any;
-  }
-}
