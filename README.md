@@ -79,12 +79,12 @@ README.md         # Project documentation
 - **Add Sections:** Create new components in `src/components/`
 
 ## Deployment
-On every push to **`main`**, CI runs **`npm run build`** and deploys **`dist/`** through **GitHub Pages using GitHub Actions** (see **`.github/workflows/deploy.yml`**). Nothing built is committed to **`main`**; the published site is the workflow artifact. **`public/`** on **`main`** stays the only committed copy of static assets (images, PDFs, etc.).
+On every push to **`main`** (except commits that only change **`docs/**`), CI runs **`npm run build`** and commits the output into **`docs/`** on **`main`** (see **`.github/workflows/deploy.yml`**). **`public/`** stays the only place you maintain static assets; **`docs/`** is generated—do not edit it by hand.
 
-1. **Settings → Pages → Build and deployment → Source:** **GitHub Actions** (not “Deploy from a branch”).  
-   If you publish **`main` → `/`** as a folder, GitHub serves source **`index.html`** / **`main.tsx`** and the site breaks.
-2. Push to **`main`** or run the workflow manually (**Actions → Deploy Vite site to GitHub Pages → Run workflow**).
-3. **Settings → Actions → General → Workflow permissions:** allow **Read and write** (or at least defaults that let **`GITHUB_TOKEN`** use the workflow **`permissions:`** block for Pages).
+1. **Settings → Pages → Deploy from a branch:** branch **`main`**, folder **`/docs`** (not **`/`** at repo root).  
+   **`main` + `/`** serves the Vite **source** `index.html`, which loads **`main.tsx`**; GitHub serves that as **`application/octet-stream`**, so module loading fails. **`/docs`** holds the **built** site; the public URL is still **`https://<user>.github.io/<repo>/`** (e.g. **`/Portfolio-Website/`**).
+2. Push to **`main`** or run the workflow manually (**Actions → Deploy Vite site to GitHub Pages → Run workflow**). The first run creates **`docs/`** if it is missing.
+3. **Settings → Actions → General → Workflow permissions:** **Read and write** (so CI can commit **`docs/`**).
 
 The live URL is `https://<user>.github.io/<repo>/` (e.g. **`/Portfolio-Website/`**).
 

@@ -1,26 +1,27 @@
-# Builds on push to main and deploys dist/ via GitHub Pages (Actions source).
-# No gh-pages branch or docs/ folder on main — the live site is the workflow artifact.
+# Builds on push to main and commits dist/ into docs/ on the same branch.
 #
-# Settings → Pages → Build and deployment → Source: GitHub Actions
-# (not “Deploy from a branch”).
+# GitHub Pages: Settings → Pages → Deploy from a branch → Branch: main, Folder: /docs
+#
+# You cannot use main + / (root): that serves source index.html and main.tsx (wrong MIME).
+# The live site URL is still https://<user>.github.io/<repo>/ — docs/ is only the publish folder.
 name: Deploy Vite site to GitHub Pages
 
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'docs/**'
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-publish-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -47,19 +48,11 @@ jobs:
             exit 1
           fi
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Publish build to docs/ on main
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          path: dist
-          include-hidden-files: true
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          branch: main
+          folder: dist
+          target-folder: docs
+          clean: true
+          commit-message: 'deploy: update Pages build in docs/ [skip ci]'

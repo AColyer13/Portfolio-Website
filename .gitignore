@@ -10,8 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-# Generated if you copy dist locally to preview Pages; not source of truth (see public/)
-docs
+# `docs/` on main is the published GitHub Pages build (updated by CI). Do not edit by hand.
 *.local
 
 # Editor directories and files
