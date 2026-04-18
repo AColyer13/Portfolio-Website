@@ -79,13 +79,14 @@ README.md         # Project documentation
 - **Add Sections:** Create new components in `src/components/`
 
 ## Deployment
-CI runs **`npm run build`** and pushes **only `dist/`** to the **`gh-pages`** branch (see **`.github/workflows/deploy.yml`**). GitHub Pages must publish **that** branch, not **`main`**.
+CI runs **`npm run build`** and copies **`dist/`** into **`docs/`** on **`main`**, then commits and pushes (see **`.github/workflows/deploy.yml`**). GitHub Pages must publish **`/docs`**, not the repo root.
 
-1. Push to **`main`** (or **Actions → Deploy Vite site to GitHub Pages → Run workflow**).
-2. **Settings → Pages → Build and deployment → Deploy from a branch:** branch **`gh-pages`**, folder **`/ (root)`** (not **`main`**). If **`main`** is selected, the site serves source **`index.html`** and **`main.tsx`** errors appear.
-3. After the workflow runs, the live bundle is at `https://<user>.github.io/<repo>/` (e.g. **`/Portfolio-Website/`**).
+1. **Settings → Pages → Deploy from a branch:** branch **`main`**, folder **`/docs`**.  
+   If you use **`/` (root)** instead, GitHub serves the **source** `index.html` (with `main.tsx`) and the site stays blank.
+2. Push to **`main`** or run the workflow manually (**Actions → Deploy Vite site to GitHub Pages → Run workflow**).
+3. **Settings → Actions → General → Workflow permissions:** **Read and write** (needed so CI can push the **`docs/`** update).
 
-**Repo → Settings → Actions → General → Workflow permissions:** set **Read and write** if the workflow cannot push to **`gh-pages`**.
+The live URL is `https://<user>.github.io/<repo>/` (e.g. **`/Portfolio-Website/`**).
 
 A `.nojekyll` file under `public/` is copied into `dist/` for static hosting.
 

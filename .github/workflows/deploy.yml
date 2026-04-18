@@ -1,16 +1,19 @@
-# Builds the Vite app and pushes ONLY dist/ to the orphan branch `gh-pages`.
+# Builds the site and copies dist/ → docs/ on main. GitHub Pages must use that
+# folder (not the repo root), or the live site will keep serving source index.html
+# and you will see main.tsx / blank page errors.
 #
-# GitHub Pages must publish that branch (not `main`):
-#   Settings → Pages → Build and deployment → Deploy from a branch
-#   Branch: gh-pages, folder: / (root)
+# Settings → Pages → Build and deployment → Deploy from a branch
+#   Branch: main   Folder: /docs
 #
-# If Source is left on "main" / (root), the site will keep serving source
-# index.html and you will see main.tsx MIME / module errors.
+# Pushes that only change docs/ are ignored so the bot’s publish commit does not
+# retrigger this workflow in a loop.
 name: Deploy Vite site to GitHub Pages
 
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'docs/**'
   workflow_dispatch:
 
 permissions:
@@ -21,7 +24,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build-and-publish-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -48,9 +51,17 @@ jobs:
             exit 1
           fi
 
-      - name: Push dist to gh-pages branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          force_orphan: true
+      - name: Sync dist to docs and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -rf docs
+          mkdir -p docs
+          cp -a dist/. docs/
+          git add docs
+          if git diff --staged --quiet; then
+            echo "No changes under docs/ — nothing to publish."
+            exit 0
+          fi
+          git commit -m "chore: publish site to docs/"
+          git push
