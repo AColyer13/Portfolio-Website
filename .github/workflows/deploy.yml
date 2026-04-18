@@ -1,23 +1,26 @@
-# Push to main (except docs-only) → test, build, commit dist/ into docs/ for GitHub Pages.
-# Pages: Deploy from branch → main → /docs. See README.
+# Build on push to main → upload dist/ as the GitHub Pages artifact (no docs/ folder in git).
+#
+# Settings → Pages → Build and deployment → Source: GitHub Actions
+#
+# Static files live only under public/; the live site is produced once per deploy from dist/.
 name: Deploy Vite site to GitHub Pages
 
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - 'docs/**'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  build-and-publish-docs:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -47,11 +50,19 @@ jobs:
             exit 1
           fi
 
-      - name: Publish build to docs/ on main
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          branch: main
-          folder: dist
-          target-folder: docs
-          clean: true
-          commit-message: 'deploy: update Pages build in docs/ [skip ci]'
+          path: dist
+          include-hidden-files: true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

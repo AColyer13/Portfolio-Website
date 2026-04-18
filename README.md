@@ -50,10 +50,10 @@ Open http://localhost:5173
 
 ## Deployment (GitHub Pages)
 
-On push to `main` (changes outside `docs/` only), CI runs tests, builds with `VITE_BASE_PATH=/Portfolio-Website/`, and commits the output into **`docs/`** on `main` (see `.github/workflows/deploy.yml`).
+On push to **`main`**, CI runs tests, builds with **`VITE_BASE_PATH=/Portfolio-Website/`**, and deploys **`dist/`** via **GitHub Actions** (see **`.github/workflows/deploy.yml`**). Nothing is committed to a **`docs/`** folder — **`public/`** is the only place you keep static assets; the build copies them into **`dist`** on the runner and that artifact is what Pages serves.
 
-**GitHub Pages:** Settings → Build and deployment → **Deploy from a branch** → Branch **main**, folder **`/docs`**.  
-Do not use **`/` (root)** on `main` for the published site—that would serve the repo’s source `index.html` instead of the built bundle.
+**GitHub Pages:** Settings → Build and deployment → **Source: GitHub Actions** (not “Deploy from a branch”).  
+There is no duplicate **`docs/`** tree in the repo anymore.
 
 Manual production-like build:
 
@@ -61,7 +61,7 @@ Manual production-like build:
 VITE_BASE_PATH=/Portfolio-Website/ npm run build
 ```
 
-Then compare `dist/` to what CI publishes into `docs/`.
+Inspect **`dist/`** locally; it matches what gets deployed.
 
 ## Contributing
 
