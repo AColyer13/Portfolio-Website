@@ -2,12 +2,14 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
-export default defineConfig({
-  base: '/Portfolio-Website/', // Set base for GitHub Pages
+// GitHub Pages needs /Portfolio-Website/; local `vite` uses mode "development" and must use / or the app is blank at localhost:5173/
+// `vite build` / `vite preview` use production mode and keep the Pages base (preview still serves dist paths correctly).
+export default defineConfig(({ mode }) => ({
+  base: mode === 'development' ? '/' : '/Portfolio-Website/',
   plugins: [react()],
   build: {
-    outDir: 'dist', // Keep build output separate from source assets
+    outDir: 'dist',
     emptyOutDir: true,
   },
-  publicDir: 'public', // Serve static assets from public/
-})
+  publicDir: 'public',
+}))
