@@ -28,7 +28,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
             <ul className="navbar-nav mx-auto">
               <li className="nav-item">
                 <a
-                  href="#about"
+                  href={`${import.meta.env.BASE_URL}#about`}
                   className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}
                   onClick={() => {
                     onNavigate('about');
@@ -40,7 +40,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
               </li>
               <li className="nav-item">
                 <a
-                  href="#skills"
+                  href={`${import.meta.env.BASE_URL}#skills`}
                   className={`nav-link ${activeSection === 'skills' ? 'active' : ''}`}
                   onClick={() => {
                     onNavigate('skills');
@@ -52,7 +52,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
               </li>
               <li className="nav-item">
                 <a
-                  href="#experience"
+                  href={`${import.meta.env.BASE_URL}#experience`}
                   className={`nav-link ${activeSection === 'experience' ? 'active' : ''}`}
                   onClick={() => {
                     onNavigate('experience');
@@ -64,7 +64,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
               </li>
               <li className="nav-item">
                 <a
-                  href="#projects"
+                  href={`${import.meta.env.BASE_URL}#projects`}
                   className={`nav-link ${activeSection === 'project' ? 'active' : ''}`}
                   onClick={() => {
                     onNavigate('project');
@@ -76,7 +76,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
               </li>
               <li className="nav-item">
                 <a
-                  href="#contact"
+                  href={`${import.meta.env.BASE_URL}#contact`}
                   className={`nav-link ${activeSection === 'contact' ? 'active' : ''}`}
                   onClick={() => {
                     onNavigate('contact');

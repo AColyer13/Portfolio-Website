@@ -1,5 +1,6 @@
 import React from 'react';
 import { projects } from '../data/portfolio';
+import { withBase } from '../utils/baseUrl';
 
 export const Projects: React.FC = () => {
   const uniqueProjects = projects.filter((project, index, allProjects) => {
@@ -25,15 +26,9 @@ export const Projects: React.FC = () => {
               <div className="portfolio-item-inner">
                 <div className="portfolio-item-img">
                   <img
-                    src={project.imageUrl}
+                    src={withBase(project.imageUrl)}
                     alt="Portfolio image"
                     className="img-fluid"
-                    onError={e => {
-                      const target = e.currentTarget;
-                      if (target.src.endsWith(project.imageUrl)) {
-                        target.src = project.imageUrl.replace(/^\//, '');
-                      }
-                    }}
                   />
                   {project.liveUrl && (
                     <a

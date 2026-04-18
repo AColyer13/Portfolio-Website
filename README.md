@@ -85,6 +85,11 @@ This repo includes a GitHub Actions workflow at `.github/workflows/deploy.yml` t
 2. In GitHub repo settings, set Pages source to **GitHub Actions** (not `Deploy from a branch`).
 3. The workflow builds with `npm run build` and deploys `dist/` automatically.
 
+### If GitHub Pages shows a Jekyll / `docs` / `style.scss` error
+That log comes from the **legacy Jekyll builder** (the `github-pages` gem), which runs when Pages is set to **Deploy from a branch** and a **`/docs` folder** (or root Jekyll site). This project is a **Vite** app and does **not** use Jekyll.
+
+**Fix:** In the repo **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions** and **not** “Deploy from a branch” with `/docs`. Remove or ignore any workflow that only builds Jekyll from `docs/`. After you push, the workflow **Deploy Vite site to GitHub Pages** should run and publish the `dist/` artifact. A `.nojekyll` file is included under `public/` so the published static files are not processed as Jekyll.
+
 For manual production builds:
 ```powershell
 npm run build

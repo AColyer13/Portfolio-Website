@@ -1,4 +1,5 @@
 import React from 'react';
+import { withBase } from '../utils/baseUrl';
 
 export const About: React.FC = () => {
   return (
@@ -22,7 +23,7 @@ export const About: React.FC = () => {
 
               <div className="custom-btn-group mt-4">
                 <a
-                  href="files/AdamColyerResume2026v1.pdf"
+                  href={withBase('files/AdamColyerResume2026v1.pdf')}
                   className="btn mr-lg-2 custom-btn"
                   download
                   target="_blank"
@@ -30,7 +31,7 @@ export const About: React.FC = () => {
                 >
                   <span className="uil uil-file-alt"></span> Download Resume
                 </a>
-                <a href="#contact" className="btn custom-btn custom-btn-bg custom-btn-link">
+                <a href={`${import.meta.env.BASE_URL}#contact`} className="btn custom-btn custom-btn-bg custom-btn-link">
                   Get in Touch
                 </a>
               </div>
@@ -40,7 +41,7 @@ export const About: React.FC = () => {
           <div className="col-lg-5 col-md-12 col-12 d-flex align-items-center justify-content-center">
             <div className="about-image svg">
                 <img
-                  src="images/IMG_4874.JPEG"
+                  src={withBase('images/IMG_4874.JPEG')}
                 className="img-fluid mx-auto d-block"
                 alt="desk setup photo"
               />
