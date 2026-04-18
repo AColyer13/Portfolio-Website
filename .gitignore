@@ -9,6 +9,8 @@ lerna-debug.log*
 
 node_modules
 dist
+# If you run Jekyll locally in /docs
+docs/_site
 dist-ssr
 *.local
 

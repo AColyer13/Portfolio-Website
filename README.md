@@ -85,10 +85,17 @@ This repo includes a GitHub Actions workflow at `.github/workflows/deploy.yml` t
 2. In GitHub repo settings, set Pages source to **GitHub Actions** (not `Deploy from a branch`).
 3. The workflow builds with `npm run build` and deploys `dist/` automatically.
 
-### If GitHub Pages shows a Jekyll / `docs` / `style.scss` error
-That log comes from the **legacy Jekyll builder** (the `github-pages` gem), which runs when Pages is set to **Deploy from a branch** and a **`/docs` folder** (or root Jekyll site). This project is a **Vite** app and does **not** use Jekyll.
+### If Actions runs `jekyll-build-pages` / `style.scss` / “No such file … `/docs`”
+That job comes from GitHub’s **Jekyll Pages** workflow (`actions/jekyll-build-pages@v1`), **not** from `.github/workflows/deploy.yml` (Vite). It **chdirs into `/docs`**; if that folder was missing, the build failed with `ENOENT`.
 
-**Fix:** In the repo **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions** and **not** “Deploy from a branch” with `/docs`. Remove or ignore any workflow that only builds Jekyll from `docs/`. After you push, the workflow **Deploy Vite site to GitHub Pages** should run and publish the `dist/` artifact. A `.nojekyll` file is included under `public/` so the published static files are not processed as Jekyll.
+This repo now includes a **minimal `docs/` Jekyll site** so that legacy job can succeed if it still runs. **You should still prefer only the Vite deploy:**
+
+1. **Settings → Pages → Build and deployment**
+2. Set **Source** to **GitHub Actions** (not “Deploy from a branch”).
+3. Under **GitHub Actions**, pick the workflow **Deploy Vite site to GitHub Pages** (file: `deploy.yml`) as the publisher for Pages.
+4. **Actions** tab → open **pages build and deployment** (or any workflow whose logs show `jekyll-build-pages`). If that workflow file exists in `.github/workflows/` on GitHub, **delete it** so only `deploy.yml` runs. If you do not see it locally, use **Add file** on GitHub or delete from the **Actions** workflow file link — it may exist only on the remote default branch.
+
+The live React app is always the **`npm run build` output** uploaded by `deploy.yml`. A `.nojekyll` file under `public/` is copied into `dist/` for static hosting.
 
 For manual production builds:
 ```powershell
