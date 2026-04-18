@@ -41,7 +41,9 @@ export const skills: Skill[] = [
   { name: 'Redis', icon: 'R' },
   { name: 'CI/CD', icon: 'fas fa-code-branch' },
   { name: 'QA/Testing', icon: 'fas fa-vial' },
-  { name: 'Security', icon: 'fas fa-shield-alt' },
+  { name: 'OWASP / AppSec', icon: 'fas fa-shield-alt' },
+  { name: 'OAuth / JWT', icon: 'fas fa-key' },
+  { name: 'Secrets & IAM', icon: 'fas fa-user-shield' },
   { name: 'Git', icon: 'fas fa-code-branch' },
 ];
 
