@@ -23,12 +23,24 @@
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script type="text/javascript">
       (function () {
-        emailjs.init("S590pep4moIqEJb8m");
+        // #region agent log
+        try {
+          emailjs.init("S590pep4moIqEJb8m");
+          fetch('http://127.0.0.1:7463/ingest/a02f0bfb-867b-4f75-8328-dcee3542df58',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1fc8d4'},body:JSON.stringify({sessionId:'1fc8d4',location:'index.html:emailjs',message:'emailjs init ok',data:{hasEmailjs:typeof emailjs!=='undefined'},timestamp:Date.now(),hypothesisId:'H5',runId:'pre-fix'})}).catch(function(){});
+        } catch (e) {
+          fetch('http://127.0.0.1:7463/ingest/a02f0bfb-867b-4f75-8328-dcee3542df58',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1fc8d4'},body:JSON.stringify({sessionId:'1fc8d4',location:'index.html:emailjs',message:'emailjs init threw',data:{err:String(e)},timestamp:Date.now(),hypothesisId:'H5',runId:'pre-fix'})}).catch(function(){});
+        }
+        // #endregion
       })();
     </script>
   </head>
   <body>
     <div id="root"></div>
+    <!-- #region agent log -->
+    <script>
+      fetch('http://127.0.0.1:7463/ingest/a02f0bfb-867b-4f75-8328-dcee3542df58',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1fc8d4'},body:JSON.stringify({sessionId:'1fc8d4',location:'index.html:before-module',message:'html parsed before vite module',data:{href:location.href,pathname:location.pathname,hasRoot:!!document.getElementById('root')},timestamp:Date.now(),hypothesisId:'H1',runId:'pre-fix'})}).catch(function(){});
+    </script>
+    <!-- #endregion -->
     <script type="module" src="src/main.tsx"></script>
   </body>
 </html>
