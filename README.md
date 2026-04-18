@@ -79,12 +79,12 @@ README.md         # Project documentation
 - **Add Sections:** Create new components in `src/components/`
 
 ## Deployment
-CI runs **`npm run build`** and publishes **`dist/`** to the **`gh-pages`** branch (see **`.github/workflows/deploy.yml`**). **`public/`** on **`main`** is the only committed copy of static assets (images, PDFs, etc.); the live site is built output, not a second folder you maintain beside **`public/`**.
+On every push to **`main`**, CI runs **`npm run build`** and deploys **`dist/`** through **GitHub Pages using GitHub Actions** (see **`.github/workflows/deploy.yml`**). Nothing built is committed to **`main`**; the published site is the workflow artifact. **`public/`** on **`main`** stays the only committed copy of static assets (images, PDFs, etc.).
 
-1. **Settings → Pages → Deploy from a branch:** branch **`gh-pages`**, folder **`/` (root)**.  
-   Do **not** publish **`main` → `/`**, or GitHub will serve source **`index.html`** and **`main.tsx`** errors appear.
+1. **Settings → Pages → Build and deployment → Source:** **GitHub Actions** (not “Deploy from a branch”).  
+   If you publish **`main` → `/`** as a folder, GitHub serves source **`index.html`** / **`main.tsx`** and the site breaks.
 2. Push to **`main`** or run the workflow manually (**Actions → Deploy Vite site to GitHub Pages → Run workflow**).
-3. **Settings → Actions → General → Workflow permissions:** **Read and write** (needed so CI can update **`gh-pages`**).
+3. **Settings → Actions → General → Workflow permissions:** allow **Read and write** (or at least defaults that let **`GITHUB_TOKEN`** use the workflow **`permissions:`** block for Pages).
 
 The live URL is `https://<user>.github.io/<repo>/` (e.g. **`/Portfolio-Website/`**).
 
