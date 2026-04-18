@@ -10,8 +10,6 @@
       document.addEventListener('DOMContentLoaded', function () {
         // #region agent log
         ;(function () {
-          var h = location.hostname
-          if (h !== 'localhost' && h !== '127.0.0.1') return
           var endpoint =
             'http://127.0.0.1:7463/ingest/a02f0bfb-867b-4f75-8328-dcee3542df58'
           function send(payload) {
@@ -19,16 +17,26 @@
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
-                'X-Debug-Session-Id': 'f9716f',
+                'X-Debug-Session-Id': '0c21aa',
               },
               body: JSON.stringify(
                 Object.assign(
-                  { sessionId: 'f9716f', timestamp: Date.now() },
+                  { sessionId: '0c21aa', timestamp: Date.now() },
                   payload,
                 ),
               ),
             }).catch(function () {})
           }
+          send({
+            location: 'index.html:DOMContentLoaded',
+            message: 'page context',
+            data: {
+              protocol: location.protocol,
+              hostname: location.hostname,
+              href: location.href,
+            },
+            hypothesisId: 'H2',
+          })
           var mod = document.querySelector('script[type="module"]')
           var raw = mod && mod.getAttribute('src')
           if (!raw) {
@@ -65,7 +73,7 @@
                   err: String(e),
                   href: location.href,
                 },
-                hypothesisId: 'H2',
+                hypothesisId: 'H3',
               })
             })
         })()
