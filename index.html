@@ -21,31 +21,7 @@
 
   </head>
   <body>
-    <!-- #region agent log -->
-    <script>
-      fetch('http://127.0.0.1:7463/ingest/a02f0bfb-867b-4f75-8328-dcee3542df58', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Debug-Session-Id': '9d1759',
-        },
-        body: JSON.stringify({
-          sessionId: '9d1759',
-          location: 'index.html:inline',
-          message: 'page context',
-          data: {
-            href: String(location.href),
-            pathname: String(location.pathname),
-            protocol: String(location.protocol),
-            origin: String(location.origin),
-          },
-          timestamp: Date.now(),
-          hypothesisId: 'H1-H2',
-        }),
-      }).catch(function () {})
-    </script>
-    <!-- #endregion -->
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="./src/main.tsx"></script>
   </body>
 </html>

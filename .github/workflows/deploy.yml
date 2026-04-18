@@ -1,3 +1,7 @@
+# Publishes npm run build output (dist/). In the repo: Settings → Pages →
+# Build and deployment → Source must be "GitHub Actions". If Source is
+# "Deploy from a branch", the live site will load /src/main.tsx from the
+# repo root and break (404).
 name: Deploy Vite site to GitHub Pages
 
 on:
