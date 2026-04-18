@@ -79,11 +79,16 @@ README.md         # Project documentation
 - **Add Sections:** Create new components in `src/components/`
 
 ## Deployment
-- Build for production:
-  ```powershell
-  npm run build
-  ```
-- Deploy the `dist/` folder to your preferred static host (e.g., Netlify, Vercel, GitHub Pages).
+This repo includes a GitHub Actions workflow at `.github/workflows/deploy.yml` that builds and deploys to GitHub Pages.
+
+1. Push to `main`.
+2. In GitHub repo settings, set Pages source to **GitHub Actions** (not `Deploy from a branch`).
+3. The workflow builds with `npm run build` and deploys `dist/` automatically.
+
+For manual production builds:
+```powershell
+npm run build
+```
 
 ## Contributing
 - Fork the repo and create a feature branch
