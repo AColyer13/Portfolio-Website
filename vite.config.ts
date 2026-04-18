@@ -37,7 +37,9 @@ export default defineConfig(({ mode }) => {
       },
     ],
     build: {
-      outDir: 'dist',
+      // Resolved against projectRoot (repo root), not Vite `root` (src/). Otherwise output
+      // lands in src/dist and CI (folder: dist) cannot find it.
+      outDir: path.join(projectRoot, 'dist'),
       emptyOutDir: true,
     },
     publicDir: 'public',
