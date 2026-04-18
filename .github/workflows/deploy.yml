@@ -32,6 +32,16 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Must match GitHub Pages URL: …/Portfolio-Website/ (not site root).
+          VITE_BASE_PATH: /Portfolio-Website/
+
+      - name: Verify production bundle (built HTML must not reference main.tsx)
+        run: |
+          if grep -qF 'main.tsx' dist/index.html; then
+            echo "dist/index.html still references main.tsx — deploy dist/ from CI, not source index.html."
+            exit 1
+          fi
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

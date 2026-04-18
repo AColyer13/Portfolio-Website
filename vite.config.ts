@@ -5,6 +5,12 @@ import react from '@vitejs/plugin-react'
 const DEBUG_LOG =
   '/home/adam/Desktop/portfolio website/Portfolio-Website/.cursor/debug-9d1759.log'
 
+/** Vite expects base with leading and trailing slashes. */
+function normalizeBase(raw: string): string {
+  const withSlash = raw.startsWith('/') ? raw : `/${raw}`
+  return withSlash.endsWith('/') ? withSlash : `${withSlash}/`
+}
+
 function debugLog(payload: {
   location: string
   message: string
@@ -25,11 +31,16 @@ function debugLog(payload: {
   }
 }
 
+// Production `base` must match the Pages URL path:
+// - Project site: https://<user>.github.io/<repo>/  → e.g. VITE_BASE_PATH=/Portfolio-Website/
+// - User site:   https://<user>.github.io/         → VITE_BASE_PATH=/
+// CI sets VITE_BASE_PATH for this repo’s GitHub Pages project URL.
 // https://vite.dev/config/
-// GitHub Pages needs /Portfolio-Website/; local `vite` uses mode "development" and must use / or the app is blank at localhost:5173/
-// `vite build` / `vite preview` use production mode and keep the Pages base (preview still serves dist paths correctly).
 export default defineConfig(({ mode, command }) => {
-  const base = mode === 'development' ? '/' : '/Portfolio-Website/'
+  const productionBase = normalizeBase(
+    process.env.VITE_BASE_PATH ?? '/Portfolio-Website/',
+  )
+  const base = mode === 'development' ? '/' : productionBase
   // #region agent log
   debugLog({
     location: 'vite.config.ts:defineConfig',
