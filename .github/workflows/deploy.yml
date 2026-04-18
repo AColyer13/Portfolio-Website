@@ -1,8 +1,9 @@
-# Build on push to main → upload dist/ as the GitHub Pages artifact (no docs/ folder in git).
+# Build on push to main → commit dist/ output to the repository ROOT (same branch).
 #
-# Settings → Pages → Build and deployment → Source: GitHub Actions
+# GitHub Pages: Settings → Pages → Deploy from a branch → Branch: main → Folder: / (root)
 #
-# Static files live only under public/; the live site is produced once per deploy from dist/.
+# Vite entry stays under src/; CI publishes index.html, assets/, images/, etc. at repo root
+# so Pages never serves dev source. [skip ci] + paths-ignore avoid deploy loops.
 name: Deploy Vite site to GitHub Pages
 
 on:
@@ -11,16 +12,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-publish-root:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -50,19 +49,13 @@ jobs:
             exit 1
           fi
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-          include-hidden-files: true
+      - name: Remove previous Pages output at repo root
+        run: rm -rf assets images files
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish dist/ to repository root on main
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: main
+          folder: dist
+          clean: false
+          commit-message: 'deploy: Pages build at repo root [skip ci]'

@@ -50,10 +50,16 @@ Open http://localhost:5173
 
 ## Deployment (GitHub Pages)
 
-On push to **`main`**, CI runs tests, builds with **`VITE_BASE_PATH=/Portfolio-Website/`**, and deploys **`dist/`** via **GitHub Actions** (see **`.github/workflows/deploy.yml`**). Nothing is committed to a **`docs/`** folder — **`public/`** is the only place you keep static assets; the build copies them into **`dist`** on the runner and that artifact is what Pages serves.
+On push to **`main`** (not when only the published root files change), CI runs tests, builds with **`VITE_BASE_PATH=/Portfolio-Website/`**, then commits the **`dist/`** output to the **repository root** on **`main`** — **`index.html`**, **`assets/`**, **`images/`**, **`files/`**, etc. (see **`.github/workflows/deploy.yml`**). You edit the app only under **`src/`** and static inputs under **`public/`**; the root copies are the live site.
 
-**GitHub Pages:** Settings → Build and deployment → **Source: GitHub Actions** (not “Deploy from a branch”).  
-There is no duplicate **`docs/`** tree in the repo anymore.
+**GitHub Pages (what to select in the UI):**
+
+1. **Settings** → **Pages** → **Build and deployment**
+2. **Source:** **Deploy from a branch**
+3. **Branch:** **`main`**
+4. **Folder:** **`/ (root)`** — not `/docs`
+
+Do **not** set **Source: GitHub Actions** for this repo; the workflow only **commits** the build to **`main`**. Pages reads those files from the branch.
 
 Manual production-like build:
 
@@ -61,7 +67,7 @@ Manual production-like build:
 VITE_BASE_PATH=/Portfolio-Website/ npm run build
 ```
 
-Inspect **`dist/`** locally; it matches what gets deployed.
+Compare **`dist/`** to what will be copied to the repo root on the next deploy.
 
 ## Contributing
 
