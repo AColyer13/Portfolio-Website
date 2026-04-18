@@ -22,65 +22,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <!-- #region agent log -->
-    <script>
-      (function () {
-        var ep =
-          'http://127.0.0.1:7463/ingest/a02f0bfb-867b-4f75-8328-dcee3542df58';
-        function send(loc, msg, data, h) {
-          fetch(ep, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Debug-Session-Id': '9e0575',
-            },
-            body: JSON.stringify({
-              sessionId: '9e0575',
-              location: loc,
-              message: msg,
-              data: data || {},
-              timestamp: Date.now(),
-              hypothesisId: h || 'H1',
-              runId: 'pre',
-            }),
-          }).catch(function () {});
-        }
-        send(
-          'index.html:inline',
-          'page-context',
-          {
-            href: location.href,
-            protocol: location.protocol,
-            origin: location.origin,
-          },
-          'H2',
-        );
-        var moduleUrl = new URL('src/main.tsx', location.href).href;
-        fetch(moduleUrl)
-          .then(function (r) {
-            send(
-              'index.html:mime',
-              'main.tsx probe',
-              {
-                url: moduleUrl,
-                contentType: r.headers.get('content-type'),
-                status: r.status,
-                ok: r.ok,
-              },
-              'H1',
-            );
-          })
-          .catch(function (e) {
-            send(
-              'index.html:mime-err',
-              'main.tsx probe failed',
-              { url: moduleUrl, err: String(e && e.message ? e.message : e) },
-              'H3',
-            );
-          });
-      })();
-    </script>
-    <!-- #endregion -->
-    <script type="module" src="src/main.tsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
