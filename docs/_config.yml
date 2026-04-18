@@ -1,5 +1,2 @@
-# Required when GitHub Pages builds from /docs (jekyll-build-pages).
-# Live React app: .github/workflows/deploy.yml → set Pages source to GitHub Actions.
 title: Portfolio
-description: Jekyll stub — Vite app is deployed via GitHub Actions
 theme: jekyll-theme-primer

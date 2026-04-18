@@ -2,10 +2,4 @@
 layout: default
 ---
 
-# Portfolio (Jekyll stub)
-
-If you see this page, GitHub Pages is still building from the **`/docs`** folder instead of the **Vite** workflow.
-
-**Use the React site:** **Settings → Pages → Source → GitHub Actions**, then workflow **Deploy Vite site to GitHub Pages** (`.github/workflows/deploy.yml`).
-
-This `docs/` folder exists only so the **pages build and deployment** / Jekyll job does not fail when `/docs` is selected.
+Stub only — the React app is deployed by **GitHub Actions** → **Deploy Vite site to GitHub Pages** (`deploy.yml`). Set **Settings → Pages → Source** to **GitHub Actions**, then remove this `docs/` folder if you no longer use branch → `/docs`.
