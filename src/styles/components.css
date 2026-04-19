@@ -361,7 +361,7 @@
 
 .skills__intro {
   text-align: center;
-  margin-block-end: var(--spacing-6);
+  margin-block-end: var(--section-heading-gap);
   max-width: 50ch;
   margin-inline: auto;
 }
@@ -375,7 +375,6 @@
   display: grid;
   gap: var(--spacing-4);
   grid-template-columns: minmax(0, 1fr);
-  margin-block-start: var(--spacing-4);
 }
 
 @container skills (min-width: 30rem) {
@@ -472,7 +471,7 @@
 
 .resume h2 {
   color: var(--color-text-default);
-  margin-block-end: var(--spacing-4);
+  margin-block-end: var(--section-heading-gap);
 }
 
 .timeline {
@@ -570,7 +569,7 @@
 }
 
 .project__heading {
-  margin-block-end: var(--spacing-6);
+  margin-block-end: var(--section-heading-gap);
 }
 
 .project h2 {
