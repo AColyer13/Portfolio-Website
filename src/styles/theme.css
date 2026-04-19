@@ -1,6 +1,7 @@
 /* Design tokens — OKLCH, 8px rhythm (spacing scale in rem) */
 :root {
-  color-scheme: light;
+  /* Declare both so UA form controls / accessibility tools can align; data-theme narrows when set. */
+  color-scheme: light dark;
 
   /* Primary violet (~#7c3aed) */
   --color-primary-600: oklch(52% 0.24 293);

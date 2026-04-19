@@ -36,3 +36,21 @@ export function persistPreference(pref: ThemePreference) {
     /* ignore */
   }
 }
+
+/**
+ * Apply stored or default preference and keep `data-theme` in sync when the OS scheme
+ * changes while preference is `system`. (Navbar still tracks `prefers-color-scheme` for UI.)
+ */
+export function initTheme() {
+  const pref = loadStoredPreference() ?? 'system'
+  applyTheme(resolveTheme(pref))
+
+  if (typeof window === 'undefined') return
+
+  const mq = window.matchMedia('(prefers-color-scheme: dark)')
+  const onOsSchemeChange = () => {
+    const p = loadStoredPreference() ?? 'system'
+    if (p === 'system') applyTheme(resolveTheme('system'))
+  }
+  mq.addEventListener('change', onOsSchemeChange)
+}

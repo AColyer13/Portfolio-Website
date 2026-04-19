@@ -6,6 +6,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Same surface as body so overscroll / short pages don’t show the UA default canvas (reads as “still white” with extensions). */
+  background-color: var(--color-surface-0);
 }
 
 @media (prefers-reduced-motion: reduce) {

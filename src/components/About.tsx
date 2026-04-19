@@ -27,7 +27,6 @@ export function About() {
               <a
                 href={withBase('files/AdamColyerResume2026v1.pdf')}
                 className="custom-btn"
-                download
                 target="_blank"
                 rel="noopener noreferrer"
               >
