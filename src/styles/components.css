@@ -573,11 +573,6 @@
   line-height: 1.8;
 }
 
-.timeline-info p b {
-  color: var(--color-primary-600);
-  font-weight: var(--font-weight-medium);
-}
-
 /* ——— Projects ——— */
 .project {
   background-color: var(--color-surface-50);

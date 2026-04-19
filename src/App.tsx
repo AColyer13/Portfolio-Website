@@ -44,12 +44,14 @@ function getActiveSectionId(header: HTMLElement): (typeof SECTION_IDS)[number] {
   return active
 }
 
-/** Ignore sub-pixel / overscroll jitter so the header doesn’t flicker at the document bottom. */
+/** Ignore sub-pixel / overscroll jitter so the header doesn’t flicker. */
 const SCROLL_DIR_THRESHOLD_PX = 6
-/** When this close to the max scroll position, require a larger upward move to reveal the nav. */
-const NEAR_BOTTOM_PX = 56
-/** Upward scroll distance (px) required to show the bar when near the bottom — filters rubber-band noise. */
-const SHOW_HEADER_UP_NEAR_BOTTOM_PX = 22
+/**
+ * While scrollY is still below this offset above `#contact`, don’t reveal the header on
+ * scroll-up. Stops the bar popping in after a small nudge up from the contact/footer on
+ * mobile (and avoids the same jump when leaving the narrow “near bottom” window on desktop).
+ */
+const CONTACT_SCROLL_UP_REVEAL_BUFFER_PX = 200
 
 function App() {
   const [activeSection, setActiveSection] = useState<string>('about')
@@ -105,24 +107,22 @@ function App() {
       const navH = header.offsetHeight
       const delta = y - last
 
-      const scrollEl = document.documentElement
-      const maxScrollY = Math.max(
-        0,
-        scrollEl.scrollHeight - window.innerHeight,
-      )
-      const nearBottom = y >= maxScrollY - NEAR_BOTTOM_PX
+      const contactEl = document.getElementById('contact')
+      const contactTopDoc =
+        contactEl != null
+          ? window.scrollY + contactEl.getBoundingClientRect().top
+          : null
+      const suppressRevealOnScrollUp =
+        contactTopDoc != null &&
+        y > contactTopDoc - CONTACT_SCROLL_UP_REVEAL_BUFFER_PX
 
       if (mobileMenuOpen) {
         setHeaderScrollHidden(false)
       } else if (y <= 0) {
         setHeaderScrollHidden(false)
-      } else if (nearBottom) {
-        // At the end of the page, tiny “up” movements from overscroll/bounce read as scroll-up — don’t reveal.
-        if (delta <= -SHOW_HEADER_UP_NEAR_BOTTOM_PX) {
-          setHeaderScrollHidden(false)
-        }
-        // Deliberate scroll down still hides (when not pinned at max — e.g. short last section).
-        if (delta >= SCROLL_DIR_THRESHOLD_PX && y > navH && y < maxScrollY - 2) {
+      } else if (suppressRevealOnScrollUp) {
+        // In contact / lower page: only hide on scroll-down; ignore scroll-up until well into projects.
+        if (delta >= SCROLL_DIR_THRESHOLD_PX && y > navH) {
           setHeaderScrollHidden(true)
         }
       } else if (delta <= -SCROLL_DIR_THRESHOLD_PX) {

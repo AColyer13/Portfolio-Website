@@ -39,7 +39,7 @@ export function About() {
             </div>
           </div>
 
-          <div className="about-image svg">
+          <div className="about-image">
             <img
               src={withBase('images/IMG_4874.JPEG')}
               className="media-fluid"
