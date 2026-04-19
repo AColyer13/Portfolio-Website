@@ -1,38 +1,37 @@
 export const THEME_STORAGE_KEY = 'portfolio-color-scheme'
 
-export type Theme = 'light' | 'dark'
+/** What we persist: explicit light/dark, or follow OS */
+export type ThemePreference = 'light' | 'dark' | 'system'
+
+/** Resolved value applied to `data-theme` */
+export type ResolvedTheme = 'light' | 'dark'
 
 function prefersDark(): boolean {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches
 }
 
-/** First visit when nothing is stored — follows OS once, then only explicit light/dark. */
-export function getDefaultTheme(): Theme {
-  return prefersDark() ? 'dark' : 'light'
+export function resolveTheme(pref: ThemePreference): ResolvedTheme {
+  if (pref === 'system') return prefersDark() ? 'dark' : 'light'
+  return pref
 }
 
-export function applyTheme(theme: Theme) {
+export function applyTheme(theme: ResolvedTheme) {
   document.documentElement.setAttribute('data-theme', theme)
 }
 
-export function loadStoredTheme(): Theme | null {
+export function loadStoredPreference(): ThemePreference | null {
   try {
     const v = localStorage.getItem(THEME_STORAGE_KEY)
-    if (v === 'light' || v === 'dark') return v
-    if (v === 'system') {
-      const resolved = prefersDark() ? 'dark' : 'light'
-      localStorage.setItem(THEME_STORAGE_KEY, resolved)
-      return resolved
-    }
+    if (v === 'light' || v === 'dark' || v === 'system') return v
   } catch {
     /* ignore */
   }
   return null
 }
 
-export function persistTheme(theme: Theme) {
+export function persistPreference(pref: ThemePreference) {
   try {
-    localStorage.setItem(THEME_STORAGE_KEY, theme)
+    localStorage.setItem(THEME_STORAGE_KEY, pref)
   } catch {
     /* ignore */
   }

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import {
   applyTheme,
-  getDefaultTheme,
-  persistTheme,
-  type Theme,
+  loadStoredPreference,
+  persistPreference,
+  type ResolvedTheme,
+  type ThemePreference,
 } from '../theme/colorScheme'
 
 interface NavbarProps {
@@ -16,10 +17,32 @@ interface NavbarProps {
 
 const base = import.meta.env.BASE_URL
 
-function readThemeFromDocument(): Theme {
-  const t = document.documentElement.getAttribute('data-theme')
-  if (t === 'light' || t === 'dark') return t
-  return getDefaultTheme()
+function cyclePreference(p: ThemePreference): ThemePreference {
+  if (p === 'light') return 'dark'
+  if (p === 'dark') return 'system'
+  return 'light'
+}
+
+/** When preference is system, re-resolve when OS appearance changes (Navbar icon + applyTheme). */
+function useResolvedTheme(preference: ThemePreference): ResolvedTheme {
+  const [osDark, setOsDark] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches,
+  )
+
+  useEffect(() => {
+    if (preference !== 'system') return
+    const mq = window.matchMedia('(prefers-color-scheme: dark)')
+    const sync = () => setOsDark(mq.matches)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [preference])
+
+  if (preference === 'light') return 'light'
+  if (preference === 'dark') return 'dark'
+  return osDark ? 'dark' : 'light'
 }
 
 /** Sun — use in dark mode; click switches to light. */
@@ -79,12 +102,33 @@ export function Navbar({
   onMenuOpenChange,
 }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [theme, setTheme] = useState<Theme>(readThemeFromDocument)
+  const [preference, setPreference] = useState<ThemePreference>(
+    () => loadStoredPreference() ?? 'system',
+  )
+  const effectiveTheme = useResolvedTheme(preference)
 
   useEffect(() => {
-    applyTheme(theme)
-    persistTheme(theme)
-  }, [theme])
+    applyTheme(effectiveTheme)
+  }, [effectiveTheme])
+
+  useEffect(() => {
+    persistPreference(preference)
+  }, [preference])
+
+  const nextThemeLabel =
+    preference === 'light'
+      ? 'dark only'
+      : preference === 'dark'
+        ? 'match system'
+        : 'light only'
+  const currentThemeLabel =
+    preference === 'system'
+      ? `System (${effectiveTheme})`
+      : preference === 'light'
+        ? 'Light'
+        : 'Dark'
+  const themeToggleLabel = `Color theme: ${currentThemeLabel}. Activate to use ${nextThemeLabel}.`
+  const themeToggleTitle = `Theme: ${currentThemeLabel}. Next: ${nextThemeLabel}.`
 
   return (
     <header
@@ -96,21 +140,11 @@ export function Navbar({
             <button
               type="button"
               className="theme-toggle"
-              onClick={() =>
-                setTheme((t) => (t === 'light' ? 'dark' : 'light'))
-              }
-              aria-label={
-                theme === 'light'
-                  ? 'Switch to dark mode'
-                  : 'Switch to light mode'
-              }
-              title={
-                theme === 'light'
-                  ? 'Switch to dark mode'
-                  : 'Switch to light mode'
-              }
+              onClick={() => setPreference((p) => cyclePreference(p))}
+              aria-label={themeToggleLabel}
+              title={themeToggleTitle}
             >
-              {theme === 'light' ? <IconMoon /> : <IconSun />}
+              {effectiveTheme === 'light' ? <IconMoon /> : <IconSun />}
             </button>
             <button
               type="button"

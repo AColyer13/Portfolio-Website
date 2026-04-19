@@ -938,6 +938,24 @@
       box-shadow 0.2s ease;
   }
 
+  /* Explicit placeholder color so forced-dark extensions don’t leave light-on-light placeholders */
+  .form-control:not(.submit-btn)::placeholder {
+    color: var(--color-text-muted);
+    opacity: 1;
+  }
+
+  .form-control:not(.submit-btn)::-webkit-input-placeholder {
+    color: var(--color-text-muted);
+  }
+
+  /* Keep typed / autofilled text readable on the surface token we use */
+  .form-control:not(.submit-btn):autofill,
+  .form-control:not(.submit-btn):autofill:hover,
+  .form-control:not(.submit-btn):autofill:focus {
+    -webkit-text-fill-color: var(--color-text-default);
+    box-shadow: 0 0 0 1000px var(--color-surface-0) inset;
+  }
+
   .form-control:focus {
     border-color: var(--color-primary-600);
     outline: none;
@@ -1006,6 +1024,26 @@
     opacity: 0.6;
     cursor: not-allowed;
   }
+
+  @media (forced-colors: active) {
+    .form-field__label,
+    h2 {
+      color: CanvasText;
+    }
+
+    .field-error {
+      color: Mark;
+    }
+  }
+}
+
+/* Tell the UA / extensions how native controls should render inside the themed form */
+:root[data-theme='light'] .contact-form .form-control:not(.submit-btn) {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] .contact-form .form-control:not(.submit-btn) {
+  color-scheme: dark;
 }
 
 @container contact (min-width: 62rem) {
