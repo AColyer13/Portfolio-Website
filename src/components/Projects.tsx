@@ -8,14 +8,14 @@ export function Projects() {
         <div className="project__heading">
           <h2>My Projects</h2>
         </div>
-        <div className="portfolio-grid" id="portfolio-masonry-wrap">
+        <div className="portfolio-grid">
           {projects.map((project) => {
             const overlayHref = project.liveUrl ?? project.githubUrl
             const overlayIcon = project.liveUrl
               ? 'fas fa-external-link-alt'
               : 'fab fa-github-alt'
             return (
-              <div key={project.id} className="portfolio-item mockup">
+              <div key={project.id} className="portfolio-item">
                 <div className="portfolio-item-inner">
                   <div className="portfolio-item-img">
                     <img

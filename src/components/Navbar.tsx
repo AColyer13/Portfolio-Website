@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
 import {
   applyTheme,
-  cycleTheme,
   getDefaultTheme,
   persistTheme,
-  themeButtonLabel,
   type Theme,
 } from '../theme/colorScheme'
 
@@ -34,10 +32,6 @@ const navItems = [
   { section: 'contact', hash: 'contact', label: 'Contact', dataHover: 'Contact' },
 ] as const
 
-function themeIconClass(theme: Theme): string {
-  return theme === 'light' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'
-}
-
 export function Navbar({ activeSection, onNavigate }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [theme, setTheme] = useState<Theme>(readThemeFromDocument)
@@ -55,10 +49,17 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
             <button
               type="button"
               className="theme-toggle"
-              onClick={() => setTheme((t) => cycleTheme(t))}
-              aria-label={themeButtonLabel(theme)}
+              onClick={() =>
+                setTheme((t) => (t === 'light' ? 'dark' : 'light'))
+              }
+              aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
             >
-              <i className={themeIconClass(theme)} aria-hidden />
+              <i
+                className={
+                  theme === 'light' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'
+                }
+                aria-hidden
+              />
             </button>
             <button
               type="button"

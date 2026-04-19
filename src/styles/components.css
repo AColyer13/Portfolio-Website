@@ -262,19 +262,6 @@
   }
 }
 
-.animated-text {
-  margin-block: var(--spacing-4);
-}
-
-.animated-info {
-  display: inline-block;
-  vertical-align: top;
-  min-width: min(100%, 17.5rem);
-  position: relative;
-  min-height: 3.8rem;
-  overflow: hidden;
-}
-
 .animated-item {
   color: var(--color-primary-600);
   font-size: var(--h1-font-size);
@@ -440,13 +427,6 @@
   line-height: 1;
   font-size: 2.5rem;
   color: var(--color-primary-600);
-}
-
-#redis-icon {
-  font-size: 2.5rem;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary-600);
-  font-style: normal;
 }
 
 .skill-card__emoji {
@@ -1027,41 +1007,4 @@
 .copyright-text {
   color: var(--color-text-subtle);
   font-size: var(--copyright-font-size);
-}
-
-/* ——— Viewport fallbacks when container queries unsupported ——— */
-@supports not (container-type: inline-size) {
-  @media (min-width: 48rem) {
-    .about__grid {
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    }
-
-    .skills-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .portfolio-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .contact__layout {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    }
-
-    .form-row-two {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  @media (min-width: 56rem) {
-    .skills-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-  }
-
-  @media (min-width: 60rem) {
-    .portfolio-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
 }

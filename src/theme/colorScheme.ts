@@ -37,11 +37,3 @@ export function persistTheme(theme: Theme) {
     /* ignore */
   }
 }
-
-export function cycleTheme(current: Theme): Theme {
-  return current === 'light' ? 'dark' : 'light'
-}
-
-export function themeButtonLabel(theme: Theme): string {
-  return theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'
-}

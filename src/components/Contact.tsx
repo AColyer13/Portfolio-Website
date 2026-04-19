@@ -9,8 +9,8 @@ import emailjs from '@emailjs/browser'
 
 type FieldName = 'name' | 'email' | 'message'
 
-function validateName(value: string): string {
-  if (!value.trim()) return 'Name is required.'
+function requiredField(value: string, label: string): string {
+  if (!value.trim()) return `${label} is required.`
   return ''
 }
 
@@ -18,11 +18,6 @@ function validateEmail(value: string): string {
   if (!value.trim()) return 'Email is required.'
   const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
   if (!ok) return 'Enter a valid email address.'
-  return ''
-}
-
-function validateMessage(value: string): string {
-  if (!value.trim()) return 'Message is required.'
   return ''
 }
 
@@ -46,9 +41,9 @@ export function Contact() {
 
   const runFieldValidation = (name: FieldName, value: string) => {
     let msg = ''
-    if (name === 'name') msg = validateName(value)
+    if (name === 'name') msg = requiredField(value, 'Name')
     else if (name === 'email') msg = validateEmail(value)
-    else msg = validateMessage(value)
+    else msg = requiredField(value, 'Message')
     setErrors((prev) => ({ ...prev, [name]: msg }))
     return msg
   }
@@ -78,9 +73,9 @@ export function Contact() {
     if (!form) return
 
     setTouched({ name: true, email: true, message: true })
-    const eName = validateName(formData.name)
+    const eName = requiredField(formData.name, 'Name')
     const eEmail = validateEmail(formData.email)
-    const eMessage = validateMessage(formData.message)
+    const eMessage = requiredField(formData.message, 'Message')
     setErrors({
       name: eName,
       email: eEmail,

@@ -29,15 +29,6 @@
   --color-danger-700: oklch(40% 0.18 25);
   --color-danger-bg: oklch(95% 0.04 25);
 
-  /* Legacy aliases — components migrate to role tokens above */
-  --primary-color: var(--color-primary-600);
-  --white-color: var(--color-surface-0);
-  --dark-color: var(--color-text-default);
-  --text-color: var(--color-text-default);
-  --menu-bg-color: var(--color-surface-0);
-  --footer-bg-color: var(--color-surface-50);
-  --border-color: var(--color-border-default);
-
   /* Spacing — 8px grid (1 = 8px at default 16px root) */
   --spacing-1: 0.5rem;
   --spacing-2: 1rem;
@@ -121,14 +112,6 @@
     --color-danger-700: oklch(72% 0.12 25);
     --color-danger-bg: oklch(28% 0.06 25);
 
-    --primary-color: var(--color-primary-600);
-    --white-color: var(--color-text-default);
-    --dark-color: var(--color-text-default);
-    --text-color: var(--color-text-default);
-    --menu-bg-color: var(--color-surface-0);
-    --footer-bg-color: var(--color-surface-50);
-    --border-color: var(--color-border-default);
-
     --shadow-nav: 0 0.125rem 0.625rem oklch(0% 0 0 / 45%);
     --shadow-card: 0 0.625rem 1.875rem oklch(0% 0 0 / 35%);
     --shadow-card-hover: 0 0.625rem 1.875rem oklch(from var(--color-primary-600) l c h / 28%);
@@ -161,14 +144,6 @@
   --color-danger-600: oklch(62% 0.18 25);
   --color-danger-700: oklch(72% 0.12 25);
   --color-danger-bg: oklch(28% 0.06 25);
-
-  --primary-color: var(--color-primary-600);
-  --white-color: var(--color-text-default);
-  --dark-color: var(--color-text-default);
-  --text-color: var(--color-text-default);
-  --menu-bg-color: var(--color-surface-0);
-  --footer-bg-color: var(--color-surface-50);
-  --border-color: var(--color-border-default);
 
   --shadow-nav: 0 0.125rem 0.625rem oklch(0% 0 0 / 45%);
   --shadow-card: 0 0.625rem 1.875rem oklch(0% 0 0 / 35%);
