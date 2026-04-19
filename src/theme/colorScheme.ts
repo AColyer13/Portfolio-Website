@@ -6,27 +6,10 @@ const LEGACY_THEME_STORAGE_KEY = 'portfolio-color-scheme'
 /** What we persist: explicit light/dark, or follow OS */
 export type ThemePreference = 'light' | 'dark' | 'system'
 
-/** Shown on <html data-theme> — `system` is styled via CSS `prefers-color-scheme`. */
-export type HtmlTheme = 'light' | 'dark' | 'system'
-
 /** Resolved light/dark for icons / labels only */
 export type ResolvedTheme = 'light' | 'dark'
 
-function prefersDark(): boolean {
-  return typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches
-}
-
-export function resolveTheme(pref: ThemePreference): ResolvedTheme {
-  if (pref === 'system') return prefersDark() ? 'dark' : 'light'
-  return pref
-}
-
-export function preferenceToHtmlTheme(pref: ThemePreference): HtmlTheme {
-  if (pref === 'system') return 'system'
-  return pref
-}
-
-export function applyTheme(theme: HtmlTheme) {
+export function applyTheme(theme: ThemePreference) {
   document.documentElement.setAttribute('data-theme', theme)
 }
 
@@ -61,5 +44,5 @@ export function persistPreference(pref: ThemePreference) {
 /** Apply stored preference. OS changes for `system` are handled in CSS (no extra listeners). */
 export function initTheme() {
   const pref = loadStoredPreference() ?? 'system'
-  applyTheme(preferenceToHtmlTheme(pref))
+  applyTheme(pref)
 }

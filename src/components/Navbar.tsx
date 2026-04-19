@@ -3,7 +3,6 @@ import {
   applyTheme,
   loadStoredPreference,
   persistPreference,
-  preferenceToHtmlTheme,
   type ResolvedTheme,
   type ThemePreference,
 } from '../theme/colorScheme'
@@ -84,16 +83,11 @@ function IconMoon() {
 }
 
 const navItems = [
-  { section: 'about', hash: 'about', label: 'About', dataHover: 'About' },
-  { section: 'skills', hash: 'skills', label: 'Skills', dataHover: 'Skills' },
-  {
-    section: 'experience',
-    hash: 'experience',
-    label: 'Experiences',
-    dataHover: 'Experiences',
-  },
-  { section: 'projects', hash: 'projects', label: 'Projects', dataHover: 'Projects' },
-  { section: 'contact', hash: 'contact', label: 'Contact', dataHover: 'Contact' },
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'experience', label: 'Experiences' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'contact', label: 'Contact' },
 ] as const
 
 export function Navbar({
@@ -109,10 +103,7 @@ export function Navbar({
   const effectiveTheme = useResolvedTheme(preference)
 
   useEffect(() => {
-    applyTheme(preferenceToHtmlTheme(preference))
-  }, [preference])
-
-  useEffect(() => {
+    applyTheme(preference)
     persistPreference(preference)
   }, [preference])
 
@@ -171,19 +162,19 @@ export function Navbar({
           >
             <ul className="site-nav__list">
               {navItems.map((item) => (
-                <li key={item.section}>
+                <li key={item.id}>
                   <a
-                    href={`${base}#${item.hash}`}
+                    href={`${base}#${item.id}`}
                     className={`site-nav__link ${
-                      activeSection === item.section ? 'active' : ''
+                      activeSection === item.id ? 'active' : ''
                     }`}
                     onClick={() => {
-                      onNavigate(item.section)
+                      onNavigate(item.id)
                       setIsMenuOpen(false)
                       onMenuOpenChange?.(false)
                     }}
                   >
-                    <span data-hover={item.dataHover}>{item.label}</span>
+                    <span data-hover={item.label}>{item.label}</span>
                   </a>
                 </li>
               ))}

@@ -75,6 +75,8 @@ function App() {
       document.getElementById(hash)?.scrollIntoView({ block: 'start' })
     }
 
+    // Sync scroll spy after layout + optional hash jump; must run in this layout effect.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time init after DOM measurements
     setActiveSection(getActiveSectionId(header))
     lastScrollYRef.current = window.scrollY
 

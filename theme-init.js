@@ -1,5 +1,5 @@
 /**
- * Keep in sync with src/theme/colorScheme.ts (loadStoredPreference + preferenceToHtmlTheme).
+ * Keep in sync with src/theme/colorScheme.ts (loadStoredPreference + applyTheme).
  * Runs synchronously before React/CSS so the first paint matches the final theme (no black→light flash).
  */
 ;(function () {
@@ -24,11 +24,6 @@
     return null
   }
 
-  function preferenceToHtmlTheme(pref) {
-    if (pref === 'system') return 'system'
-    return pref
-  }
-
   var pref = loadPreference() || 'system'
-  document.documentElement.setAttribute('data-theme', preferenceToHtmlTheme(pref))
+  document.documentElement.setAttribute('data-theme', pref)
 })()
