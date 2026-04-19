@@ -1,7 +1,6 @@
-import React from 'react';
-import { skills } from '../data/portfolio';
+import { skills } from '../data/portfolio'
 
-export const Skills: React.FC = () => {
+export function Skills() {
   return (
     <section className="skills py-5" id="skills">
       <div className="container" id="skills-container">
@@ -13,9 +12,9 @@ export const Skills: React.FC = () => {
           </div>
         </div>
         <div className="row" id="skills-row">
-          {skills.map((skill, index) => (
+          {skills.map((skill) => (
             <div
-              key={index}
+              key={skill.name}
               className="col-lg-3 col-md-6 wow fadeInLeft"
               style={{
                 animationDuration: '0.5s',
@@ -37,5 +36,5 @@ export const Skills: React.FC = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}

@@ -1,16 +1,30 @@
-import { describe, it, expect } from 'vitest'
-import { withBase } from './baseUrl'
+import { describe, expect, it } from 'vitest'
+import { joinPublicPath, withBase } from './baseUrl'
 
-describe('withBase', () => {
-  it('prefixes a relative public path with BASE_URL', () => {
-    expect(withBase('files/resume.pdf')).toBe('/files/resume.pdf')
+describe('joinPublicPath', () => {
+  it('prefixes a relative path with base', () => {
+    expect(joinPublicPath('/', 'files/resume.pdf')).toBe('/files/resume.pdf')
   })
 
   it('strips leading slashes from the path segment', () => {
-    expect(withBase('/images/x.png')).toBe('/images/x.png')
+    expect(joinPublicPath('/', '/images/x.png')).toBe('/images/x.png')
   })
 
   it('returns base when path is empty', () => {
-    expect(withBase('')).toBe('/')
+    expect(joinPublicPath('/', '')).toBe('/')
+  })
+
+  it('works with GitHub Pages subpath base', () => {
+    expect(joinPublicPath('/Portfolio-Website/', 'images/x.png')).toBe(
+      '/Portfolio-Website/images/x.png',
+    )
+  })
+})
+
+describe('withBase', () => {
+  it('delegates to joinPublicPath with import.meta.env.BASE_URL', () => {
+    expect(withBase('files/resume.pdf')).toBe(
+      joinPublicPath(import.meta.env.BASE_URL, 'files/resume.pdf'),
+    )
   })
 })

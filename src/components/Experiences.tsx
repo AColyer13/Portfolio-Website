@@ -1,8 +1,6 @@
-import React from 'react';
-import { timeline } from '../data/portfolio';
+import { timeline } from '../data/portfolio'
 
-
-export const Experiences: React.FC = () => {
+export function Experiences() {
   return (
     <section
       className="resume py-5 d-lg-flex justify-content-center align-items-center"
@@ -14,8 +12,11 @@ export const Experiences: React.FC = () => {
             <h2 className="mb-4">Experiences</h2>
 
             <div className="timeline">
-              {timeline.map((item, index) => (
-                <div key={index} className="timeline-wrapper">
+              {timeline.map((item) => (
+                <div
+                  key={`${item.year}-${item.title}`}
+                  className="timeline-wrapper"
+                >
                   <div className="timeline-yr">
                     <span>{item.year}</span>
                   </div>
@@ -33,5 +34,5 @@ export const Experiences: React.FC = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}

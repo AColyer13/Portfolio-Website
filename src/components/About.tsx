@@ -1,9 +1,13 @@
-import React from 'react';
-import { withBase } from '../utils/baseUrl';
+import { withBase } from '../utils/baseUrl'
 
-export const About: React.FC = () => {
+const base = import.meta.env.BASE_URL
+
+export function About() {
   return (
-    <section className="about full-screen d-lg-flex justify-content-center align-items-center" id="about">
+    <section
+      className="about full-screen d-lg-flex justify-content-center align-items-center"
+      id="about"
+    >
       <div className="container">
         <div className="row">
           <div className="col-lg-7 col-md-12 col-12 d-flex align-items-center">
@@ -18,7 +22,9 @@ export const About: React.FC = () => {
               </h1>
 
               <p>
-               Former sales professional with hands-on experience managing $2M+ pipelines. Now developing full-stack applications and combining my business insight with technical problem solving to build solutions that align with any future development needs.
+                Former sales professional with hands-on experience managing $2M+ pipelines. Now
+                developing full-stack applications and combining my business insight with technical
+                problem solving to build solutions that align with any future development needs.
               </p>
 
               <div className="custom-btn-group mt-4">
@@ -31,7 +37,10 @@ export const About: React.FC = () => {
                 >
                   <span className="uil uil-file-alt"></span> Download Resume
                 </a>
-                <a href={`${import.meta.env.BASE_URL}#contact`} className="btn custom-btn custom-btn-bg custom-btn-link">
+                <a
+                  href={`${base}#contact`}
+                  className="btn custom-btn custom-btn-bg custom-btn-link"
+                >
                   Get in Touch
                 </a>
               </div>
@@ -40,8 +49,8 @@ export const About: React.FC = () => {
 
           <div className="col-lg-5 col-md-12 col-12 d-flex align-items-center justify-content-center">
             <div className="about-image svg">
-                <img
-                  src={withBase('images/IMG_4874.JPEG')}
+              <img
+                src={withBase('images/IMG_4874.JPEG')}
                 className="img-fluid mx-auto d-block"
                 alt="desk setup photo"
               />
@@ -50,5 +59,5 @@ export const About: React.FC = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}

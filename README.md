@@ -1,28 +1,15 @@
 # Portfolio Website
 
-Personal portfolio (React + TypeScript + Vite).
+Personal portfolio — React, TypeScript, Vite.
 
-**Live site:** https://acolyer13.github.io/Portfolio-Website/
+**Live:** https://acolyer13.github.io/Portfolio-Website/
 
-## Tech stack
+## Stack
 
-- React (TypeScript), Vite
-- Custom CSS + Bootstrap (CDN)
-- Icons: Font Awesome, Unicons (CDN)
-- Contact: EmailJS (client-side)
-- Map: Google Maps embed
+- React (TS) + Vite; Bootstrap / Font Awesome / Unicons (CDN)
+- Contact: EmailJS · Map: Google embed
 
-## Project layout
-
-```
-public/          # Static assets (PDF, images); copied to dist/
-src/
-  components/    # UI sections
-  data/          # portfolio.ts — projects, skills, timeline
-  utils/         # e.g. base URL helpers for GitHub Pages
-```
-
-## Setup
+## Quick start
 
 ```bash
 npm install
@@ -31,47 +18,38 @@ npm run dev
 
 Open http://localhost:5173
 
-## Scripts
-
-| Command | Purpose |
-|--------|---------|
+| Script | |
+|--------|---|
 | `npm run dev` | Dev server |
 | `npm run build` | Production build |
-| `npm run preview` | Preview production build locally |
-| `npm run preview:pages` | Build then preview (useful before deploy) |
+| `npm run preview` | Preview build |
+| `npm run preview:pages` | Build then preview (like Pages) |
 | `npm run lint` | ESLint |
-| `npm run test` | Unit tests (Vitest) |
+| `npm run test` | Vitest |
 
 ## Customize
 
-- **Projects / skills / timeline:** `src/data/portfolio.ts`
-- **Copy & sections:** `src/components/`
-- **Theme:** `src/App.css`, `src/index.css`
+- **Projects, skills, timeline:** [`src/data/portfolio.ts`](src/data/portfolio.ts)
+- **Sections / copy:** [`src/components/`](src/components/)
+- **Theme:** [`src/App.css`](src/App.css), [`src/index.css`](src/index.css)
 
-## Deployment (GitHub Pages)
+## GitHub Pages deploy
 
-On push to **`main`** (not when only the published root files change), CI runs tests, builds with **`VITE_BASE_PATH=/Portfolio-Website/`**, then commits the **`dist/`** output to the **repository root** on **`main`** — **`index.html`**, **`assets/`**, **`images/`**, **`files/`**, etc. (see **`.github/workflows/deploy.yml`**). You edit the app only under **`src/`** and static inputs under **`public/`**; the root copies are the live site.
+On push to **`main`**, CI runs tests, builds with `VITE_BASE_PATH=/Portfolio-Website/`, then commits **`dist/`** to the **repo root** on **`main`** (see [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)). You work in **`src/`** and **`public/`**; root **`index.html`**, **`assets/`**, **`images/`**, **`files/`**, etc. are the published site.
 
-**GitHub Pages (what to select in the UI):**
+**Pages settings:** Branch **`main`**, folder **`/` (root)** — not `/docs`. Use **Deploy from a branch**, not “GitHub Actions” as the Pages source (the workflow commits artifacts; Pages reads the branch).
 
-1. **Settings** → **Pages** → **Build and deployment**
-2. **Source:** **Deploy from a branch**
-3. **Branch:** **`main`**
-4. **Folder:** **`/ (root)`** — not `/docs`
-
-Do **not** set **Source: GitHub Actions** for this repo; the workflow only **commits** the build to **`main`**. Pages reads those files from the branch.
-
-Manual production-like build:
+Production-like build locally:
 
 ```bash
 VITE_BASE_PATH=/Portfolio-Website/ npm run build
 ```
 
-Compare **`dist/`** to what will be copied to the repo root on the next deploy.
+Compare output in **`dist/`** to what lands at root on deploy.
 
 ## Contributing
 
-PRs welcome; match existing style and run `npm run lint` and `npm run test` before submitting.
+Run `npm run lint` and `npm run test` before PRs.
 
 ## License
 

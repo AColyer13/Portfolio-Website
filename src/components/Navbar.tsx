@@ -1,12 +1,27 @@
-import React from 'react';
+import { useState } from 'react'
 
 interface NavbarProps {
-  activeSection: string;
-  onNavigate: (section: string) => void;
+  activeSection: string
+  onNavigate: (section: string) => void
 }
 
+const base = import.meta.env.BASE_URL
+
+const navItems = [
+  { section: 'about', hash: 'about', label: 'About', dataHover: 'About' },
+  { section: 'skills', hash: 'skills', label: 'Skills', dataHover: 'Skills' },
+  {
+    section: 'experience',
+    hash: 'experience',
+    label: 'Experiences',
+    dataHover: 'Experiences',
+  },
+  { section: 'projects', hash: 'projects', label: 'Projects', dataHover: 'Projects' },
+  { section: 'contact', hash: 'contact', label: 'Contact', dataHover: 'Contact' },
+] as const
+
 export function Navbar({ activeSection, onNavigate }: NavbarProps) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
     <header>
@@ -23,72 +38,29 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`} id="navbarNav">
+          <div
+            className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`}
+            id="navbarNav"
+          >
             <ul className="navbar-nav mx-auto">
-              <li className="nav-item">
-                <a
-                  href={`${import.meta.env.BASE_URL}#about`}
-                  className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}
-                  onClick={() => {
-                    onNavigate('about');
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  <span data-hover="About">About</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  href={`${import.meta.env.BASE_URL}#skills`}
-                  className={`nav-link ${activeSection === 'skills' ? 'active' : ''}`}
-                  onClick={() => {
-                    onNavigate('skills');
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  <span data-hover="Skills">Skills</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  href={`${import.meta.env.BASE_URL}#experience`}
-                  className={`nav-link ${activeSection === 'experience' ? 'active' : ''}`}
-                  onClick={() => {
-                    onNavigate('experience');
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  <span data-hover="Experiences">Experiences</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  href={`${import.meta.env.BASE_URL}#projects`}
-                  className={`nav-link ${activeSection === 'project' ? 'active' : ''}`}
-                  onClick={() => {
-                    onNavigate('project');
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  <span data-hover="Projects">Projects</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  href={`${import.meta.env.BASE_URL}#contact`}
-                  className={`nav-link ${activeSection === 'contact' ? 'active' : ''}`}
-                  onClick={() => {
-                    onNavigate('contact');
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  <span data-hover="Contact">Contact</span>
-                </a>
-              </li>
+              {navItems.map((item) => (
+                <li key={item.section} className="nav-item">
+                  <a
+                    href={`${base}#${item.hash}`}
+                    className={`nav-link ${activeSection === item.section ? 'active' : ''}`}
+                    onClick={() => {
+                      onNavigate(item.section)
+                      setIsMenuOpen(false)
+                    }}
+                  >
+                    <span data-hover={item.dataHover}>{item.label}</span>
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
       </nav>
     </header>
-  );
+  )
 }

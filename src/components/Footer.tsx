@@ -1,6 +1,4 @@
-import React from 'react';
-
-export const Footer: React.FC = () => {
+export function Footer() {
   return (
     <footer className="footer py-5" id="footer">
       <div className="container">
@@ -13,5 +11,5 @@ export const Footer: React.FC = () => {
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}

@@ -1,49 +1,47 @@
-import React, { useRef, useState } from 'react';
-import emailjs from '@emailjs/browser';
+import {
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+} from 'react'
+import emailjs from '@emailjs/browser'
 
-export const Contact: React.FC = () => {
+export function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     message: '',
     email: '',
-  });
-  const timestampRef = useRef<HTMLInputElement | null>(null);
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const timestampRef = useRef<HTMLInputElement | null>(null)
+  const formRef = useRef<HTMLFormElement | null>(null)
 
-  const formRef = useRef<HTMLFormElement | null>(null);
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const form = formRef.current
+    if (!form) return
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = formRef.current;
-    if (!form) return;
-
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     try {
       if (timestampRef.current) {
-        timestampRef.current.value = new Date().toISOString();
+        timestampRef.current.value = new Date().toISOString()
       }
-      await emailjs.sendForm('default_service', 'template_6dk6wl5', form);
-      alert('Sent!');
-      setFormData({ name: '', message: '', email: '' });
-      form.reset();
+      await emailjs.sendForm('default_service', 'template_6dk6wl5', form)
+      alert('Sent!')
+      setFormData({ name: '', message: '', email: '' })
+      form.reset()
     } catch (error) {
-      alert('Failed to send email. Please try again.');
-      console.error('Error sending email:', error);
+      alert('Failed to send email. Please try again.')
+      console.error('Error sending email:', error)
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <section className="contact py-5" id="contact">
@@ -54,12 +52,13 @@ export const Contact: React.FC = () => {
               <div className="google-map w-100 p-3">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90444.17968810473!2d-93.44258962458554!3d44.89525237382178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87f6213ace55a039%3A0xcdaf9c3796fa2779!2sEdina%2C%20MN!5e0!3m2!1sen!2sus!4v1764804107343!5m2!1sen!2sus"
-                  width={"100%"}
+                  width="100%"
                   height={400}
                   style={{ border: 0 }}
-                  allowFullScreen={true}
+                  allowFullScreen
                   loading="lazy"
-                ></iframe>
+                  title="Map of Edina, MN"
+                />
               </div>
               <div className="contact-info d-flex justify-content-between align-items-center p-4 pt-0 flex-wrap">
                 <div className="contact-info-item">
@@ -78,7 +77,7 @@ export const Contact: React.FC = () => {
                       rel="noopener noreferrer"
                       className="uil fab fa-github"
                       title="GitHub"
-                    ></a>
+                    />
                   </li>
                   <li>
                     <a
@@ -87,7 +86,7 @@ export const Contact: React.FC = () => {
                       rel="noopener noreferrer"
                       className="uil fab fa-linkedin"
                       title="LinkedIn"
-                    ></a>
+                    />
                   </li>
                 </ul>
               </div>
@@ -96,11 +95,12 @@ export const Contact: React.FC = () => {
 
           <div className="col-lg-6 col-12 d-flex">
             <div className="contact-form card bg-transparent border rounded-4 p-4 w-100">
-              <h2 className="mb-4">Want to know more? <br></br> Let's talk</h2>
+              <h2 className="mb-4">
+                Want to know more? <br /> Let&apos;s talk
+              </h2>
 
               <form id="form" ref={formRef} onSubmit={handleSubmit}>
                 <div className="row">
-                  {/* Name + Email on the same line */}
                   <div className="form-row-two mb-3">
                     <input
                       type="text"
@@ -131,12 +131,10 @@ export const Contact: React.FC = () => {
                       value={formData.message}
                       onChange={handleChange}
                       required
-                    ></textarea>
+                    />
                   </div>
 
-                  {/* Optional hidden fields if your template uses them */}
                   <input type="hidden" name="reply_to" value={formData.email} />
-                  {/* Auto-generated timestamp of submission */}
                   <input type="hidden" name="time" ref={timestampRef} />
 
                   <div className="ml-lg-auto col-lg-5 col-12 mt-2">
@@ -154,5 +152,5 @@ export const Contact: React.FC = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
