@@ -2,20 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <script>
-      (function () {
-        try {
-          var k = 'portfolio-color-scheme'
-          var t = localStorage.getItem(k)
-          document.documentElement.setAttribute(
-            'data-theme',
-            t === 'light' || t === 'dark' || t === 'system' ? t : 'system',
-          )
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'system')
-        }
-      })()
-    </script>
     <link rel="icon" type="image/svg+xml" href="vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Adam - Portfolio</title>

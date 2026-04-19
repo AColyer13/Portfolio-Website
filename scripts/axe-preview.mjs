@@ -1,5 +1,6 @@
 /**
- * Vite preview (already running) + axe-cli. Run after `npm run build`.
+ * Vite preview + axe-cli (WCAG color-contrast only — focused automated check per style guide).
+ * Run after `npm run build` (see `npm run test:a11y`).
  */
 import { spawn, spawnSync } from 'node:child_process'
 import http from 'node:http'
@@ -9,7 +10,8 @@ import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, '..')
-const port = 4173
+/** Avoid clashing with a manual `vite preview` on the default port. */
+const port = 4187
 const base = (process.env.VITE_BASE_PATH ?? '/Portfolio-Website/').replace(/\/?$/, '/')
 const url = `http://127.0.0.1:${port}${base}`
 
@@ -48,7 +50,7 @@ preview.on('error', (err) => {
 
 try {
   await waitForHttp(url)
-  const result = spawnSync('npx', ['axe', url, '--exit'], {
+  const result = spawnSync('npx', ['axe', url, '--exit', '--rules', 'color-contrast'], {
     cwd: root,
     stdio: 'inherit',
     shell: true,

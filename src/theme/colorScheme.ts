@@ -30,12 +30,6 @@ export function cycleTheme(current: Theme): Theme {
   return 'system'
 }
 
-export function themeLabel(theme: Theme): string {
-  if (theme === 'system') return 'Theme: match system'
-  if (theme === 'light') return 'Theme: light'
-  return 'Theme: dark'
-}
-
 export function themeButtonLabel(theme: Theme): string {
   if (theme === 'system') return 'Switch to light mode'
   if (theme === 'light') return 'Switch to dark mode'
