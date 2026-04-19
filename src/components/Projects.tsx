@@ -5,7 +5,7 @@ export function Projects() {
   return (
     <section className="project section-block" id="projects">
       <div className="container">
-        <div className="project__heading">
+        <div className="section-heading">
           <h2>My Projects</h2>
         </div>
         <div className="portfolio-grid">

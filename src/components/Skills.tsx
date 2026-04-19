@@ -4,7 +4,7 @@ export function Skills() {
   return (
     <section className="skills section-block" id="skills">
       <div className="container">
-        <div className="skills__intro">
+        <div className="section-heading section-heading--center">
           <h2>Skills</h2>
         </div>
         <div className="skills-grid">

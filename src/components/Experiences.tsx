@@ -5,7 +5,9 @@ export function Experiences() {
     <section className="resume section-block" id="experience">
       <div className="container">
         <div className="resume__inner">
-          <h2>Experiences</h2>
+          <div className="section-heading">
+            <h2>Experiences</h2>
+          </div>
 
           <div className="timeline">
             {timeline.map((item) => (
