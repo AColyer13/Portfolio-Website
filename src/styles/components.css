@@ -502,9 +502,9 @@
 
 .timeline-wrapper {
   position: relative;
-  padding-block: 0 var(--spacing-4);
+  padding-block: 0 calc(var(--spacing-4) - 0.25rem);
   padding-inline-start: 6.25rem;
-  margin-block-end: var(--spacing-4);
+  margin-block-end: calc(var(--spacing-4) - 0.25rem);
 }
 
 @container resume (max-width: 40rem) {
