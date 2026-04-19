@@ -393,11 +393,23 @@
 .skills .container {
   container-type: inline-size;
   container-name: skills;
+  /* Match left/right inset on notched phones so the grid stays visually centered */
+  padding-inline-start: max(
+    var(--container-inline),
+    env(safe-area-inset-left, 0px)
+  );
+  padding-inline-end: max(
+    var(--container-inline),
+    env(safe-area-inset-right, 0px)
+  );
 }
 
 .skills-grid {
   display: grid;
+  width: 100%;
   gap: var(--spacing-4);
+  justify-items: stretch;
+  align-items: stretch;
   /* Two columns from the narrowest widths so pairs (e.g. React + TypeScript) sit side by side on phones */
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -411,7 +423,9 @@
 .services-item {
   margin-block-end: 0;
   min-width: 0;
+  width: 100%;
   display: flex;
+  align-self: stretch;
 }
 
 .skill-card {
@@ -446,6 +460,7 @@
   margin-block: 0;
   font-weight: var(--font-weight-medium);
   width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .services-item i {
@@ -471,6 +486,11 @@
   container-name: resume;
 }
 
+/* Slightly tighter than global section rhythm — timeline already reads “tall” */
+.resume .section-heading {
+  margin-block-end: var(--spacing-5);
+}
+
 .resume__inner {
   max-width: 50rem;
   margin-inline: auto;
@@ -483,14 +503,14 @@
 
 .timeline-wrapper {
   position: relative;
-  padding-block: 0 calc(var(--spacing-4) - 0.25rem);
-  padding-inline-start: 6.25rem;
-  margin-block-end: calc(var(--spacing-4) - 0.25rem);
+  padding-block: 0 var(--spacing-3);
+  padding-inline-start: 5.75rem;
+  margin-block-end: var(--spacing-3);
 }
 
 @container resume (max-width: 40rem) {
   .timeline-wrapper {
-    padding-inline-start: 4.375rem;
+    padding-inline-start: 4.125rem;
   }
 }
 
@@ -502,9 +522,9 @@
   background: var(--color-primary-600);
   border-radius: var(--radius-pill);
   position: absolute;
-  width: 5rem;
-  height: 5rem;
-  line-height: 5rem;
+  width: 4.75rem;
+  height: 4.75rem;
+  line-height: 4.75rem;
   text-align: center;
   inset-inline-start: 0;
   inset-block-start: 0;
@@ -512,9 +532,9 @@
 
 @container resume (max-width: 40rem) {
   .timeline-yr {
-    width: 3.75rem;
-    height: 3.75rem;
-    line-height: 3.75rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    line-height: 3.5rem;
   }
 }
 
@@ -527,31 +547,32 @@
 .timeline-info {
   background: var(--color-surface-0);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-4);
+  padding: var(--spacing-3);
   border: 1px solid var(--color-border-default);
 }
 
 .timeline-info h3 {
   color: var(--color-text-default);
-  margin-block-end: var(--spacing-2);
+  margin-block-end: var(--spacing-1);
   font-size: var(--font-size-fluid-3);
 }
 
 .timeline-info h3 span {
   display: block;
-  margin-block-end: var(--spacing-1);
+  margin-block-end: 0.25rem;
 }
 
 .timeline-info h3 small {
   color: var(--color-primary-600);
   font-size: var(--font-size-fluid-1);
   display: block;
-  margin-block-start: var(--spacing-1);
+  margin-block-start: 0;
 }
 
 .timeline-info p {
   color: var(--color-text-muted);
-  line-height: 1.8;
+  line-height: 1.65;
+  margin: 0;
 }
 
 /* ——— Projects ——— */
