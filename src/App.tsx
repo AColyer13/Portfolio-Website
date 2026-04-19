@@ -20,6 +20,20 @@ function isSectionId(id: string): id is (typeof SECTION_IDS)[number] {
   return (SECTION_IDS as readonly string[]).includes(id)
 }
 
+/**
+ * Keep the URL fragment aligned with scroll position. Nav links set `#section`; if the user
+ * scrolls away (e.g. back to the top), replaceState so a refresh doesn’t jump to the old hash.
+ * For the first section we use an empty hash so the top of the page stays a clean URL.
+ */
+function syncLocationHashWithActiveSection(
+  active: (typeof SECTION_IDS)[number],
+): void {
+  const nextHash = active === 'about' ? '' : `#${active}`
+  if (window.location.hash === nextHash) return
+  const path = `${window.location.pathname}${window.location.search}${nextHash}`
+  history.replaceState(window.history.state, '', path)
+}
+
 function getActiveSectionId(header: HTMLElement): (typeof SECTION_IDS)[number] {
   const scrollEl = document.documentElement
   // When the last section is shorter than the viewport, its top may never move above
@@ -100,7 +114,9 @@ function App() {
     if (!header) return
 
     const update = () => {
-      setActiveSection(getActiveSectionId(header))
+      const active = getActiveSectionId(header)
+      setActiveSection(active)
+      syncLocationHashWithActiveSection(active)
 
       const y = window.scrollY
       const last = lastScrollYRef.current
@@ -147,6 +163,8 @@ function App() {
 
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', update)
+
+    update()
 
     return () => {
       window.removeEventListener('scroll', onScroll)
