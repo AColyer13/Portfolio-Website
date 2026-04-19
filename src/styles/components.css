@@ -499,14 +499,14 @@
 .timeline {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
+  gap: var(--spacing-3);
 }
 
 .timeline-wrapper {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: 4.75rem minmax(0, 1fr);
   column-gap: var(--spacing-2);
-  align-items: start;
+  align-items: center;
 }
 
 .timeline-yr {
@@ -515,19 +515,20 @@
   flex-shrink: 0;
   width: 4.75rem;
   height: 4.75rem;
-  line-height: 4.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
 @container resume (max-width: 40rem) {
+  .timeline-wrapper {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+  }
+
   .timeline-yr {
     width: 3.5rem;
     height: 3.5rem;
-    line-height: 3.5rem;
-  }
-
-  .timeline-wrapper {
-    column-gap: var(--spacing-1);
   }
 }
 
@@ -535,6 +536,7 @@
   color: var(--color-surface-0);
   font-size: var(--font-size-fluid-1);
   font-weight: var(--font-weight-bold);
+  line-height: 1.15;
 }
 
 .timeline-info {
