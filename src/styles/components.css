@@ -505,7 +505,7 @@
 .timeline-wrapper {
   display: grid;
   grid-template-columns: 4.75rem minmax(0, 1fr);
-  column-gap: var(--spacing-2);
+  column-gap: var(--spacing-3);
   align-items: center;
 }
 
@@ -519,6 +519,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  align-self: center;
+  box-sizing: border-box;
 }
 
 @container resume (max-width: 40rem) {
@@ -532,6 +534,24 @@
   }
 }
 
+/* Narrow: side‑by‑side timeline shifts the card block right; stack badge + full‑width card for balanced margins */
+@container resume (max-width: 32rem) {
+  .timeline-wrapper {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--spacing-2);
+    align-items: stretch;
+  }
+
+  .timeline-yr {
+    justify-self: center;
+    width: fit-content;
+    max-width: min(100%, 14rem);
+    height: auto;
+    min-height: 2.75rem;
+    padding: var(--spacing-2) var(--spacing-4);
+  }
+}
+
 .timeline-yr span {
   color: var(--color-surface-0);
   font-size: var(--font-size-fluid-1);
@@ -542,27 +562,36 @@
 .timeline-info {
   background: var(--color-surface-0);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-2) var(--spacing-3);
+  padding: var(--spacing-3);
   border: 1px solid var(--color-border-default);
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
 }
 
 .timeline-info h3 {
   color: var(--color-text-default);
-  margin-block-end: var(--spacing-1);
+  margin: 0;
   font-size: var(--font-size-fluid-3);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.25;
+  text-wrap: pretty;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
 .timeline-info h3 span {
   display: block;
-  margin-block-end: 0.25rem;
 }
 
 .timeline-info h3 small {
   color: var(--color-primary-600);
   font-size: var(--font-size-fluid-1);
+  font-weight: var(--font-weight-medium);
   display: block;
-  margin-block-start: 0;
+  line-height: 1.4;
 }
 
 .timeline-info p {
