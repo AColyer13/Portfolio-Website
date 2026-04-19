@@ -407,7 +407,9 @@
 .skills-grid {
   display: grid;
   width: 100%;
-  gap: var(--spacing-4);
+  row-gap: var(--spacing-4);
+  /* Match side padding so the middle gutter doesn’t read wider than the outer margins (2-col phones) */
+  column-gap: var(--container-inline);
   justify-items: stretch;
   align-items: stretch;
   /* Two columns from the narrowest widths so pairs (e.g. React + TypeScript) sit side by side on phones */
@@ -417,6 +419,7 @@
 @container skills (min-width: 56rem) {
   .skills-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: var(--spacing-4);
   }
 }
 
@@ -526,11 +529,18 @@
 @container resume (max-width: 40rem) {
   .timeline-wrapper {
     grid-template-columns: 3.5rem minmax(0, 1fr);
+    /* More room for card text on phones */
+    column-gap: var(--spacing-2);
   }
 
   .timeline-yr {
     width: 3.5rem;
     height: 3.5rem;
+  }
+
+  .timeline-info {
+    padding-block: var(--spacing-3);
+    padding-inline: var(--spacing-2);
   }
 }
 
