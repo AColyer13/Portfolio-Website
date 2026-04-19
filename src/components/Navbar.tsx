@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import {
   applyTheme,
   cycleTheme,
+  getDefaultTheme,
   persistTheme,
   themeButtonLabel,
   type Theme,
@@ -16,8 +17,8 @@ const base = import.meta.env.BASE_URL
 
 function readThemeFromDocument(): Theme {
   const t = document.documentElement.getAttribute('data-theme')
-  if (t === 'light' || t === 'dark' || t === 'system') return t
-  return 'system'
+  if (t === 'light' || t === 'dark') return t
+  return getDefaultTheme()
 }
 
 const navItems = [
@@ -34,9 +35,7 @@ const navItems = [
 ] as const
 
 function themeIconClass(theme: Theme): string {
-  if (theme === 'system') return 'fa-solid fa-circle-half-stroke'
-  if (theme === 'light') return 'fa-solid fa-sun'
-  return 'fa-solid fa-moon'
+  return theme === 'light' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'
 }
 
 export function Navbar({ activeSection, onNavigate }: NavbarProps) {
@@ -56,7 +55,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
             <button
               type="button"
               className="theme-toggle"
-              onClick={() => setTheme(cycleTheme)}
+              onClick={() => setTheme((t) => cycleTheme(t))}
               aria-label={themeButtonLabel(theme)}
             >
               <i className={themeIconClass(theme)} aria-hidden />

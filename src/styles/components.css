@@ -7,7 +7,7 @@
 }
 
 .section-block {
-  padding-block: var(--spacing-10);
+  padding-block: var(--section-padding-y);
   contain: layout;
 }
 
@@ -207,7 +207,8 @@
 
 /* ——— About ——— */
 .about {
-  padding-block: var(--spacing-4) var(--spacing-10);
+  padding-block: var(--section-hero-padding-top) var(--section-padding-y);
+  contain: layout;
   scroll-margin-block-start: var(--header-offset);
 }
 
@@ -349,7 +350,6 @@
 
 /* ——— Skills ——— */
 .skills {
-  padding-block: var(--spacing-10);
   background-color: var(--color-surface-50);
   scroll-margin-block-start: var(--header-offset);
 }
@@ -457,7 +457,6 @@
 
 /* ——— Experience / timeline ——— */
 .resume {
-  padding-block: var(--spacing-10);
   background-color: var(--color-surface-0);
   scroll-margin-block-start: var(--header-offset);
 }
@@ -561,7 +560,6 @@
 
 /* ——— Projects ——— */
 .project {
-  padding-block: var(--spacing-10);
   background-color: var(--color-surface-50);
   scroll-margin-block-start: var(--header-offset);
 }
@@ -737,7 +735,6 @@
 
 /* ——— Contact ——— */
 .contact {
-  padding-block: var(--spacing-10);
   background-color: var(--color-surface-0);
   scroll-margin-block-start: var(--header-offset);
 }
@@ -1031,11 +1028,6 @@
 .copyright-text {
   color: var(--color-text-subtle);
   font-size: var(--copyright-font-size);
-}
-
-/* ——— Hero: modest gap under sticky nav (scroll-margin handles anchor offset) ——— */
-#about {
-  padding-block-start: var(--spacing-3);
 }
 
 /* ——— Viewport fallbacks when container queries unsupported ——— */
