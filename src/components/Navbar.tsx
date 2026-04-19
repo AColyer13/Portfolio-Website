@@ -19,6 +19,43 @@ function readThemeFromDocument(): Theme {
   return getDefaultTheme()
 }
 
+/** Sun — use in dark mode; click switches to light. */
+function IconSun() {
+  return (
+    <svg
+      className="theme-toggle__icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+    </svg>
+  )
+}
+
+/** Moon — use in light mode; click switches to dark. */
+function IconMoon() {
+  return (
+    <svg
+      className="theme-toggle__icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  )
+}
+
 const navItems = [
   { section: 'about', hash: 'about', label: 'About', dataHover: 'About' },
   { section: 'skills', hash: 'skills', label: 'Skills', dataHover: 'Skills' },
@@ -52,14 +89,18 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
               onClick={() =>
                 setTheme((t) => (t === 'light' ? 'dark' : 'light'))
               }
-              aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+              aria-label={
+                theme === 'light'
+                  ? 'Switch to dark mode'
+                  : 'Switch to light mode'
+              }
+              title={
+                theme === 'light'
+                  ? 'Switch to dark mode'
+                  : 'Switch to light mode'
+              }
             >
-              <i
-                className={
-                  theme === 'light' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'
-                }
-                aria-hidden
-              />
+              {theme === 'light' ? <IconMoon /> : <IconSun />}
             </button>
             <button
               type="button"

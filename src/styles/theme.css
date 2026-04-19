@@ -74,8 +74,8 @@
   --menu-font-size: var(--font-size-fluid-1);
   --copyright-font-size: 0.875rem;
 
-  /* Layout */
-  --header-offset: clamp(4rem, 12vw, 5rem);
+  /* Layout — matches .site-nav vertical padding + toolbar/link row so #anchors clear the sticky header */
+  --header-offset: calc(var(--spacing-3) * 2 + 2.75rem);
   /* Vertical padding between section bands — between tight (spacing-6) and airy (spacing-10) */
   --section-padding-y: var(--spacing-8);
   /* Hero: a bit less than section bands so the nav→headline gap stays proportional */
