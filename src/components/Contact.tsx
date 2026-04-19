@@ -2,9 +2,29 @@ import {
   useRef,
   useState,
   type ChangeEvent,
+  type FocusEvent,
   type FormEvent,
 } from 'react'
 import emailjs from '@emailjs/browser'
+
+type FieldName = 'name' | 'email' | 'message'
+
+function validateName(value: string): string {
+  if (!value.trim()) return 'Name is required.'
+  return ''
+}
+
+function validateEmail(value: string): string {
+  if (!value.trim()) return 'Email is required.'
+  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
+  if (!ok) return 'Enter a valid email address.'
+  return ''
+}
+
+function validateMessage(value: string): string {
+  if (!value.trim()) return 'Message is required.'
+  return ''
+}
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -12,13 +32,44 @@ export function Contact() {
     message: '',
     email: '',
   })
+  const [touched, setTouched] = useState<Record<FieldName, boolean>>({
+    name: false,
+    email: false,
+    message: false,
+  })
+  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [statusMessage, setStatusMessage] = useState('')
   const timestampRef = useRef<HTMLInputElement | null>(null)
   const formRef = useRef<HTMLFormElement | null>(null)
 
+  const runFieldValidation = (name: FieldName, value: string) => {
+    let msg = ''
+    if (name === 'name') msg = validateName(value)
+    else if (name === 'email') msg = validateEmail(value)
+    else msg = validateMessage(value)
+    setErrors((prev) => ({ ...prev, [name]: msg }))
+    return msg
+  }
+
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    const field = name as FieldName
+    setFormData((prev) => ({ ...prev, [field]: value }))
+    if (touched[field]) {
+      runFieldValidation(field, value)
+    }
+    if (formStatus !== 'idle') {
+      setFormStatus('idle')
+      setStatusMessage('')
+    }
+  }
+
+  const handleBlur = (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const name = e.target.name as FieldName
+    setTouched((prev) => ({ ...prev, [name]: true }))
+    runFieldValidation(name, e.target.value)
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -26,17 +77,38 @@ export function Contact() {
     const form = formRef.current
     if (!form) return
 
+    setTouched({ name: true, email: true, message: true })
+    const eName = validateName(formData.name)
+    const eEmail = validateEmail(formData.email)
+    const eMessage = validateMessage(formData.message)
+    setErrors({
+      name: eName,
+      email: eEmail,
+      message: eMessage,
+    })
+    if (eName || eEmail || eMessage) {
+      setFormStatus('idle')
+      setStatusMessage('')
+      return
+    }
+
     setIsSubmitting(true)
+    setFormStatus('idle')
+    setStatusMessage('')
     try {
       if (timestampRef.current) {
         timestampRef.current.value = new Date().toISOString()
       }
       await emailjs.sendForm('default_service', 'template_6dk6wl5', form)
-      alert('Sent!')
+      setFormStatus('success')
+      setStatusMessage('Message sent. Thanks — I will get back to you soon.')
       setFormData({ name: '', message: '', email: '' })
+      setErrors({})
+      setTouched({ name: false, email: false, message: false })
       form.reset()
     } catch (error) {
-      alert('Failed to send email. Please try again.')
+      setFormStatus('error')
+      setStatusMessage('Something went wrong. Please try again or email directly.')
       console.error('Error sending email:', error)
     } finally {
       setIsSubmitting(false)
@@ -44,110 +116,161 @@ export function Contact() {
   }
 
   return (
-    <section className="contact py-5" id="contact">
+    <section className="contact section-block" id="contact">
       <div className="container">
-        <div className="row justify-content-center align-items-stretch">
-          <div className="col-lg-5 col-12 d-flex flex-column h-100">
-            <div className="card bg-transparent border rounded-4 h-100">
-              <div className="google-map w-100 p-3">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90444.17968810473!2d-93.44258962458554!3d44.89525237382178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87f6213ace55a039%3A0xcdaf9c3796fa2779!2sEdina%2C%20MN!5e0!3m2!1sen!2sus!4v1764804107343!5m2!1sen!2sus"
-                  width="100%"
-                  height={400}
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  title="Map of Edina, MN"
-                />
+        <div className="contact__layout">
+          <div className="contact__map-card">
+            <div className="google-map">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90444.17968810473!2d-93.44258962458554!3d44.89525237382178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87f6213ace55a039%3A0xcdaf9c3796fa2779!2sEdina%2C%20MN!5e0!3m2!1sen!2sus!4v1764804107343!5m2!1sen!2sus"
+                width="100%"
+                height={400}
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                title="Map of Edina, MN"
+              />
+            </div>
+            <div className="contact-info">
+              <div className="contact-info-item">
+                <h3>Say hello</h3>
+                <p className="footer-text">612.710.7700</p>
+                <p>
+                  <a href="mailto:adamcolyer@gmail.com">adamcolyer@gmail.com</a>
+                </p>
               </div>
-              <div className="contact-info d-flex justify-content-between align-items-center p-4 pt-0 flex-wrap">
-                <div className="contact-info-item">
-                  <h3 className="mb-3 text-white">Say hello</h3>
-                  <p className="footer-text mb-0">612.710.7700</p>
-                  <p>
-                    <a href="mailto:adamcolyer@gmail.com">adamcolyer@gmail.com</a>
-                  </p>
-                </div>
 
-                <ul className="social-links d-flex gap-3 mt-3 mt-lg-0">
-                  <li>
-                    <a
-                      href="https://github.com/acolyer13"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="uil fab fa-github"
-                      title="GitHub"
-                    />
-                  </li>
-                  <li>
-                    <a
-                      href="https://www.linkedin.com/in/colyeradam/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="uil fab fa-linkedin"
-                      title="LinkedIn"
-                    />
-                  </li>
-                </ul>
-              </div>
+              <ul className="social-links">
+                <li>
+                  <a
+                    href="https://github.com/acolyer13"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="uil fab fa-github"
+                    aria-label="GitHub profile"
+                  />
+                </li>
+                <li>
+                  <a
+                    href="https://www.linkedin.com/in/colyeradam/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="uil fab fa-linkedin"
+                    aria-label="LinkedIn profile"
+                  />
+                </li>
+              </ul>
             </div>
           </div>
 
-          <div className="col-lg-6 col-12 d-flex">
-            <div className="contact-form card bg-transparent border rounded-4 p-4 w-100">
-              <h2 className="mb-4">
-                Want to know more? <br /> Let&apos;s talk
-              </h2>
+          <div className="contact-form">
+            <h2>
+              Want to know more? <br /> Let&apos;s talk
+            </h2>
 
-              <form id="form" ref={formRef} onSubmit={handleSubmit}>
-                <div className="row">
-                  <div className="form-row-two mb-3">
+            {formStatus !== 'idle' && statusMessage ? (
+              <div
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+                className="form-status"
+                data-variant={formStatus}
+              >
+                {statusMessage}
+              </div>
+            ) : null}
+
+            <form id="form" ref={formRef} onSubmit={handleSubmit} noValidate>
+              <div className="contact-form__fields">
+                <div className="form-row-two">
+                  <div className="form-field">
+                    <label htmlFor="contact-name" className="form-field__label">
+                      Name
+                    </label>
                     <input
+                      id="contact-name"
                       type="text"
                       className="form-control"
                       name="name"
                       placeholder="Your Name"
                       value={formData.name}
                       onChange={handleChange}
-                      required
+                      onBlur={handleBlur}
+                      autoComplete="name"
+                      aria-invalid={touched.name && !!errors.name}
+                      aria-describedby={touched.name && errors.name ? 'contact-name-error' : undefined}
                     />
+                    {touched.name && errors.name ? (
+                      <p id="contact-name-error" className="field-error" role="alert">
+                        {errors.name}
+                      </p>
+                    ) : null}
+                  </div>
+                  <div className="form-field">
+                    <label htmlFor="contact-email" className="form-field__label">
+                      Email
+                    </label>
                     <input
+                      id="contact-email"
                       type="email"
                       className="form-control"
                       name="email"
                       placeholder="Email"
                       value={formData.email}
                       onChange={handleChange}
-                      required
+                      onBlur={handleBlur}
+                      autoComplete="email"
+                      aria-invalid={touched.email && !!errors.email}
+                      aria-describedby={
+                        touched.email && errors.email ? 'contact-email-error' : undefined
+                      }
                     />
-                  </div>
-
-                  <div className="col-12 mb-3">
-                    <textarea
-                      name="message"
-                      rows={8}
-                      className="form-control"
-                      placeholder="Message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-
-                  <input type="hidden" name="reply_to" value={formData.email} />
-                  <input type="hidden" name="time" ref={timestampRef} />
-
-                  <div className="ml-lg-auto col-lg-5 col-12 mt-2">
-                    <input
-                      type="submit"
-                      className="form-control submit-btn"
-                      value={isSubmitting ? 'Sending...' : 'Send'}
-                      disabled={isSubmitting}
-                    />
+                    {touched.email && errors.email ? (
+                      <p id="contact-email-error" className="field-error" role="alert">
+                        {errors.email}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
-              </form>
-            </div>
+
+                <div className="form-field">
+                  <label htmlFor="contact-message" className="form-field__label">
+                    Message
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    rows={8}
+                    className="form-control"
+                    placeholder="Message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    aria-invalid={touched.message && !!errors.message}
+                    aria-describedby={
+                      touched.message && errors.message ? 'contact-message-error' : undefined
+                    }
+                  />
+                  {touched.message && errors.message ? (
+                    <p id="contact-message-error" className="field-error" role="alert">
+                      {errors.message}
+                    </p>
+                  ) : null}
+                </div>
+
+                <input type="hidden" name="reply_to" value={formData.email} />
+                <input type="hidden" name="time" ref={timestampRef} />
+
+                <div className="contact-form__submit">
+                  <input
+                    type="submit"
+                    className="form-control submit-btn"
+                    value={isSubmitting ? 'Sending...' : 'Send'}
+                    disabled={isSubmitting}
+                  />
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>

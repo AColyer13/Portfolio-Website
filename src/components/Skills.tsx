@@ -2,34 +2,23 @@ import { skills } from '../data/portfolio'
 
 export function Skills() {
   return (
-    <section className="skills py-5" id="skills">
+    <section className="skills section-block" id="skills">
       <div className="container" id="skills-container">
-        <div className="row">
-          <div className="col-lg-11 text-center mx-auto col-12">
-            <div className="col-lg-8 mx-auto">
-              <h2>Skills</h2>
-            </div>
-          </div>
+        <div className="skills__intro">
+          <h2>Skills</h2>
         </div>
-        <div className="row" id="skills-row">
+        <div className="skills-grid" id="skills-row">
           {skills.map((skill) => (
-            <div
-              key={skill.name}
-              className="col-lg-3 col-md-6 wow fadeInLeft"
-              style={{
-                animationDuration: '0.5s',
-                animationDelay: '0.1s',
-              }}
-            >
-              <div className="services-item">
-                <div className="card">
-                  <h4>{skill.name}</h4>
-                  {skill.icon.includes('fa') ? (
-                    <i className={skill.icon}></i>
-                  ) : (
-                    <i style={{ fontSize: '2rem' }}>{skill.icon}</i>
-                  )}
-                </div>
+            <div key={skill.name} className="services-item">
+              <div className="skill-card">
+                <h4>{skill.name}</h4>
+                {skill.icon.includes('fa') ? (
+                  <i className={skill.icon} />
+                ) : (
+                  <i className="skill-card__emoji" aria-hidden>
+                    {skill.icon}
+                  </i>
+                )}
               </div>
             </div>
           ))}

@@ -6,7 +6,7 @@ Personal portfolio — React, TypeScript, Vite.
 
 ## Stack
 
-- React (TS) + Vite; Bootstrap / Font Awesome / Unicons (CDN)
+- React (TS) + Vite; layered native CSS (OKLCH tokens) · Font Awesome / Unicons (CDN)
 - Contact: EmailJS · Map: Google embed
 
 ## Quick start
@@ -31,7 +31,7 @@ Open http://localhost:5173
 
 - **Projects, skills, timeline:** [`src/data/portfolio.ts`](src/data/portfolio.ts)
 - **Sections / copy:** [`src/components/`](src/components/)
-- **Theme:** [`src/App.css`](src/App.css), [`src/index.css`](src/index.css)
+- **Theme:** [`src/styles/theme.css`](src/styles/theme.css), [`src/index.css`](src/index.css)
 
 ## GitHub Pages deploy
 

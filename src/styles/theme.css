@@ -1,0 +1,89 @@
+/* Design tokens — OKLCH, 8px rhythm (spacing scale in rem) */
+:root {
+  color-scheme: light;
+
+  /* Primary violet (~#7c3aed) */
+  --color-primary-600: oklch(52% 0.24 293);
+  --color-primary-700: oklch(from var(--color-primary-600) calc(l * 0.88) c h);
+  --color-primary-500: oklch(from var(--color-primary-600) calc(l * 1.08) c h);
+
+  /* Surfaces */
+  --color-surface-0: oklch(100% 0 0);
+  --color-surface-50: oklch(98% 0.005 260);
+  --color-surface-100: oklch(96% 0.01 260);
+
+  /* Text */
+  --color-text-default: oklch(28% 0.03 260);
+  --color-text-muted: oklch(48% 0.02 260);
+  --color-text-subtle: oklch(55% 0.02 260);
+
+  /* Borders */
+  --color-border-default: oklch(90% 0.01 260);
+
+  /* Focus ring */
+  --color-focus-ring: oklch(from var(--color-primary-600) l c h / 18%);
+
+  /* Semantic danger (forms) */
+  --color-danger-600: oklch(50% 0.2 25);
+  --color-danger-700: oklch(40% 0.18 25);
+  --color-danger-bg: oklch(95% 0.04 25);
+
+  /* Legacy aliases — components migrate to role tokens above */
+  --primary-color: var(--color-primary-600);
+  --white-color: var(--color-surface-0);
+  --dark-color: var(--color-text-default);
+  --text-color: var(--color-text-default);
+  --menu-bg-color: var(--color-surface-0);
+  --footer-bg-color: var(--color-surface-50);
+  --border-color: var(--color-border-default);
+
+  /* Spacing — 8px grid (1 = 8px at default 16px root) */
+  --spacing-1: 0.5rem;
+  --spacing-2: 1rem;
+  --spacing-3: 1.5rem;
+  --spacing-4: 2rem;
+  --spacing-5: 2.5rem;
+  --spacing-6: 3rem;
+  --spacing-8: 4rem;
+  --spacing-10: 5rem;
+
+  /* Radii */
+  --radius-sm: 0.3125rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1.25rem;
+  --radius-pill: 624.9375rem;
+
+  /* Shadows */
+  --shadow-nav: 0 0.125rem 0.625rem oklch(0% 0 0 / 30%);
+  --shadow-card: 0 0.625rem 1.875rem oklch(from var(--color-primary-600) l c h / 20%);
+  --shadow-card-hover: 0 0.625rem 1.875rem oklch(from var(--color-primary-600) l c h / 25%);
+  --shadow-btn: 0 0.3125rem 0.9375rem oklch(from var(--color-primary-600) l c h / 40%);
+  --shadow-image: 0 0.625rem 1.875rem oklch(0% 0 0 / 50%);
+
+  /* Typography — fluid scale (modular ~1.28) */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --body-font-family: 'Plain', system-ui, sans-serif;
+
+  --font-size-fluid-1: clamp(0.875rem, 0.82rem + 0.15vw, 1rem);
+  --font-size-fluid-2: clamp(1rem, 0.92rem + 0.28vw, 1.125rem);
+  --font-size-fluid-3: clamp(1.25rem, 1.05rem + 0.65vw, 1.5rem);
+  --font-size-fluid-4: clamp(1.5rem, 1.15rem + 1.1vw, 2rem);
+  --font-size-fluid-5: clamp(1.75rem, 1.2rem + 1.75vw, 2.6rem);
+  --font-size-fluid-6: clamp(2rem, 1.35rem + 2.5vw, 3.8rem);
+
+  --h1-font-size: var(--font-size-fluid-6);
+  --h2-font-size: var(--font-size-fluid-5);
+  --p-font-size: var(--font-size-fluid-2);
+  --btn-font-size: var(--font-size-fluid-1);
+  --menu-font-size: var(--font-size-fluid-1);
+  --copyright-font-size: 0.875rem;
+
+  /* Layout */
+  --header-offset: clamp(4rem, 12vw, 5rem);
+  --container-max: 75rem;
+  --container-inline: clamp(var(--spacing-2), 2vw + 0.5rem, var(--spacing-3));
+}

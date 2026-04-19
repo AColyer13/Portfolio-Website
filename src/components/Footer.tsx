@@ -1,14 +1,10 @@
 export function Footer() {
   return (
-    <footer className="footer py-5" id="footer">
+    <footer className="footer section-block" id="footer">
       <div className="container">
-        <div className="row">
-          <div className="col-lg-12 col-12">
-            <p className="copyright-text text-center">
-              &copy; {new Date().getFullYear()} Adam Colyer. All rights reserved.
-            </p>
-          </div>
-        </div>
+        <p className="copyright-text footer__text">
+          &copy; {new Date().getFullYear()} Adam Colyer. All rights reserved.
+        </p>
       </div>
     </footer>
   )

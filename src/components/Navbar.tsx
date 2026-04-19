@@ -24,30 +24,32 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <header>
-      <nav className="navbar navbar-expand-md navbar-light headroom headroom--top headroom--not-bottom sticky-top">
-        <div className="container">
+    <header className="site-header">
+      <nav className="site-nav" aria-label="Primary">
+        <div className="container site-nav__inner">
           <button
-            className="navbar-toggler"
             type="button"
+            className="site-nav__toggle"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-controls="navbarNav"
+            aria-controls="site-nav-menu"
             aria-expanded={isMenuOpen}
-            aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="visually-hidden">Toggle navigation</span>
+            <span className="site-nav__toggle-icon" aria-hidden />
           </button>
 
           <div
-            className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`}
-            id="navbarNav"
+            className={`site-nav__panel ${isMenuOpen ? 'is-open' : ''}`}
+            id="site-nav-menu"
           >
-            <ul className="navbar-nav mx-auto">
+            <ul className="site-nav__list">
               {navItems.map((item) => (
-                <li key={item.section} className="nav-item">
+                <li key={item.section}>
                   <a
                     href={`${base}#${item.hash}`}
-                    className={`nav-link ${activeSection === item.section ? 'active' : ''}`}
+                    className={`site-nav__link ${
+                      activeSection === item.section ? 'active' : ''
+                    }`}
                     onClick={() => {
                       onNavigate(item.section)
                       setIsMenuOpen(false)

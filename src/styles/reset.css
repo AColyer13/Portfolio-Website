@@ -1,0 +1,6 @@
+/* Minimal reset — box model only; typography in base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
