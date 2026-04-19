@@ -1,7 +1,8 @@
-@layer reset, base, theme, components, utilities;
+@layer reset, base, theme, components, utilities, overrides;
 
 @import './styles/reset.css' layer(reset);
 @import './styles/theme.css' layer(theme);
 @import './styles/base.css' layer(base);
 @import './styles/components.css' layer(components);
 @import './styles/utilities.css' layer(utilities);
+@import './styles/overrides.css' layer(overrides);

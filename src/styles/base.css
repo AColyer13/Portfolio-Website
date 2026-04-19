@@ -75,7 +75,7 @@ a:hover {
 /* Selection */
 ::selection {
   background: var(--color-primary-600);
-  color: var(--color-surface-0);
+  color: var(--color-text-on-primary);
 }
 
 /* Scrollbar — tokenized */

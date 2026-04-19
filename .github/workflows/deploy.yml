@@ -49,6 +49,11 @@ jobs:
             exit 1
           fi
 
+      - name: Accessibility (axe)
+        run: VITE_BASE_PATH=/Portfolio-Website/ node scripts/axe-preview.mjs
+        env:
+          VITE_BASE_PATH: /Portfolio-Website/
+
       - name: Remove previous Pages output at repo root
         run: rm -rf assets images files
 

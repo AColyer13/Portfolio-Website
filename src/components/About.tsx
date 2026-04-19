@@ -31,7 +31,7 @@ export function About() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span className="uil uil-file-alt" aria-hidden />
+                <span className="fa-solid fa-file-alt" aria-hidden />
                 Download Resume
               </a>
               <a href={`${base}#contact`} className="custom-btn custom-btn-bg">

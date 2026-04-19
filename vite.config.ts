@@ -35,6 +35,27 @@ export default defineConfig(({ mode }) => {
           )
         },
       },
+      {
+        name: 'html-csp-production',
+        transformIndexHtml(html, ctx) {
+          if (ctx.server) return html
+          const csp = [
+            "default-src 'self'",
+            "script-src 'self'",
+            "style-src 'self'",
+            "font-src 'self' data:",
+            "img-src 'self' data: https: blob:",
+            "connect-src 'self' https://api.emailjs.com",
+            "frame-src https://www.google.com https://www.google.com/maps https://maps.google.com https://www.gstatic.com",
+            "base-uri 'self'",
+            "form-action 'self'",
+          ].join('; ')
+          return html.replace(
+            '<head>',
+            `<head>\n    <meta http-equiv="Content-Security-Policy" content="${csp}" />`,
+          )
+        },
+      },
     ],
     build: {
       // Resolved against projectRoot (repo root), not Vite `root` (src/). Otherwise output

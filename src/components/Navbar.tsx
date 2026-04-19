@@ -1,4 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import {
+  applyTheme,
+  cycleTheme,
+  persistTheme,
+  themeButtonLabel,
+  type Theme,
+} from '../theme/colorScheme'
 
 interface NavbarProps {
   activeSection: string
@@ -6,6 +13,12 @@ interface NavbarProps {
 }
 
 const base = import.meta.env.BASE_URL
+
+function readThemeFromDocument(): Theme {
+  const t = document.documentElement.getAttribute('data-theme')
+  if (t === 'light' || t === 'dark' || t === 'system') return t
+  return 'system'
+}
 
 const navItems = [
   { section: 'about', hash: 'about', label: 'About', dataHover: 'About' },
@@ -20,23 +33,45 @@ const navItems = [
   { section: 'contact', hash: 'contact', label: 'Contact', dataHover: 'Contact' },
 ] as const
 
+function themeIconClass(theme: Theme): string {
+  if (theme === 'system') return 'fa-solid fa-circle-half-stroke'
+  if (theme === 'light') return 'fa-solid fa-sun'
+  return 'fa-solid fa-moon'
+}
+
 export function Navbar({ activeSection, onNavigate }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [theme, setTheme] = useState<Theme>(readThemeFromDocument)
+
+  useEffect(() => {
+    applyTheme(theme)
+    persistTheme(theme)
+  }, [theme])
 
   return (
     <header className="site-header">
       <nav className="site-nav" aria-label="Primary">
         <div className="container site-nav__inner">
-          <button
-            type="button"
-            className="site-nav__toggle"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-controls="site-nav-menu"
-            aria-expanded={isMenuOpen}
-          >
-            <span className="visually-hidden">Toggle navigation</span>
-            <span className="site-nav__toggle-icon" aria-hidden />
-          </button>
+          <div className="site-nav__toolbar">
+            <button
+              type="button"
+              className="theme-toggle"
+              onClick={() => setTheme(cycleTheme)}
+              aria-label={themeButtonLabel(theme)}
+            >
+              <i className={themeIconClass(theme)} aria-hidden />
+            </button>
+            <button
+              type="button"
+              className="site-nav__toggle"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-controls="site-nav-menu"
+              aria-expanded={isMenuOpen}
+            >
+              <span className="visually-hidden">Toggle navigation</span>
+              <span className="site-nav__toggle-icon" aria-hidden />
+            </button>
+          </div>
 
           <div
             className={`site-nav__panel ${isMenuOpen ? 'is-open' : ''}`}
@@ -66,3 +101,4 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
     </header>
   )
 }
+

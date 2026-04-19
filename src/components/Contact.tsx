@@ -125,7 +125,6 @@ export function Contact() {
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90444.17968810473!2d-93.44258962458554!3d44.89525237382178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87f6213ace55a039%3A0xcdaf9c3796fa2779!2sEdina%2C%20MN!5e0!3m2!1sen!2sus!4v1764804107343!5m2!1sen!2sus"
                 width="100%"
                 height={400}
-                style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 title="Map of Edina, MN"
@@ -146,7 +145,7 @@ export function Contact() {
                     href="https://github.com/acolyer13"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="uil fab fa-github"
+                    className="fab fa-github"
                     aria-label="GitHub profile"
                   />
                 </li>
@@ -155,7 +154,7 @@ export function Contact() {
                     href="https://www.linkedin.com/in/colyeradam/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="uil fab fa-linkedin"
+                    className="fab fa-linkedin"
                     aria-label="LinkedIn profile"
                   />
                 </li>
