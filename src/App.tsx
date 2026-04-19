@@ -30,17 +30,26 @@ function syncLocationHashWithActiveSection(
   history.replaceState(window.history.state, '', path)
 }
 
-function getActiveSectionId(header: HTMLElement): (typeof SECTION_IDS)[number] {
-  const scrollEl = document.documentElement
-  // When the last section is shorter than the viewport, its top may never move above
-  // the header threshold at max scroll, so the loop would keep an earlier section.
-  if (
-    scrollEl.scrollHeight > window.innerHeight &&
-    window.scrollY + window.innerHeight >= scrollEl.scrollHeight - 2
-  ) {
-    return SECTION_IDS[SECTION_IDS.length - 1]
+/**
+ * Jump to an in-page anchor without animating. Global `html { scroll-behavior: smooth }`
+ * would otherwise make `scrollIntoView` asynchronous and let the scroll handler overwrite
+ * the URL hash while the scroll is still mid-animation.
+ */
+function scrollElementIntoViewInstant(el: HTMLElement): void {
+  const html = document.documentElement
+  const prev = html.style.scrollBehavior
+  html.style.scrollBehavior = 'auto'
+  try {
+    el.scrollIntoView({ block: 'start' })
+  } finally {
+    html.style.scrollBehavior = prev
   }
+}
 
+/** Legacy “section top crossed below header” rule — used only as a fallback. */
+function getActiveSectionIdFallbackLine(
+  header: HTMLElement,
+): (typeof SECTION_IDS)[number] {
   const line = window.scrollY + header.offsetHeight
   let active: (typeof SECTION_IDS)[number] = 'about'
   for (const id of SECTION_IDS) {
@@ -52,6 +61,51 @@ function getActiveSectionId(header: HTMLElement): (typeof SECTION_IDS)[number] {
     }
   }
   return active
+}
+
+/**
+ * Pick the section with the largest visible area in the viewport below the fixed header.
+ * This matches how users read the page better than “last section whose top passed a line”,
+ * which breaks on very tall blocks (e.g. Experiences still “active” while viewing Projects).
+ */
+function getActiveSectionId(header: HTMLElement): (typeof SECTION_IDS)[number] {
+  const scrollEl = document.documentElement
+  // When the last section is shorter than the viewport, its top may never move above
+  // the header threshold at max scroll, so the loop would keep an earlier section.
+  if (
+    scrollEl.scrollHeight > window.innerHeight &&
+    window.scrollY + window.innerHeight >= scrollEl.scrollHeight - 2
+  ) {
+    return SECTION_IDS[SECTION_IDS.length - 1]
+  }
+
+  const headerBottom = Math.max(0, header.getBoundingClientRect().bottom)
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+
+  let best: (typeof SECTION_IDS)[number] = 'about'
+  let bestArea = -1
+
+  for (const id of SECTION_IDS) {
+    const el = document.getElementById(id)
+    if (!el) continue
+    const r = el.getBoundingClientRect()
+    const y0 = Math.max(r.top, headerBottom)
+    const y1 = Math.min(r.bottom, vh)
+    const x0 = Math.max(r.left, 0)
+    const x1 = Math.min(r.right, vw)
+    const area = Math.max(0, y1 - y0) * Math.max(0, x1 - x0)
+    // Prefer the later section in the page when areas tie (typical at section boundaries).
+    if (area >= bestArea) {
+      bestArea = area
+      best = id
+    }
+  }
+
+  if (bestArea < 1) {
+    return getActiveSectionIdFallbackLine(header)
+  }
+  return best
 }
 
 /** Ignore sub-pixel / overscroll jitter so the header doesn’t flicker. */
@@ -84,7 +138,8 @@ function App() {
 
     const hash = window.location.hash.replace(/^#/, '')
     if (hash) {
-      document.getElementById(hash)?.scrollIntoView({ block: 'start' })
+      const target = document.getElementById(hash)
+      if (target) scrollElementIntoViewInstant(target)
     }
 
     // Sync scroll spy after layout + optional hash jump; must run in this layout effect.
