@@ -44,6 +44,13 @@ function getActiveSectionId(header: HTMLElement): (typeof SECTION_IDS)[number] {
   return active
 }
 
+/** Ignore sub-pixel / overscroll jitter so the header doesn’t flicker at the document bottom. */
+const SCROLL_DIR_THRESHOLD_PX = 6
+/** When this close to the max scroll position, require a larger upward move to reveal the nav. */
+const NEAR_BOTTOM_PX = 56
+/** Upward scroll distance (px) required to show the bar when near the bottom — filters rubber-band noise. */
+const SHOW_HEADER_UP_NEAR_BOTTOM_PX = 22
+
 function App() {
   const [activeSection, setActiveSection] = useState<string>('about')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -94,14 +101,31 @@ function App() {
       const y = window.scrollY
       const last = lastScrollYRef.current
       const navH = header.offsetHeight
+      const delta = y - last
+
+      const scrollEl = document.documentElement
+      const maxScrollY = Math.max(
+        0,
+        scrollEl.scrollHeight - window.innerHeight,
+      )
+      const nearBottom = y >= maxScrollY - NEAR_BOTTOM_PX
 
       if (mobileMenuOpen) {
         setHeaderScrollHidden(false)
       } else if (y <= 0) {
         setHeaderScrollHidden(false)
-      } else if (y < last) {
+      } else if (nearBottom) {
+        // At the end of the page, tiny “up” movements from overscroll/bounce read as scroll-up — don’t reveal.
+        if (delta <= -SHOW_HEADER_UP_NEAR_BOTTOM_PX) {
+          setHeaderScrollHidden(false)
+        }
+        // Deliberate scroll down still hides (when not pinned at max — e.g. short last section).
+        if (delta >= SCROLL_DIR_THRESHOLD_PX && y > navH && y < maxScrollY - 2) {
+          setHeaderScrollHidden(true)
+        }
+      } else if (delta <= -SCROLL_DIR_THRESHOLD_PX) {
         setHeaderScrollHidden(false)
-      } else if (y > last && y > navH) {
+      } else if (delta >= SCROLL_DIR_THRESHOLD_PX && y > navH) {
         setHeaderScrollHidden(true)
       }
 
