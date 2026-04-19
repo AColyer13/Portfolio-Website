@@ -75,7 +75,7 @@
   --copyright-font-size: 0.875rem;
 
   /* Anchor scroll offset; App.tsx sets this to .site-header height so #about matches first paint */
-  --header-offset: calc(var(--spacing-3) * 2 + 2.75rem);
+  --header-offset: calc(var(--spacing-2) * 2 + 2.5rem);
   /* Vertical padding between section bands — between tight (spacing-6) and airy (spacing-10) */
   --section-padding-y: var(--spacing-8);
   /* Hero: a bit less than section bands so the nav→headline gap stays proportional */

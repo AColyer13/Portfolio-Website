@@ -73,7 +73,7 @@
 }
 
 .site-nav {
-  padding-block: var(--spacing-3);
+  padding-block: var(--spacing-2);
   background-color: var(--color-surface-0);
   box-shadow: var(--shadow-nav);
 }
@@ -114,8 +114,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 2.75rem;
-  min-height: 2.75rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
   padding: var(--spacing-1);
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-md);
@@ -139,8 +139,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 2.75rem;
-  min-height: 2.75rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
   padding: var(--spacing-1);
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-md);
@@ -213,8 +213,8 @@
 
 .site-nav__link {
   display: block;
-  min-height: 2.75rem;
-  padding: var(--spacing-2);
+  min-height: 2.5rem;
+  padding: var(--spacing-1) var(--spacing-2);
   color: var(--color-text-default);
   font-size: var(--menu-font-size);
   position: relative;
