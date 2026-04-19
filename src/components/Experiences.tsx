@@ -16,11 +16,9 @@ export function Experiences() {
                   <span>{item.year}</span>
                 </div>
                 <div className="timeline-info">
-                  <h3>
-                    <span>{item.title}</span>
-                    <small>{item.company}</small>
-                  </h3>
-                  <p>{item.description}</p>
+                  <h3 className="timeline-info__title">{item.title}</h3>
+                  <p className="timeline-info__company">{item.company}</p>
+                  <p className="timeline-info__body">{item.description}</p>
                 </div>
               </div>
             ))}
