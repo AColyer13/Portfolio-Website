@@ -21,6 +21,16 @@ function isSectionId(id: string): id is (typeof SECTION_IDS)[number] {
 }
 
 function getActiveSectionId(header: HTMLElement): (typeof SECTION_IDS)[number] {
+  const scrollEl = document.documentElement
+  // When the last section is shorter than the viewport, its top may never move above
+  // the header threshold at max scroll, so the loop would keep an earlier section.
+  if (
+    scrollEl.scrollHeight > window.innerHeight &&
+    window.scrollY + window.innerHeight >= scrollEl.scrollHeight - 2
+  ) {
+    return SECTION_IDS[SECTION_IDS.length - 1]
+  }
+
   const line = window.scrollY + header.offsetHeight
   let active: (typeof SECTION_IDS)[number] = 'about'
   for (const id of SECTION_IDS) {
