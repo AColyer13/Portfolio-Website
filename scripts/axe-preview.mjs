@@ -13,9 +13,13 @@ const root = path.join(__dirname, '..')
 /** Avoid clashing with a manual `vite preview` on the default port. */
 const port = 4187
 const base = (process.env.VITE_BASE_PATH ?? '/Portfolio-Website/').replace(/\/?$/, '/')
-const url = `http://127.0.0.1:${port}${base}`
+/**
+ * Use `localhost` (not 127.0.0.1): Vite binds to `localhost` which may resolve to IPv6 (::1);
+ * polling IPv4 only fails on many Linux/CI runners while the server is up.
+ */
+const url = `http://localhost:${port}${base}`
 
-function waitForHttp(u, timeoutMs = 30000) {
+function waitForHttp(u, timeoutMs = 90000) {
   const start = Date.now()
   return new Promise((resolve, reject) => {
     const poll = () => {
@@ -28,18 +32,26 @@ function waitForHttp(u, timeoutMs = 30000) {
           if (Date.now() - start > timeoutMs) {
             reject(new Error(`Timeout waiting for ${u}`))
           } else {
-            setTimeout(poll, 250)
+            setTimeout(poll, 300)
           }
         })
     }
-    poll()
+    setTimeout(poll, 400)
   })
 }
 
-const preview = spawn('npx', ['vite', 'preview', '--port', String(port), '--strictPort'], {
+const viteBin = path.join(root, 'node_modules', 'vite', 'bin', 'vite.js')
+const preview = spawn(process.execPath, [
+  viteBin,
+  'preview',
+  '--port',
+  String(port),
+  '--strictPort',
+  '--host',
+  'localhost',
+], {
   cwd: root,
   stdio: 'inherit',
-  shell: true,
   env: { ...process.env },
 })
 
