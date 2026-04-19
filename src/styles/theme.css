@@ -87,70 +87,74 @@
   --container-inline: clamp(var(--spacing-2), 2vw + 0.5rem, var(--spacing-3));
 }
 
-/* Dark palette — before JS runs, match OS when data-theme is not set yet */
+/*
+ * Dark palette — hex/sRGB (not OKLCH) so:
+ * - `prefers-color-scheme: dark` paints a real dark page even when extensions read computed colors.
+ * - Dark Reader / similar tools can classify backgrounds without OKLCH-only variable chains.
+ */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
+  :root:not([data-theme]),
+  :root[data-theme='system'] {
     color-scheme: dark;
 
-    --color-primary-600: oklch(62% 0.2 293);
-    --color-primary-700: oklch(from var(--color-primary-600) calc(l * 0.9) c h);
-    --color-primary-500: oklch(from var(--color-primary-600) calc(l * 1.06) c h);
+    --color-primary-600: #a855f7;
+    --color-primary-700: #9333ea;
+    --color-primary-500: #c084fc;
 
-    --color-surface-0: oklch(18% 0.02 260);
-    --color-surface-50: oklch(22% 0.022 260);
-    --color-surface-100: oklch(26% 0.024 260);
+    --color-surface-0: #18181c;
+    --color-surface-50: #1f1f26;
+    --color-surface-100: #27272f;
 
-    --color-text-default: oklch(92% 0.02 260);
-    --color-text-muted: oklch(72% 0.02 260);
-    --color-text-subtle: oklch(62% 0.02 260);
-    --color-text-on-primary: oklch(99% 0.005 260);
+    --color-text-default: #e4e4e7;
+    --color-text-muted: #a1a1aa;
+    --color-text-subtle: #8e8e96;
+    --color-text-on-primary: #fafafa;
 
-    --color-border-default: oklch(38% 0.02 260);
+    --color-border-default: #3f3f46;
 
-    --color-focus-ring: oklch(from var(--color-primary-600) l c h / 35%);
+    --color-focus-ring: rgb(168 85 247 / 35%);
 
-    --color-danger-600: oklch(62% 0.18 25);
-    --color-danger-700: oklch(72% 0.12 25);
-    --color-danger-bg: oklch(28% 0.06 25);
+    --color-danger-600: #f87171;
+    --color-danger-700: #fca5a5;
+    --color-danger-bg: #3f1e1e;
 
-    --shadow-nav: 0 0.125rem 0.625rem oklch(0% 0 0 / 45%);
-    --shadow-card: 0 0.625rem 1.875rem oklch(0% 0 0 / 35%);
-    --shadow-card-hover: 0 0.625rem 1.875rem oklch(from var(--color-primary-600) l c h / 28%);
-    --shadow-btn: 0 0.3125rem 0.9375rem oklch(from var(--color-primary-600) l c h / 45%);
-    --shadow-image: 0 0.625rem 1.875rem oklch(0% 0 0 / 55%);
+    --shadow-nav: 0 0.125rem 0.625rem rgb(0 0 0 / 45%);
+    --shadow-card: 0 0.625rem 1.875rem rgb(0 0 0 / 35%);
+    --shadow-card-hover: 0 0.625rem 1.875rem rgb(168 85 247 / 28%);
+    --shadow-btn: 0 0.3125rem 0.9375rem rgb(168 85 247 / 45%);
+    --shadow-image: 0 0.625rem 1.875rem rgb(0 0 0 / 55%);
   }
 }
 
-/* Explicit dark */
 :root[data-theme='dark'] {
   color-scheme: dark;
 
-  --color-primary-600: oklch(62% 0.2 293);
-  --color-primary-700: oklch(from var(--color-primary-600) calc(l * 0.9) c h);
-  --color-primary-500: oklch(from var(--color-primary-600) calc(l * 1.06) c h);
+  --color-primary-600: #a855f7;
+  --color-primary-700: #9333ea;
+  --color-primary-500: #c084fc;
 
-  --color-surface-0: oklch(18% 0.02 260);
-  --color-surface-50: oklch(22% 0.022 260);
-  --color-surface-100: oklch(26% 0.024 260);
+  --color-surface-0: #18181c;
+  --color-surface-50: #1f1f26;
+  --color-surface-100: #27272f;
 
-  --color-text-default: oklch(92% 0.02 260);
-  --color-text-muted: oklch(72% 0.02 260);
-  --color-text-subtle: oklch(62% 0.02 260);
-  --color-text-on-primary: oklch(99% 0.005 260);
+  --color-text-default: #e4e4e7;
+  --color-text-muted: #a1a1aa;
+  --color-text-subtle: #8e8e96;
+  --color-text-on-primary: #fafafa;
 
-  --color-border-default: oklch(38% 0.02 260);
+  --color-border-default: #3f3f46;
 
-  --color-focus-ring: oklch(from var(--color-primary-600) l c h / 35%);
+  --color-focus-ring: rgb(168 85 247 / 35%);
 
-  --color-danger-600: oklch(62% 0.18 25);
-  --color-danger-700: oklch(72% 0.12 25);
-  --color-danger-bg: oklch(28% 0.06 25);
+  --color-danger-600: #f87171;
+  --color-danger-700: #fca5a5;
+  --color-danger-bg: #3f1e1e;
 
-  --shadow-nav: 0 0.125rem 0.625rem oklch(0% 0 0 / 45%);
-  --shadow-card: 0 0.625rem 1.875rem oklch(0% 0 0 / 35%);
-  --shadow-card-hover: 0 0.625rem 1.875rem oklch(from var(--color-primary-600) l c h / 28%);
-  --shadow-btn: 0 0.3125rem 0.9375rem oklch(from var(--color-primary-600) l c h / 45%);
-  --shadow-image: 0 0.625rem 1.875rem oklch(0% 0 0 / 55%);
+  --shadow-nav: 0 0.125rem 0.625rem rgb(0 0 0 / 45%);
+  --shadow-card: 0 0.625rem 1.875rem rgb(0 0 0 / 35%);
+  --shadow-card-hover: 0 0.625rem 1.875rem rgb(168 85 247 / 28%);
+  --shadow-btn: 0 0.3125rem 0.9375rem rgb(168 85 247 / 45%);
+  --shadow-image: 0 0.625rem 1.875rem rgb(0 0 0 / 55%);
 }
 
 /* Force light while OS is dark */

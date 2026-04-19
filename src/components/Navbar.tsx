@@ -3,6 +3,7 @@ import {
   applyTheme,
   loadStoredPreference,
   persistPreference,
+  preferenceToHtmlTheme,
   type ResolvedTheme,
   type ThemePreference,
 } from '../theme/colorScheme'
@@ -23,7 +24,7 @@ function cyclePreference(p: ThemePreference): ThemePreference {
   return 'light'
 }
 
-/** When preference is system, re-resolve when OS appearance changes (Navbar icon + applyTheme). */
+/** When preference is system, re-resolve when OS appearance changes (Navbar icon). */
 function useResolvedTheme(preference: ThemePreference): ResolvedTheme {
   const [osDark, setOsDark] = useState(
     () =>
@@ -108,8 +109,8 @@ export function Navbar({
   const effectiveTheme = useResolvedTheme(preference)
 
   useEffect(() => {
-    applyTheme(effectiveTheme)
-  }, [effectiveTheme])
+    applyTheme(preferenceToHtmlTheme(preference))
+  }, [preference])
 
   useEffect(() => {
     persistPreference(preference)

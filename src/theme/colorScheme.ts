@@ -1,9 +1,15 @@
-export const THEME_STORAGE_KEY = 'portfolio-color-scheme'
+/** Bumped so older “light only” saves don’t stick forever. */
+export const THEME_STORAGE_KEY = 'portfolio-color-scheme-v2'
+
+const LEGACY_THEME_STORAGE_KEY = 'portfolio-color-scheme'
 
 /** What we persist: explicit light/dark, or follow OS */
 export type ThemePreference = 'light' | 'dark' | 'system'
 
-/** Resolved value applied to `data-theme` */
+/** Shown on <html data-theme> — `system` is styled via CSS `prefers-color-scheme`. */
+export type HtmlTheme = 'light' | 'dark' | 'system'
+
+/** Resolved light/dark for icons / labels only */
 export type ResolvedTheme = 'light' | 'dark'
 
 function prefersDark(): boolean {
@@ -15,14 +21,29 @@ export function resolveTheme(pref: ThemePreference): ResolvedTheme {
   return pref
 }
 
-export function applyTheme(theme: ResolvedTheme) {
+export function preferenceToHtmlTheme(pref: ThemePreference): HtmlTheme {
+  if (pref === 'system') return 'system'
+  return pref
+}
+
+export function applyTheme(theme: HtmlTheme) {
   document.documentElement.setAttribute('data-theme', theme)
 }
 
 export function loadStoredPreference(): ThemePreference | null {
   try {
-    const v = localStorage.getItem(THEME_STORAGE_KEY)
-    if (v === 'light' || v === 'dark' || v === 'system') return v
+    const v2 = localStorage.getItem(THEME_STORAGE_KEY)
+    if (v2 === 'light' || v2 === 'dark' || v2 === 'system') return v2
+
+    const v1 = localStorage.getItem(LEGACY_THEME_STORAGE_KEY)
+    if (v1 === 'dark' || v1 === 'system') {
+      localStorage.setItem(THEME_STORAGE_KEY, v1)
+      return v1
+    }
+    if (v1 === 'light') {
+      localStorage.setItem(THEME_STORAGE_KEY, 'system')
+      return 'system'
+    }
   } catch {
     /* ignore */
   }
@@ -37,20 +58,8 @@ export function persistPreference(pref: ThemePreference) {
   }
 }
 
-/**
- * Apply stored or default preference and keep `data-theme` in sync when the OS scheme
- * changes while preference is `system`. (Navbar still tracks `prefers-color-scheme` for UI.)
- */
+/** Apply stored preference. OS changes for `system` are handled in CSS (no extra listeners). */
 export function initTheme() {
   const pref = loadStoredPreference() ?? 'system'
-  applyTheme(resolveTheme(pref))
-
-  if (typeof window === 'undefined') return
-
-  const mq = window.matchMedia('(prefers-color-scheme: dark)')
-  const onOsSchemeChange = () => {
-    const p = loadStoredPreference() ?? 'system'
-    if (p === 'system') applyTheme(resolveTheme('system'))
-  }
-  mq.addEventListener('change', onOsSchemeChange)
+  applyTheme(preferenceToHtmlTheme(pref))
 }

@@ -1046,6 +1046,12 @@
   color-scheme: dark;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root[data-theme='system'] .contact-form .form-control:not(.submit-btn) {
+    color-scheme: dark;
+  }
+}
+
 @container contact (min-width: 62rem) {
   .form-row-two {
     grid-template-columns: 1fr 1fr;
