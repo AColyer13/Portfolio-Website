@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { About } from './components/About'
 import { Contact } from './components/Contact'
 import { Experiences } from './components/Experiences'
@@ -6,8 +6,42 @@ import { Footer } from './components/Footer'
 import { Navbar } from './components/Navbar'
 import { Projects } from './components/Projects'
 import { Skills } from './components/Skills'
+
+/** DOM order — must match section `id`s and Navbar `section` keys */
+const SECTION_IDS = [
+  'about',
+  'skills',
+  'experience',
+  'projects',
+  'contact',
+] as const
+
+function isSectionId(id: string): id is (typeof SECTION_IDS)[number] {
+  return (SECTION_IDS as readonly string[]).includes(id)
+}
+
+function getActiveSectionId(header: HTMLElement): (typeof SECTION_IDS)[number] {
+  const line = window.scrollY + header.offsetHeight
+  let active: (typeof SECTION_IDS)[number] = 'about'
+  for (const id of SECTION_IDS) {
+    const el = document.getElementById(id)
+    if (!el) continue
+    const top = window.scrollY + el.getBoundingClientRect().top
+    if (top <= line + 2) {
+      active = id
+    }
+  }
+  return active
+}
+
+/** Matches `components.css` mobile nav breakpoint (below inline nav layout). */
+const MOBILE_NAV_MQ = '(max-width: 47.9375rem)'
+
 function App() {
-  const [activeSection, setActiveSection] = useState('about')
+  const [activeSection, setActiveSection] = useState<string>('about')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [headerScrollHidden, setHeaderScrollHidden] = useState(false)
+  const lastScrollYRef = useRef(0)
 
   useLayoutEffect(() => {
     const header = document.querySelector<HTMLElement>('.site-header')
@@ -22,14 +56,18 @@ function App() {
 
     syncOffset()
 
-    const id = window.location.hash.replace(/^#/, '')
-    if (id) {
-      requestAnimationFrame(() => {
-        document.getElementById(id)?.scrollIntoView({ block: 'start' })
-      })
+    const hash = window.location.hash.replace(/^#/, '')
+    if (hash && isSectionId(hash)) {
+      document.getElementById(hash)?.scrollIntoView({ block: 'start' })
     }
 
-    const observer = new ResizeObserver(syncOffset)
+    setActiveSection(getActiveSectionId(header))
+    lastScrollYRef.current = window.scrollY
+
+    const observer = new ResizeObserver(() => {
+      syncOffset()
+      setActiveSection(getActiveSectionId(header))
+    })
     observer.observe(header)
     window.addEventListener('resize', syncOffset)
 
@@ -39,9 +77,63 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    const header = document.querySelector<HTMLElement>('.site-header')
+    if (!header) return
+
+    const isMobileNav = () => window.matchMedia(MOBILE_NAV_MQ).matches
+
+    const update = () => {
+      setActiveSection(getActiveSectionId(header))
+
+      const y = window.scrollY
+      const last = lastScrollYRef.current
+      const navH = header.offsetHeight
+      const mobile = isMobileNav()
+
+      if (!mobile || mobileMenuOpen) {
+        setHeaderScrollHidden(false)
+      } else if (y <= 0) {
+        setHeaderScrollHidden(false)
+      } else if (y < last) {
+        setHeaderScrollHidden(false)
+      } else if (y > last && y > navH) {
+        setHeaderScrollHidden(true)
+      }
+
+      lastScrollYRef.current = y
+    }
+
+    let ticking = false
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(() => {
+          update()
+          ticking = false
+        })
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', update)
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', update)
+    }
+  }, [mobileMenuOpen])
+
   return (
-    <div className="App">
-      <Navbar activeSection={activeSection} onNavigate={setActiveSection} />
+    <div
+      className={`App${headerScrollHidden ? ' app--header-hidden' : ''}`}
+    >
+      <Navbar
+        activeSection={activeSection}
+        onNavigate={setActiveSection}
+        headerScrollHidden={headerScrollHidden}
+        onMenuOpenChange={setMobileMenuOpen}
+      />
       <About />
       <Skills />
       <Experiences />

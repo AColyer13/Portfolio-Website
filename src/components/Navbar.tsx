@@ -9,6 +9,9 @@ import {
 interface NavbarProps {
   activeSection: string
   onNavigate: (section: string) => void
+  /** Mobile: hide-on-scroll-down (class on header, driven by App) */
+  headerScrollHidden?: boolean
+  onMenuOpenChange?: (open: boolean) => void
 }
 
 const base = import.meta.env.BASE_URL
@@ -69,7 +72,12 @@ const navItems = [
   { section: 'contact', hash: 'contact', label: 'Contact', dataHover: 'Contact' },
 ] as const
 
-export function Navbar({ activeSection, onNavigate }: NavbarProps) {
+export function Navbar({
+  activeSection,
+  onNavigate,
+  headerScrollHidden = false,
+  onMenuOpenChange,
+}: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [theme, setTheme] = useState<Theme>(readThemeFromDocument)
 
@@ -79,7 +87,9 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
   }, [theme])
 
   return (
-    <header className="site-header">
+    <header
+      className={`site-header${headerScrollHidden ? ' site-header--scroll-hidden' : ''}`}
+    >
       <nav className="site-nav" aria-label="Primary">
         <div className="container site-nav__inner">
           <div className="site-nav__toolbar">
@@ -105,7 +115,13 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
             <button
               type="button"
               className="site-nav__toggle"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() =>
+                setIsMenuOpen((open) => {
+                  const next = !open
+                  onMenuOpenChange?.(next)
+                  return next
+                })
+              }
               aria-controls="site-nav-menu"
               aria-expanded={isMenuOpen}
             >
@@ -129,6 +145,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
                     onClick={() => {
                       onNavigate(item.section)
                       setIsMenuOpen(false)
+                      onMenuOpenChange?.(false)
                     }}
                   >
                     <span data-hover={item.dataHover}>{item.label}</span>
