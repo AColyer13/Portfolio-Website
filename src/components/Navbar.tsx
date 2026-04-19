@@ -9,7 +9,7 @@ import {
 interface NavbarProps {
   activeSection: string
   onNavigate: (section: string) => void
-  /** Mobile: hide-on-scroll-down (class on header, driven by App) */
+  /** Hide-on-scroll-down (class on header, driven by App) */
   headerScrollHidden?: boolean
   onMenuOpenChange?: (open: boolean) => void
 }

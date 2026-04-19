@@ -32,53 +32,43 @@
 }
 
 /* ——— Site header / nav ——— */
+/*
+ * “Reveal on scroll up” (all viewports): hide bar while scrolling down, show on scroll up.
+ * Fixed header + transform; .App padding animates so content gains space when hidden.
+ */
+.App {
+  padding-block-start: var(--header-offset);
+  transition: padding-block-start 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.App.app--header-hidden {
+  padding-block-start: 0;
+}
+
 .site-header {
   container-type: inline-size;
   container-name: site-header;
-  position: sticky;
+  position: fixed;
   inset-block-start: 0;
+  inset-inline: 0;
   z-index: 1000;
   width: 100%;
+  transform: translateY(0);
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/*
- * Mobile: “reveal on scroll up” — hide bar while reading, show when scrolling up.
- * Fixed header + transform (GPU-friendly); .App padding animates so content gains space when hidden.
- */
-@media (max-width: 47.9375rem) {
-  .App {
-    padding-block-start: var(--header-offset);
-    transition: padding-block-start 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .App.app--header-hidden {
-    padding-block-start: 0;
-  }
-
-  .site-header {
-    position: fixed;
-    inset-block-start: 0;
-    inset-inline: 0;
-    width: 100%;
-    transform: translateY(0);
-    transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .site-header.site-header--scroll-hidden {
-    transform: translateY(-100%);
-    pointer-events: none;
-  }
+.site-header.site-header--scroll-hidden {
+  transform: translateY(-100%);
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  @media (max-width: 47.9375rem) {
-    .App {
-      transition: none;
-    }
+  .App {
+    transition: none;
+  }
 
-    .site-header {
-      transition: none;
-    }
+  .site-header {
+    transition: none;
   }
 }
 

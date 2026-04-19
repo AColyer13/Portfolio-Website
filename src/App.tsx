@@ -34,9 +34,6 @@ function getActiveSectionId(header: HTMLElement): (typeof SECTION_IDS)[number] {
   return active
 }
 
-/** Matches `components.css` mobile nav breakpoint (below inline nav layout). */
-const MOBILE_NAV_MQ = '(max-width: 47.9375rem)'
-
 function App() {
   const [activeSection, setActiveSection] = useState<string>('about')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -81,17 +78,14 @@ function App() {
     const header = document.querySelector<HTMLElement>('.site-header')
     if (!header) return
 
-    const isMobileNav = () => window.matchMedia(MOBILE_NAV_MQ).matches
-
     const update = () => {
       setActiveSection(getActiveSectionId(header))
 
       const y = window.scrollY
       const last = lastScrollYRef.current
       const navH = header.offsetHeight
-      const mobile = isMobileNav()
 
-      if (!mobile || mobileMenuOpen) {
+      if (mobileMenuOpen) {
         setHeaderScrollHidden(false)
       } else if (y <= 0) {
         setHeaderScrollHidden(false)
