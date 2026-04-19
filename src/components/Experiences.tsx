@@ -4,11 +4,11 @@ export function Experiences() {
   return (
     <section className="resume section-block" id="experience">
       <div className="container">
-        <div className="resume__inner">
-          <div className="section-heading">
-            <h2>Experiences</h2>
-          </div>
+        <div className="section-heading section-heading--center">
+          <h2>Experiences</h2>
+        </div>
 
+        <div className="resume__inner">
           <div className="timeline">
             {timeline.map((item) => (
               <div key={`${item.year}-${item.title}`} className="timeline-wrapper">
