@@ -29,10 +29,12 @@ export default defineConfig(({ mode }) => {
       {
         name: 'html-favicon-base',
         transformIndexHtml(html) {
-          return html.replace(
-            /href="(?:\/)?vite\.svg"/,
-            `href="${base}vite.svg"`,
-          )
+          return html
+            .replace(/href="(?:\/)?vite\.svg"/, `href="${base}vite.svg"`)
+            .replace(
+              /src="(?:\/)?theme-init\.js"/,
+              `src="${base}theme-init.js"`,
+            )
         },
       },
       {
