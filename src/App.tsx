@@ -80,6 +80,14 @@ function getActiveSectionId(header: HTMLElement): (typeof SECTION_IDS)[number] {
   }
 
   const headerBottom = Math.max(0, header.getBoundingClientRect().bottom)
+  // The hero (#about) is often shorter than the viewport while #skills is tall, so the
+  // "largest visible area" rule can pick skills at scrollY=0 and rewrite the URL to
+  // `#skills`. While the about block still extends meaningfully below the header, keep
+  // About as the active section.
+  const aboutEl = document.getElementById('about')
+  if (aboutEl && aboutEl.getBoundingClientRect().bottom > headerBottom + 40) {
+    return 'about'
+  }
   const vw = window.innerWidth
   const vh = window.innerHeight
 
