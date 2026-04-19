@@ -16,10 +16,6 @@ const SECTION_IDS = [
   'contact',
 ] as const
 
-function isSectionId(id: string): id is (typeof SECTION_IDS)[number] {
-  return (SECTION_IDS as readonly string[]).includes(id)
-}
-
 /**
  * Keep the URL fragment aligned with scroll position. Nav links set `#section`; if the user
  * scrolls away (e.g. back to the top), replaceState so a refresh doesn’t jump to the old hash.
@@ -87,7 +83,7 @@ function App() {
     syncOffset()
 
     const hash = window.location.hash.replace(/^#/, '')
-    if (hash && isSectionId(hash)) {
+    if (hash) {
       document.getElementById(hash)?.scrollIntoView({ block: 'start' })
     }
 

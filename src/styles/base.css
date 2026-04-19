@@ -14,6 +14,13 @@ html {
   html {
     scroll-behavior: auto;
   }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
 
 body {
@@ -62,12 +69,6 @@ a {
     border-color 0.2s ease,
     transform 0.2s ease,
     box-shadow 0.2s ease;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  a {
-    transition: none;
-  }
 }
 
 a:hover {

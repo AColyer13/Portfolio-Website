@@ -62,16 +62,6 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .App {
-    transition: none;
-  }
-
-  .site-header {
-    transition: none;
-  }
-}
-
 .site-nav {
   padding-block: var(--spacing-2);
   background-color: var(--color-surface-0);
@@ -246,12 +236,6 @@
   transition: width 0.2s ease;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .site-nav__link span::before {
-    transition: none;
-  }
-}
-
 .site-nav__link:hover span::before,
 .site-nav__link:focus-visible span::before {
   width: 100%;
@@ -368,12 +352,6 @@
     box-shadow 0.2s ease;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .custom-btn {
-    transition: none;
-  }
-}
-
 .custom-btn:hover {
   background: var(--color-primary-700);
   color: var(--color-surface-0);
@@ -445,12 +423,6 @@
     transform 0.2s ease,
     border-color 0.2s ease,
     box-shadow 0.2s ease;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .skill-card {
-    transition: none;
-  }
 }
 
 .skill-card:hover {
@@ -625,12 +597,6 @@
     border-color 0.2s ease;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .portfolio-item-inner {
-    transition: none;
-  }
-}
-
 .portfolio-item-inner:hover {
   transform: translateY(-0.3125rem);
   box-shadow: var(--shadow-card-hover);
@@ -648,12 +614,6 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.2s ease;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .portfolio-item-img img {
-    transition: none;
-  }
 }
 
 .portfolio-item-inner:hover .portfolio-item-img img {
@@ -790,12 +750,6 @@
     border: 0;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .google-map iframe {
-      transition: none;
-    }
-  }
-
   .google-map iframe:hover {
     filter: grayscale(0%);
   }
@@ -860,12 +814,6 @@
       background-color 0.2s ease,
       color 0.2s ease,
       transform 0.2s ease;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .social-links li a {
-      transition: none;
-    }
   }
 
   .social-links li a:hover {
@@ -1001,12 +949,6 @@
       background-color 0.2s ease,
       transform 0.2s ease,
       box-shadow 0.2s ease;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .submit-btn {
-      transition: none;
-    }
   }
 
   .submit-btn:hover:not(:disabled) {

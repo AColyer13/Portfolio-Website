@@ -1,16 +1,16 @@
-export interface Skill {
+interface Skill {
   name: string;
   icon: string;
 }
 
-export interface TimelineItem {
+interface TimelineItem {
   year: string;
   title: string;
   company: string;
   description: string;
 }
 
-export interface Project {
+interface Project {
   id: number;
   title: string;
   tech: string;

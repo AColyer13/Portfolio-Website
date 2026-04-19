@@ -9,6 +9,10 @@ import emailjs from '@emailjs/browser'
 
 type FieldName = 'name' | 'email' | 'message'
 
+type FormStatus =
+  | { kind: 'idle' }
+  | { kind: 'success' | 'error'; message: string }
+
 function requiredField(value: string, label: string): string {
   if (!value.trim()) return `${label} is required.`
   return ''
@@ -34,8 +38,7 @@ export function Contact() {
   })
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  const [statusMessage, setStatusMessage] = useState('')
+  const [status, setStatus] = useState<FormStatus>({ kind: 'idle' })
   const timestampRef = useRef<HTMLInputElement | null>(null)
   const formRef = useRef<HTMLFormElement | null>(null)
 
@@ -55,9 +58,8 @@ export function Contact() {
     if (touched[field]) {
       runFieldValidation(field, value)
     }
-    if (formStatus !== 'idle') {
-      setFormStatus('idle')
-      setStatusMessage('')
+    if (status.kind !== 'idle') {
+      setStatus({ kind: 'idle' })
     }
   }
 
@@ -82,28 +84,30 @@ export function Contact() {
       message: eMessage,
     })
     if (eName || eEmail || eMessage) {
-      setFormStatus('idle')
-      setStatusMessage('')
+      setStatus({ kind: 'idle' })
       return
     }
 
     setIsSubmitting(true)
-    setFormStatus('idle')
-    setStatusMessage('')
+    setStatus({ kind: 'idle' })
     try {
       if (timestampRef.current) {
         timestampRef.current.value = new Date().toISOString()
       }
       await emailjs.sendForm('default_service', 'template_6dk6wl5', form)
-      setFormStatus('success')
-      setStatusMessage('Message sent. Thanks — I will get back to you soon.')
+      setStatus({
+        kind: 'success',
+        message: 'Message sent. Thanks — I will get back to you soon.',
+      })
       setFormData({ name: '', message: '', email: '' })
       setErrors({})
       setTouched({ name: false, email: false, message: false })
       form.reset()
     } catch (error) {
-      setFormStatus('error')
-      setStatusMessage('Something went wrong. Please try again or email directly.')
+      setStatus({
+        kind: 'error',
+        message: 'Something went wrong. Please try again or email directly.',
+      })
       console.error('Error sending email:', error)
     } finally {
       setIsSubmitting(false)
@@ -162,15 +166,15 @@ export function Contact() {
               Want to know more? <br /> Let&apos;s talk
             </h2>
 
-            {formStatus !== 'idle' && statusMessage ? (
+            {status.kind !== 'idle' ? (
               <div
                 role="status"
                 aria-live="polite"
                 aria-atomic="true"
                 className="form-status"
-                data-variant={formStatus}
+                data-variant={status.kind}
               >
-                {statusMessage}
+                {status.message}
               </div>
             ) : null}
 
