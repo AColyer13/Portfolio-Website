@@ -17,14 +17,22 @@ interface NavbarProps {
 
 const base = import.meta.env.BASE_URL
 
-function cyclePreference(p: ThemePreference): ThemePreference {
+/**
+ * Cycle light → dark → system → light, but skip `system` when it would
+ * resolve to the same appearance as the current state. This guarantees
+ * every click produces a visible change instead of a "silent" step.
+ */
+function cyclePreference(
+  p: ThemePreference,
+  osDark: boolean,
+): ThemePreference {
   if (p === 'light') return 'dark'
-  if (p === 'dark') return 'system'
-  return 'light'
+  if (p === 'dark') return osDark ? 'light' : 'system'
+  return osDark ? 'light' : 'dark'
 }
 
-/** When preference is system, re-resolve when OS appearance changes (Navbar icon). */
-function useResolvedTheme(preference: ThemePreference): ResolvedTheme {
+/** Track the OS color-scheme preference reactively. */
+function useOsDark(): boolean {
   const [osDark, setOsDark] = useState(
     () =>
       typeof window !== 'undefined' &&
@@ -32,14 +40,16 @@ function useResolvedTheme(preference: ThemePreference): ResolvedTheme {
   )
 
   useEffect(() => {
-    if (preference !== 'system') return
     const mq = window.matchMedia('(prefers-color-scheme: dark)')
     const sync = () => setOsDark(mq.matches)
-    sync()
     mq.addEventListener('change', sync)
     return () => mq.removeEventListener('change', sync)
-  }, [preference])
+  }, [])
 
+  return osDark
+}
+
+function resolveTheme(preference: ThemePreference, osDark: boolean): ResolvedTheme {
   if (preference === 'light') return 'light'
   if (preference === 'dark') return 'dark'
   return osDark ? 'dark' : 'light'
@@ -100,19 +110,21 @@ export function Navbar({
   const [preference, setPreference] = useState<ThemePreference>(
     () => loadStoredPreference() ?? 'system',
   )
-  const effectiveTheme = useResolvedTheme(preference)
+  const osDark = useOsDark()
+  const effectiveTheme = resolveTheme(preference, osDark)
 
   useEffect(() => {
     applyTheme(preference)
     persistPreference(preference)
   }, [preference])
 
+  const nextPreference = cyclePreference(preference, osDark)
   const nextThemeLabel =
-    preference === 'light'
-      ? 'dark only'
-      : preference === 'dark'
-        ? 'match system'
-        : 'light only'
+    nextPreference === 'light'
+      ? 'light only'
+      : nextPreference === 'dark'
+        ? 'dark only'
+        : 'match system'
   const currentThemeLabel =
     preference === 'system'
       ? `System (${effectiveTheme})`
@@ -132,7 +144,7 @@ export function Navbar({
             <button
               type="button"
               className="theme-toggle"
-              onClick={() => setPreference((p) => cyclePreference(p))}
+              onClick={() => setPreference((p) => cyclePreference(p, osDark))}
               aria-label={themeToggleLabel}
               title={themeToggleTitle}
             >
