@@ -153,7 +153,7 @@ export function Contact() {
                     href="https://www.linkedin.com/in/colyeradam/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="fab fa-linkedin"
+                    className="fab fa-linkedin-in"
                     aria-label="LinkedIn profile"
                   />
                 </li>

@@ -849,6 +849,7 @@
     min-height: 2.75rem;
     background: var(--color-border-default);
     border-radius: 50%;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;

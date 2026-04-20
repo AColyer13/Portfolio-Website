@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import {
   applyTheme,
-  loadStoredPreference,
-  persistPreference,
   type ResolvedTheme,
   type ThemePreference,
 } from '../theme/colorScheme'
+
+/** Session-only; reload returns to system / prefers-color-scheme (sunset scheduling, etc.). */
+type SessionOverride = 'light' | 'dark' | null
 
 interface NavbarProps {
   activeSection: string
@@ -18,16 +19,15 @@ interface NavbarProps {
 const base = import.meta.env.BASE_URL
 
 /**
- * Cycle light → dark → system → light, but skip `system` when it would
- * resolve to the same appearance as the current state. This guarantees
- * every click produces a visible change instead of a "silent" step.
+ * Cycle forced light → forced dark → match system → forced …
+ * From system, first step forces the opposite of the OS scheme so each click is visible.
  */
-function cyclePreference(
-  p: ThemePreference,
+function cycleSessionOverride(
+  override: SessionOverride,
   osDark: boolean,
-): ThemePreference {
-  if (p === 'light') return 'dark'
-  if (p === 'dark') return osDark ? 'light' : 'system'
+): SessionOverride {
+  if (override === 'light') return 'dark'
+  if (override === 'dark') return osDark ? 'light' : null
   return osDark ? 'light' : 'dark'
 }
 
@@ -49,10 +49,17 @@ function useOsDark(): boolean {
   return osDark
 }
 
-function resolveTheme(preference: ThemePreference, osDark: boolean): ResolvedTheme {
-  if (preference === 'light') return 'light'
-  if (preference === 'dark') return 'dark'
+function resolveTheme(
+  override: SessionOverride,
+  osDark: boolean,
+): ResolvedTheme {
+  if (override === 'light') return 'light'
+  if (override === 'dark') return 'dark'
   return osDark ? 'dark' : 'light'
+}
+
+function domTheme(override: SessionOverride): ThemePreference {
+  return override ?? 'system'
 }
 
 /** Sun — use in dark mode; click switches to light. */
@@ -107,30 +114,28 @@ export function Navbar({
   onMenuOpenChange,
 }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [preference, setPreference] = useState<ThemePreference>(
-    () => loadStoredPreference() ?? 'system',
-  )
+  const [sessionOverride, setSessionOverride] = useState<SessionOverride>(null)
   const osDark = useOsDark()
-  const effectiveTheme = resolveTheme(preference, osDark)
+  const effectiveTheme = resolveTheme(sessionOverride, osDark)
+  const appliedTheme = domTheme(sessionOverride)
 
   useEffect(() => {
-    applyTheme(preference)
-    persistPreference(preference)
-  }, [preference])
+    applyTheme(appliedTheme)
+  }, [appliedTheme])
 
-  const nextPreference = cyclePreference(preference, osDark)
+  const nextOverride = cycleSessionOverride(sessionOverride, osDark)
   const nextThemeLabel =
-    nextPreference === 'light'
-      ? 'light only'
-      : nextPreference === 'dark'
-        ? 'dark only'
-        : 'match system'
+    nextOverride === 'light'
+      ? 'light only for this visit'
+      : nextOverride === 'dark'
+        ? 'dark only for this visit'
+        : 'match system appearance'
   const currentThemeLabel =
-    preference === 'system'
+    sessionOverride === null
       ? `System (${effectiveTheme})`
-      : preference === 'light'
-        ? 'Light'
-        : 'Dark'
+      : sessionOverride === 'light'
+        ? 'Light override, this visit only'
+        : 'Dark override, this visit only'
   const themeToggleLabel = `Color theme: ${currentThemeLabel}. Activate to use ${nextThemeLabel}.`
   const themeToggleTitle = `Theme: ${currentThemeLabel}. Next: ${nextThemeLabel}.`
 
@@ -144,7 +149,9 @@ export function Navbar({
             <button
               type="button"
               className="theme-toggle"
-              onClick={() => setPreference((p) => cyclePreference(p, osDark))}
+              onClick={() =>
+                setSessionOverride((o) => cycleSessionOverride(o, osDark))
+              }
               aria-label={themeToggleLabel}
               title={themeToggleTitle}
             >

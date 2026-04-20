@@ -91,6 +91,7 @@
  * Dark palette — hex/sRGB (not OKLCH) so:
  * - `prefers-color-scheme: dark` paints a real dark page even when extensions read computed colors.
  * - Dark Reader / similar tools can classify backgrounds without OKLCH-only variable chains.
+ * Default `data-theme="system"` (see theme-init) so OS scheduled light/dark drives tokens until a session-only override sets light/dark.
  */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]),
