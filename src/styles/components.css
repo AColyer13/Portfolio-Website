@@ -390,6 +390,11 @@
   scroll-margin-block-start: var(--header-offset);
 }
 
+/* Match category-title rhythm (spacing-3), not the default h2 → content gap */
+.skills .container > .section-heading {
+  margin-block-end: var(--spacing-3);
+}
+
 .skills .container {
   container-type: inline-size;
   container-name: skills;
