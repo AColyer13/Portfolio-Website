@@ -442,8 +442,8 @@
   display: grid;
   width: 100%;
   row-gap: var(--spacing-4);
-  /* Minimal horizontal gutters on 2-col phones */
-  column-gap: var(--spacing-1);
+  /* Match side padding so the middle gutter doesn’t read wider than the outer margins (2-col phones) */
+  column-gap: var(--container-inline);
   justify-items: stretch;
   align-items: stretch;
   /* Two columns from the narrowest widths so pairs sit side by side on phones */
