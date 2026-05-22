@@ -19,12 +19,11 @@ export function Skills() {
           <h2>Skills</h2>
         </div>
         <div className="skills-blocks">
-          {skillBlocks.map((block, blockIndex) => (
-            <div
-              key={blockIndex}
-              className="skills-block"
-              aria-label={`Skills group ${blockIndex + 1}`}
-            >
+          {skillBlocks.map((block) => (
+            <div key={block.title} className="skills-block">
+              <div className="skills-block__heading section-heading--center">
+                <h3>{block.title}</h3>
+              </div>
               <div className="skills-grid">
                 {block.skills.map((skill) => (
                   <div key={skill.name} className="services-item">

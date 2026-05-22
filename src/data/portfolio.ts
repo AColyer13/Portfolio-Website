@@ -4,6 +4,7 @@ export interface Skill {
 }
 
 export interface SkillBlock {
+  title: string;
   skills: Skill[];
 }
 
@@ -26,6 +27,7 @@ interface Project {
 /** Skills in display order: Block 1 (top) → Block 8 (bottom). */
 export const skillBlocks: SkillBlock[] = [
   {
+    title: 'Core web / JS',
     skills: [
       { name: 'Vite', icon: 'fas fa-bolt' },
       { name: 'React', icon: 'fab fa-react' },
@@ -53,6 +55,7 @@ export const skillBlocks: SkillBlock[] = [
     ],
   },
   {
+    title: 'UI / 3D / content',
     skills: [
       { name: 'Radix UI', icon: 'fas fa-layer-group' },
       { name: 'shadcn/ui', icon: 'fas fa-cubes' },
@@ -66,6 +69,7 @@ export const skillBlocks: SkillBlock[] = [
     ],
   },
   {
+    title: 'Data, auth, realtime',
     skills: [
       { name: 'Firebase', icon: 'fas fa-fire' },
       { name: 'Firebase Auth', icon: 'fas fa-lock' },
@@ -80,6 +84,7 @@ export const skillBlocks: SkillBlock[] = [
     ],
   },
   {
+    title: 'API, docs, integration',
     skills: [
       { name: 'OpenAPI', icon: 'fas fa-file-code' },
       { name: 'Swagger', icon: 'fas fa-book-open' },
@@ -90,6 +95,7 @@ export const skillBlocks: SkillBlock[] = [
     ],
   },
   {
+    title: 'Testing & quality',
     skills: [
       { name: 'Jest', icon: 'fas fa-vial' },
       { name: 'Supertest', icon: 'fas fa-flask' },
@@ -105,6 +111,7 @@ export const skillBlocks: SkillBlock[] = [
     ],
   },
   {
+    title: 'DevOps & cloud',
     skills: [
       { name: 'Git', icon: 'fab fa-git-alt' },
       { name: 'GitHub Actions', icon: 'fab fa-github' },
@@ -120,6 +127,7 @@ export const skillBlocks: SkillBlock[] = [
     ],
   },
   {
+    title: 'Security & architecture',
     skills: [
       { name: 'OWASP / AppSec', icon: 'fas fa-shield-alt' },
       { name: 'Helmet', icon: 'fas fa-hard-hat' },
@@ -131,6 +139,7 @@ export const skillBlocks: SkillBlock[] = [
     ],
   },
   {
+    title: 'AI',
     skills: [
       { name: 'Gemini', icon: 'fab fa-google' },
       { name: 'OpenAI', icon: 'fas fa-brain' },
