@@ -437,8 +437,8 @@
   display: grid;
   width: 100%;
   row-gap: var(--spacing-4);
-  /* Tighter gutters on 3-col phones so cards don’t feel squeezed */
-  column-gap: var(--spacing-3);
+  /* Minimal horizontal gutters on 3-col phones */
+  column-gap: var(--spacing-1);
   justify-items: stretch;
   align-items: stretch;
   /* Three columns from the narrowest widths so skills sit side by side on phones */
