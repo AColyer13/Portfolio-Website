@@ -6,6 +6,7 @@ import { Footer } from './components/Footer'
 import { Navbar } from './components/Navbar'
 import { Projects } from './components/Projects'
 import { Skills } from './components/Skills'
+import { isNativeScrollHeader } from './utils/scrollHeader'
 
 /** DOM order — must match section `id`s and Navbar `section` keys */
 const SECTION_IDS = [
@@ -191,19 +192,21 @@ function App() {
         contactTopDoc != null &&
         y > contactTopDoc - CONTACT_SCROLL_UP_REVEAL_BUFFER_PX
 
-      if (mobileMenuOpen) {
-        setHeaderScrollHidden(false)
-      } else if (y <= 0) {
-        setHeaderScrollHidden(false)
-      } else if (suppressRevealOnScrollUp) {
-        // In contact / lower page: only hide on scroll-down; ignore scroll-up until well into projects.
-        if (delta >= SCROLL_DIR_THRESHOLD_PX && y > navH) {
+      if (!isNativeScrollHeader()) {
+        if (mobileMenuOpen) {
+          setHeaderScrollHidden(false)
+        } else if (y <= 0) {
+          setHeaderScrollHidden(false)
+        } else if (suppressRevealOnScrollUp) {
+          // In contact / lower page: only hide on scroll-down; ignore scroll-up until well into projects.
+          if (delta >= SCROLL_DIR_THRESHOLD_PX && y > navH) {
+            setHeaderScrollHidden(true)
+          }
+        } else if (delta <= -SCROLL_DIR_THRESHOLD_PX) {
+          setHeaderScrollHidden(false)
+        } else if (delta >= SCROLL_DIR_THRESHOLD_PX && y > navH) {
           setHeaderScrollHidden(true)
         }
-      } else if (delta <= -SCROLL_DIR_THRESHOLD_PX) {
-        setHeaderScrollHidden(false)
-      } else if (delta >= SCROLL_DIR_THRESHOLD_PX && y > navH) {
-        setHeaderScrollHidden(true)
       }
 
       lastScrollYRef.current = y
@@ -231,8 +234,10 @@ function App() {
     }
   }, [mobileMenuOpen])
 
+  const jsShellHidden = headerScrollHidden && !isNativeScrollHeader()
+
   return (
-    <div className={`app-shell${headerScrollHidden ? ' app--header-hidden' : ''}`}>
+    <div className={`app-shell${jsShellHidden ? ' app--header-hidden' : ''}`}>
       <Navbar
         activeSection={activeSection}
         onNavigate={setActiveSection}

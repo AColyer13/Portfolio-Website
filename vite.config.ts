@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa'
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url))
 
@@ -21,6 +22,62 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       tailwindcss(),
+      VitePWA({
+        registerType: 'autoUpdate',
+        includeAssets: ['vite.svg', 'theme-init.js'],
+        manifest: {
+          name: 'Adam Colyer — Portfolio',
+          short_name: 'Portfolio',
+          description:
+            'Full-stack developer portfolio — projects, skills, experience, and contact.',
+          theme_color: '#7c3aed',
+          background_color: '#ffffff',
+          display: 'standalone',
+          icons: [
+            {
+              src: 'icons/pwa-192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: 'icons/pwa-512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+            {
+              src: 'icons/pwa-512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'maskable',
+            },
+          ],
+        },
+        workbox: {
+          // Precache app shell; large project screenshots use runtime cache on visit.
+          globPatterns: [
+            '**/*.{js,css,html,ico,svg,woff,woff2}',
+            'icons/**',
+            'vite.svg',
+            'theme-init.js',
+          ],
+          navigateFallback: 'index.html',
+          runtimeCaching: [
+            {
+              urlPattern: ({ url }) =>
+                url.pathname.includes('/images/') &&
+                /\.(?:png|jpe?g|webp)$/i.test(url.pathname),
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'portfolio-images',
+                expiration: {
+                  maxEntries: 64,
+                  maxAgeSeconds: 60 * 60 * 24 * 30,
+                },
+              },
+            },
+          ],
+        },
+      }),
       {
         name: 'html-csp-production',
         transformIndexHtml(html, ctx) {
@@ -33,6 +90,8 @@ export default defineConfig(({ mode }) => {
             "img-src 'self' data: https: blob:",
             "connect-src 'self' https://api.emailjs.com",
             "frame-src https://www.google.com https://www.google.com/maps https://maps.google.com https://www.gstatic.com",
+            "worker-src 'self'",
+            "manifest-src 'self'",
             "base-uri 'self'",
             "form-action 'self'",
           ].join('; ')
@@ -54,6 +113,12 @@ export default defineConfig(({ mode }) => {
     test: {
       environment: 'jsdom',
       setupFiles: ['./src/test/setup.ts'],
+      alias: {
+        'virtual:pwa-register': path.join(
+          projectRoot,
+          'src/test/pwa-register-stub.ts',
+        ),
+      },
     },
   }
 })

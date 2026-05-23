@@ -1,113 +1,155 @@
-/* Effects that rely on pseudo-elements or scoped form behavior — kept minimal alongside Tailwind */
+/* Effects that rely on pseudo-elements or scoped form behavior — @layer components in index.css */
 
-/* App shell + header — scroll hide/show (padding + transform stay in sync) */
-.app-shell {
-  padding-block-start: var(--header-offset);
-  transition: padding-block-start 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-}
+@layer components {
+  /* App shell + header — scroll hide/show (padding + transform stay in sync) */
+  .app-shell {
+    padding-block-start: var(--header-offset);
+    transition: padding-block-start 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-.app-shell.app--header-hidden {
-  padding-block-start: 0;
-}
+  /* Native scroll-state header (Chromium 144+); JS fallback uses classes below */
+  @supports (container-type: scroll-state) and (scroll-state(scrolled: bottom)) {
+    html {
+      container-type: scroll-state;
+    }
 
-.site-header {
-  transform: translateY(0);
-  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    @container scroll-state(scrolled: bottom) {
+      html:not([data-nav-menu-open]) .site-header {
+        translate: 0 -100%;
+        pointer-events: none;
+      }
 
-.site-header.site-header--scroll-hidden {
-  transform: translateY(-100%);
-  pointer-events: none;
-}
+      html:not([data-nav-menu-open]) .app-shell {
+        padding-block-start: 0;
+      }
+    }
 
-/* Nav link hover text reveal */
-.nav-link-hover span {
-  position: relative;
-  display: inline-block;
-}
+    @container scroll-state(scrolled: top) {
+      html:not([data-nav-menu-open]) .site-header {
+        translate: 0 0;
+        pointer-events: auto;
+      }
 
-.nav-link-hover span::before {
-  content: attr(data-hover);
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  color: var(--color-primary-600);
-  overflow: hidden;
-  width: 0;
-  transition: width 0.2s ease;
-}
+      html:not([data-nav-menu-open]) .app-shell {
+        padding-block-start: var(--header-offset);
+      }
+    }
+  }
 
-.nav-link-hover:hover span::before,
-.nav-link-hover:focus-visible span::before {
-  width: 100%;
-}
+  html[data-scroll-header='js'] .app-shell.app--header-hidden {
+    padding-block-start: 0;
+  }
 
-/* Hamburger icon (three lines via box-shadow) */
-.nav-toggle-icon {
-  position: relative;
-  width: 1.25rem;
-  height: 1px;
-  background: currentColor;
-  box-shadow:
-    0 -0.375rem 0 currentColor,
-    0 0.375rem 0 currentColor;
-}
+  @scope (.skill-card) {
+    .skill-card__logo {
+      flex-shrink: 0;
+      display: block;
+      width: 2.5rem;
+      height: 2.5rem;
+      background-color: var(--color-primary-600);
+      mask-mode: alpha;
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      -webkit-mask-mode: alpha;
+      -webkit-mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+    }
+  }
 
-/* Skill logo mask (icon path set inline per skill) */
-.skill-card__logo {
-  flex-shrink: 0;
-  display: block;
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: var(--color-primary-600);
-  mask-mode: alpha;
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: center;
-  -webkit-mask-mode: alpha;
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-}
+  @scope (.contact-form) {
+    .contact-form-input:not(.submit-btn)::placeholder {
+      color: var(--color-text-muted);
+      opacity: 1;
+    }
 
-/* Contact form — autofill, placeholders, color-scheme */
-.contact-form-input:not(.submit-btn)::placeholder {
-  color: var(--color-text-muted);
-  opacity: 1;
-}
+    .contact-form-input:not(.submit-btn)::-webkit-input-placeholder {
+      color: var(--color-text-muted);
+    }
 
-.contact-form-input:not(.submit-btn)::-webkit-input-placeholder {
-  color: var(--color-text-muted);
-}
+    .contact-form-input:not(.submit-btn):autofill,
+    .contact-form-input:not(.submit-btn):autofill:hover,
+    .contact-form-input:not(.submit-btn):autofill:focus {
+      -webkit-text-fill-color: var(--color-text-default);
+      box-shadow: 0 0 0 1000px var(--color-surface-0) inset;
+    }
+  }
 
-.contact-form-input:not(.submit-btn):autofill,
-.contact-form-input:not(.submit-btn):autofill:hover,
-.contact-form-input:not(.submit-btn):autofill:focus {
-  -webkit-text-fill-color: var(--color-text-default);
-  box-shadow: 0 0 0 1000px var(--color-surface-0) inset;
-}
+  :root[data-theme='light'] .contact-form-input:not(.submit-btn) {
+    color-scheme: light;
+  }
 
-:root[data-theme='light'] .contact-form-input:not(.submit-btn) {
-  color-scheme: light;
-}
-
-:root[data-theme='dark'] .contact-form-input:not(.submit-btn) {
-  color-scheme: dark;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root[data-theme='system'] .contact-form-input:not(.submit-btn) {
+  :root[data-theme='dark'] .contact-form-input:not(.submit-btn) {
     color-scheme: dark;
   }
-}
 
-@media (forced-colors: active) {
-  .contact-form-label,
-  .contact-form-title {
-    color: CanvasText;
+  @media (prefers-color-scheme: dark) {
+    :root[data-theme='system'] .contact-form-input:not(.submit-btn) {
+      color-scheme: dark;
+    }
   }
 
-  .field-error {
-    color: Mark;
+  @media (forced-colors: active) {
+    .contact-form-label,
+    .contact-form-title {
+      color: CanvasText;
+    }
+
+    .field-error {
+      color: Mark;
+    }
+  }
+
+  /* Short viewports — tighten contact so heading, form, map, and footer fit together */
+  @media (max-height: 52rem) and (min-width: 48rem) {
+    :root {
+      --contact-block-padding-y: var(--spacing-3);
+      --contact-map-height: clamp(7rem, 14svh, 11.5rem);
+      --contact-textarea-min: clamp(3.5rem, 9svh, 5.5rem);
+      --contact-layout-gap: var(--spacing-3);
+      --footer-padding-y: var(--spacing-3);
+    }
+  }
+
+  @media (max-height: 44rem) and (min-width: 48rem) {
+    :root {
+      --contact-map-height: clamp(6rem, 12svh, 9rem);
+      --contact-textarea-min: clamp(3rem, 8svh, 4.5rem);
+    }
+
+    .contact-form-title {
+      margin-block-end: var(--spacing-2);
+      font-size: var(--font-size-fluid-4);
+      line-height: 1.25;
+    }
+  }
+
+  /* prefers-reduced-data: skip heavy decoration and optional embeds */
+  @media (prefers-reduced-data: reduce) {
+    .skill-card,
+    .portfolio-item-inner,
+    .social-link,
+    .submit-btn.contact-form-input,
+    .hover-lift {
+      transition-property: color, background-color, border-color, opacity;
+    }
+
+    .skill-card:hover,
+    .portfolio-item-inner:hover,
+    .social-link:hover,
+    .submit-btn.contact-form-input:hover:not(:disabled),
+    .hover-lift:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .contact-map-embed {
+      display: none;
+    }
+
+    .contact-map-fallback {
+      display: block;
+    }
   }
 }

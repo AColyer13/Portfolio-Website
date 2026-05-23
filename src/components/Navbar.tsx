@@ -5,6 +5,7 @@ import {
   type ThemePreference,
 } from '../theme/colorScheme'
 import { containerClass } from '../utils/layoutClasses'
+import { isNativeScrollHeader } from '../utils/scrollHeader'
 
 /** Session-only; reload returns to system / prefers-color-scheme (sunset scheduling, etc.). */
 type SessionOverride = 'light' | 'dark' | null
@@ -19,10 +20,13 @@ interface NavbarProps {
 const base = import.meta.env.BASE_URL
 
 const iconBtnClass =
-  'inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-md border border-border-default bg-surface-0 p-0 text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
+  'inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-md border border-border-default bg-surface-0 p-0 text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
 
 const navLinkClass =
-  'nav-link-hover relative flex h-9 items-center rounded-sm px-2 py-1 text-menu text-text-default hover:text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
+  'group relative flex min-h-11 items-center rounded-sm px-3 py-2 text-menu text-text-default hover:text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
+
+const navLinkLabelClass =
+  'relative inline-block before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:w-0 before:overflow-hidden before:text-primary-600 before:content-[attr(data-hover)] before:transition-[width] before:duration-200 before:ease-in-out group-hover:before:w-full group-focus-visible:before:w-full'
 
 function cycleSessionOverride(
   override: SessionOverride,
@@ -122,6 +126,14 @@ export function Navbar({
     applyTheme(appliedTheme)
   }, [appliedTheme])
 
+  useEffect(() => {
+    if (!isNativeScrollHeader()) return
+    document.documentElement.toggleAttribute('data-nav-menu-open', isMenuOpen)
+    return () => {
+      document.documentElement.removeAttribute('data-nav-menu-open')
+    }
+  }, [isMenuOpen])
+
   const nextOverride = cycleSessionOverride(sessionOverride, osDark)
   const nextThemeLabel =
     nextOverride === 'light'
@@ -137,11 +149,12 @@ export function Navbar({
         : 'Dark override, this visit only'
   const themeToggleLabel = `Color theme: ${currentThemeLabel}. Activate to use ${nextThemeLabel}.`
   const themeToggleTitle = `Theme: ${currentThemeLabel}. Next: ${nextThemeLabel}.`
+  const jsHeaderHidden = headerScrollHidden && !isNativeScrollHeader()
 
   return (
     <header
-      className={`site-header @container/site-header fixed inset-x-0 top-0 z-[1000] w-full${
-        headerScrollHidden ? ' site-header--scroll-hidden' : ''
+      className={`site-header @container/site-header fixed inset-x-0 top-0 z-[1000] w-full translate-y-0 transition-transform duration-[220ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
+        jsHeaderHidden ? '-translate-y-full pointer-events-none' : ''
       }`}
     >
       <nav
@@ -178,7 +191,10 @@ export function Navbar({
               aria-expanded={isMenuOpen}
             >
               <span className="sr-only">Toggle navigation</span>
-              <span className="nav-toggle-icon" aria-hidden />
+              <span
+                className="relative block h-px w-5 bg-current shadow-[0_-0.375rem_0_currentColor,0_0.375rem_0_currentColor]"
+                aria-hidden
+              />
             </button>
           </div>
 
@@ -203,7 +219,9 @@ export function Navbar({
                       onMenuOpenChange?.(false)
                     }}
                   >
-                    <span data-hover={item.label}>{item.label}</span>
+                    <span className={navLinkLabelClass} data-hover={item.label}>
+                      {item.label}
+                    </span>
                   </a>
                 </li>
               ))}
