@@ -37,9 +37,11 @@ export function Skills() {
               {block.skills.map((skill) => (
                 <div key={skill.name} className="services-item">
                   <div className="skill-card">
-                    <h4>{skill.name}</h4>
-                    <SkillIcon icon={skill.icon} />
-                  </div>
+                      <div className="skill-card__body">
+                        <h4>{skill.name}</h4>
+                        <SkillIcon icon={skill.icon} />
+                      </div>
+                    </div>
                 </div>
               ))}
             </div>
