@@ -6,6 +6,7 @@ import { Footer } from './components/Footer'
 import { Navbar } from './components/Navbar'
 import { Projects } from './components/Projects'
 import { Skills } from './components/Skills'
+import { initTouchPressFeedback } from './utils/touchPress'
 
 /** DOM order — must match section `id`s and Navbar `section` keys */
 const SECTION_IDS = [
@@ -252,6 +253,8 @@ function App() {
     document.documentElement.classList.toggle('menu-scroll-lock', mobileMenuOpen)
     return () => document.documentElement.classList.remove('menu-scroll-lock')
   }, [mobileMenuOpen])
+
+  useEffect(() => initTouchPressFeedback(), [])
 
   const navigateToSection = (section: string) => {
     const header = document.querySelector<HTMLElement>('.site-header')

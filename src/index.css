@@ -387,6 +387,7 @@
 @media (hover: none), (pointer: coarse) {
   .portfolio-item-inner,
   .skill-card {
+    touch-action: manipulation;
     transition-property: border-color;
     transition-duration: 0.2s;
     transition-timing-function: ease;
