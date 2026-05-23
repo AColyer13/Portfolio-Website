@@ -58,13 +58,12 @@ jobs:
       - name: Accessibility (axe)
         run: node scripts/axe-preview.mjs
 
-      - name: Remove previous Pages output at repo root
-        run: rm -rf assets images files
-
       - name: Publish dist/ to repository root on main
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: main
           folder: dist
+          # Keep old hashed files so cached HTML at edge POPs still finds matching assets
+          # while GitHub Pages (max-age=600) propagates new index.html.
           clean: false
           commit-message: 'deploy: Pages build at repo root [skip ci]'
