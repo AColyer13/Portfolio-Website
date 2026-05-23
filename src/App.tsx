@@ -233,7 +233,9 @@ function App() {
 
   return (
     <div
-      className={`App${headerScrollHidden ? ' app--header-hidden' : ''}`}
+      className={`transition-[padding-block-start] duration-[220ms] ease-[cubic-bezier(0.4,0,0.2,1)] pt-(--header-offset) ${
+        headerScrollHidden ? 'app--header-hidden pt-0' : ''
+      }`}
     >
       <Navbar
         activeSection={activeSection}

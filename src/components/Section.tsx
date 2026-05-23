@@ -1,9 +1,16 @@
 import type { ReactNode } from 'react'
+import {
+  containerClass,
+  sectionBlockClass,
+  sectionContainerClass,
+  sectionHeadingClass,
+  subsectionHeadingClass,
+} from '../utils/layoutClasses'
 
 const variantClass = {
-  skills: 'skills',
-  resume: 'resume',
-  project: 'project',
+  skills: 'bg-surface-50 @container/skills',
+  resume: 'bg-surface-0 @container/resume',
+  project: 'bg-surface-50 @container/portfolio',
 } as const
 
 export type SectionVariant = keyof typeof variantClass
@@ -13,19 +20,29 @@ interface SectionProps {
   title: string
   variant: SectionVariant
   children: ReactNode
-  /** Optional wrapper around children (e.g. `resume__inner` for max-width) */
   contentClassName?: string
+  headingClassName?: string
 }
 
-/** Shared band layout: section padding, container, centered h2, even title spacing. */
-export function Section({ id, title, variant, children, contentClassName }: SectionProps) {
-  const body = contentClassName ? <div className={contentClassName}>{children}</div> : children
+export function Section({
+  id,
+  title,
+  variant,
+  children,
+  contentClassName,
+  headingClassName = sectionHeadingClass,
+}: SectionProps) {
+  const body = contentClassName ? (
+    <div className={contentClassName}>{children}</div>
+  ) : (
+    children
+  )
 
   return (
-    <section className={`${variantClass[variant]} section-block`} id={id}>
-      <div className="container">
-        <div className="section-heading section-heading--center">
-          <h2>{title}</h2>
+    <section className={`${variantClass[variant]} ${sectionBlockClass}`} id={id}>
+      <div className={`${containerClass} ${sectionContainerClass}`}>
+        <div className={headingClassName}>
+          <h2 className="m-0 text-h2 font-bold leading-tight text-text-default">{title}</h2>
         </div>
         {body}
       </div>
@@ -37,11 +54,12 @@ interface SubsectionHeadingProps {
   title: string
 }
 
-/** Category titles inside a section (e.g. Skills groups) — same centering as section h2. */
 export function SubsectionHeading({ title }: SubsectionHeadingProps) {
   return (
-    <div className="subsection-heading section-heading--center">
-      <h3>{title}</h3>
+    <div className={subsectionHeadingClass}>
+      <h3 className="m-0 text-fluid-3 font-medium leading-snug tracking-wide text-primary-500">
+        {title}
+      </h3>
     </div>
   )
 }

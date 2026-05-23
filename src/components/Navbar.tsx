@@ -4,6 +4,7 @@ import {
   type ResolvedTheme,
   type ThemePreference,
 } from '../theme/colorScheme'
+import { containerClass } from '../utils/layoutClasses'
 
 /** Session-only; reload returns to system / prefers-color-scheme (sunset scheduling, etc.). */
 type SessionOverride = 'light' | 'dark' | null
@@ -11,17 +12,15 @@ type SessionOverride = 'light' | 'dark' | null
 interface NavbarProps {
   activeSection: string
   onNavigate: (section: string) => void
-  /** Hide-on-scroll-down (class on header, driven by App) */
   headerScrollHidden?: boolean
   onMenuOpenChange?: (open: boolean) => void
 }
 
 const base = import.meta.env.BASE_URL
 
-/**
- * Cycle forced light → forced dark → match system → forced …
- * From system, first step forces the opposite of the OS scheme so each click is visible.
- */
+const iconBtnClass =
+  'flex min-h-10 min-w-10 cursor-pointer items-center justify-center rounded-md border border-border-default bg-surface-0 p-1 text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
+
 function cycleSessionOverride(
   override: SessionOverride,
   osDark: boolean,
@@ -31,7 +30,6 @@ function cycleSessionOverride(
   return osDark ? 'light' : 'dark'
 }
 
-/** Track the OS color-scheme preference reactively. */
 function useOsDark(): boolean {
   const [osDark, setOsDark] = useState(
     () =>
@@ -62,11 +60,10 @@ function domTheme(override: SessionOverride): ThemePreference {
   return override ?? 'system'
 }
 
-/** Sun — use in dark mode; click switches to light. */
 function IconSun() {
   return (
     <svg
-      className="theme-toggle__icon"
+      className="h-5 w-5 shrink-0"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -81,11 +78,10 @@ function IconSun() {
   )
 }
 
-/** Moon — use in light mode; click switches to dark. */
 function IconMoon() {
   return (
     <svg
-      className="theme-toggle__icon"
+      className="h-5 w-5 shrink-0"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -141,14 +137,19 @@ export function Navbar({
 
   return (
     <header
-      className={`site-header${headerScrollHidden ? ' site-header--scroll-hidden' : ''}`}
+      className={`site-header @container/site-header fixed inset-x-0 top-0 z-1000 w-full translate-y-0 transition-transform duration-[220ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
+        headerScrollHidden ? 'site-header--scroll-hidden pointer-events-none -translate-y-full' : ''
+      }`}
     >
-      <nav className="site-nav" aria-label="Primary">
-        <div className="container site-nav__inner">
-          <div className="site-nav__toolbar">
+      <nav
+        className="site-nav bg-surface-0 py-2 shadow-nav @max-[47.99rem]:pt-[calc(env(safe-area-inset-top,0px)+var(--spacing-1))] @max-[47.99rem]:pb-2"
+        aria-label="Primary"
+      >
+        <div className={`${containerClass} flex flex-wrap items-center justify-end gap-2 @[48rem]:grid @[48rem]:grid-cols-[1fr_auto_1fr] @[48rem]:items-center`}>
+          <div className="ms-auto flex items-center gap-1 @[48rem]:col-start-3 @[48rem]:row-start-1 @[48rem]:ms-0 @[48rem]:justify-self-end">
             <button
               type="button"
-              className="theme-toggle"
+              className={iconBtnClass}
               onClick={() =>
                 setSessionOverride((o) => cycleSessionOverride(o, osDark))
               }
@@ -159,7 +160,7 @@ export function Navbar({
             </button>
             <button
               type="button"
-              className="site-nav__toggle"
+              className={`${iconBtnClass} @[48rem]:hidden`}
               onClick={() =>
                 setIsMenuOpen((open) => {
                   const next = !open
@@ -170,22 +171,24 @@ export function Navbar({
               aria-controls="site-nav-menu"
               aria-expanded={isMenuOpen}
             >
-              <span className="visually-hidden">Toggle navigation</span>
-              <span className="site-nav__toggle-icon" aria-hidden />
+              <span className="sr-only">Toggle navigation</span>
+              <span className="nav-toggle-icon" aria-hidden />
             </button>
           </div>
 
           <div
-            className={`site-nav__panel ${isMenuOpen ? 'is-open' : ''}`}
+            className={`basis-full py-2 @[48rem]:col-start-2 @[48rem]:row-start-1 @[48rem]:mx-auto @[48rem]:block @[48rem]:basis-auto @[48rem]:py-0 ${
+              isMenuOpen ? 'block' : 'hidden'
+            }`}
             id="site-nav-menu"
           >
-            <ul className="site-nav__list">
+            <ul className="m-0 flex list-none flex-col items-stretch gap-1 p-0 @[48rem]:flex-row @[48rem]:flex-wrap @[48rem]:items-center @[48rem]:justify-center @[48rem]:gap-0">
               {navItems.map((item) => (
                 <li key={item.id}>
                   <a
                     href={`${base}#${item.id}`}
-                    className={`site-nav__link ${
-                      activeSection === item.id ? 'active' : ''
+                    className={`nav-link-hover relative block min-h-10 rounded-sm px-2 py-1 text-menu text-text-default hover:text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 ${
+                      activeSection === item.id ? 'active font-bold text-primary-600' : ''
                     }`}
                     onClick={() => {
                       onNavigate(item.id)
