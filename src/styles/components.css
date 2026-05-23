@@ -538,6 +538,14 @@
   -webkit-mask-position: center;
 }
 
+.skill-card__inline-logo {
+  flex-shrink: 0;
+  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  fill: var(--color-primary-600);
+}
+
 /* ——— Experience / timeline ——— */
 .resume {
   background-color: var(--color-surface-0);
