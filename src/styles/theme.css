@@ -83,6 +83,8 @@
   --section-hero-padding-top: var(--spacing-3);
   /* Gap under section titles (Skills / Experiences / Projects) — single rhythm */
   --section-heading-gap: var(--spacing-6);
+  /* Skills: h2→category, category rhythm, and band above the Skills h2 */
+  --skills-rhythm-gap: var(--spacing-3);
   --container-max: 75rem;
   --container-inline: clamp(var(--spacing-2), 2vw + 0.5rem, var(--spacing-3));
 }

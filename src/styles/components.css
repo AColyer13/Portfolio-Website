@@ -262,7 +262,8 @@
 
 /* ——— About ——— */
 .about {
-  padding-block: var(--section-hero-padding-top) var(--section-padding-y);
+  /* Bottom band is on .skills (padding-block-start) so we don’t double-stack with About */
+  padding-block: var(--section-hero-padding-top) 0;
   contain: layout;
   scroll-margin-block-start: var(--header-offset);
 }
@@ -385,14 +386,20 @@
 }
 
 /* ——— Skills ——— */
+.skills.section-block {
+  /* Top band matches Skills → first category gap; keep standard padding below */
+  padding-block-start: var(--skills-rhythm-gap);
+  padding-block-end: var(--section-padding-y);
+}
+
 .skills {
   background-color: var(--color-surface-50);
   scroll-margin-block-start: var(--header-offset);
 }
 
-/* Match category-title rhythm (spacing-3), not the default h2 → content gap */
+/* Match category-title rhythm, not the default h2 → content gap */
 .skills .container > .section-heading {
-  margin-block-end: var(--spacing-3);
+  margin-block-end: var(--skills-rhythm-gap);
 }
 
 .skills .container {
@@ -413,7 +420,7 @@
   display: flex;
   flex-direction: column;
   /* Match .skills-block__heading margin-block-end so space above/below category titles is even */
-  gap: var(--spacing-3);
+  gap: var(--skills-rhythm-gap);
   width: 100%;
 }
 
@@ -422,7 +429,7 @@
 }
 
 .skills-block__heading {
-  margin-block-end: var(--spacing-3);
+  margin-block-end: var(--skills-rhythm-gap);
 }
 
 .skills-block__heading h3 {
