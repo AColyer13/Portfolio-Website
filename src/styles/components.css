@@ -422,9 +422,9 @@
   container-name: skills;
 }
 
-/* Exception: keep even space around “Skills” h2, but sit first category tight underneath */
+/* Exception: less gap than other sections, but a little air before the first category */
 .skills .section-heading {
-  margin-block-end: 0;
+  margin-block-end: var(--spacing-3);
 }
 
 .skills-blocks {
