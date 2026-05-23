@@ -9,7 +9,6 @@ import emailjs from '@emailjs/browser'
 import {
   containerClass,
   primaryBtnSubmitClass,
-  sectionBlockClass,
   sectionContainerClass,
   sectionDeferredClass,
 } from '../utils/layoutClasses'
@@ -129,21 +128,20 @@ export function Contact() {
 
   return (
     <section
-      className={`contact ${sectionDeferredClass} bg-surface-0 @container/contact ${sectionBlockClass}`}
+      className={`contact ${sectionDeferredClass} bg-surface-0 @container/contact py-(--spacing-5) [contain:layout]`}
       id="contact"
     >
       <div className={`${containerClass} ${sectionContainerClass}`}>
-        <div className="grid grid-cols-1 items-stretch gap-6 @[62rem]:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
-          <div className="flex h-full flex-col overflow-hidden rounded-lg border border-border-default bg-surface-0 contain-[layout_style]">
-            <div className="w-full flex-1 p-3">
+        <div className="grid grid-cols-1 items-start gap-5 @[62rem]:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+          <div className="flex flex-col overflow-hidden rounded-lg border border-border-default bg-surface-0 contain-[layout_style]">
+            <div className="w-full p-3">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90444.17968810473!2d-93.44258962458554!3d44.89525237382178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87f6213ace55a039%3A0xcdaf9c3796fa2779!2sEdina%2C%20MN!5e0!3m2!1sen!2sus!4v1764804107343!5m2!1sen!2sus"
                 width="100%"
-                height={400}
                 allowFullScreen
                 loading="lazy"
                 title="Map of Edina, MN"
-                className="h-[clamp(17.5rem,38vh,28.75rem)] w-full rounded-md border-0 grayscale transition-[filter] duration-200 ease-in-out hover:grayscale-0"
+                className="h-[clamp(14rem,30vh,22rem)] w-full rounded-md border-0 grayscale transition-[filter] duration-200 ease-in-out hover:grayscale-0"
               />
             </div>
             <div className="mt-0 flex flex-wrap items-center justify-between gap-3 rounded-b-lg border border-t-0 border-border-default bg-surface-50 px-3 py-4">
@@ -182,8 +180,8 @@ export function Contact() {
             </div>
           </div>
 
-          <div className="contact-form w-full rounded-lg border border-border-default bg-surface-50 p-4 @max-[61.98rem]:p-4 @[62rem]:p-5">
-            <h2 className="contact-form-title mb-4 text-text-default">
+          <div className="contact-form w-full rounded-lg border border-border-default bg-surface-50 p-4">
+            <h2 className="contact-form-title mb-3 text-text-default">
               Want to know more? <br /> Let&apos;s talk
             </h2>
 
@@ -262,8 +260,8 @@ export function Contact() {
                   <textarea
                     id="contact-message"
                     name="message"
-                    rows={8}
-                    className={inputClass}
+                    rows={4}
+                    className={`${inputClass} min-h-[5.5rem] resize-y`}
                     placeholder="Message"
                     value={formData.message}
                     onChange={handleChange}
