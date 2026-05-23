@@ -20,6 +20,8 @@ interface Project {
   title: string;
   tech: string;
   imageUrl: string;
+  imageWidth: number;
+  imageHeight: number;
   liveUrl?: string;
   githubUrl: string;
 }
@@ -176,6 +178,8 @@ export const projects: Project[] = [
     title: 'Valley Forge Automotive',
     tech: 'React, Firebase, Firestore',
     imageUrl: 'images/mechanicapiicon.png',
+    imageWidth: 1024,
+    imageHeight: 519,
     liveUrl: 'https://valleyforgeautomotive.org',
     githubUrl: 'https://github.com/AColyer13/Mechanic-API---Copy-with-Testing-and-Documentation',
   },
@@ -184,6 +188,8 @@ export const projects: Project[] = [
     title: 'MissionCtrl',
     tech: 'React, Firebase, Firestore, Gemini AI',
     imageUrl: 'images/missionctrl-tr41-groundctrl.png',
+    imageWidth: 1024,
+    imageHeight: 526,
     liveUrl: 'https://missionctrl.org',
     githubUrl: 'https://github.com/growthwithcoding/TR41-GroundCTRL',
   },
@@ -192,6 +198,8 @@ export const projects: Project[] = [
     title: 'Immaculate Draft',
     tech: 'HTML, CSS, JavaScript',
     imageUrl: 'images/immaculate-grid-copy.png',
+    imageWidth: 1024,
+    imageHeight: 519,
     liveUrl: 'https://acolyer13.github.io/Immaculate-Grid-Copy/',
     githubUrl: 'https://github.com/AColyer13/Immaculate-Grid-Copy',
   },
@@ -200,6 +208,8 @@ export const projects: Project[] = [
     title: 'Vikes Quiz App',
     tech: 'JavaScript',
     imageUrl: 'images/vikingsquizicon.png',
+    imageWidth: 2547,
+    imageHeight: 1272,
     liveUrl: 'https://acolyer13.github.io/vikes-quiz-app/',
     githubUrl: 'https://github.com/AColyer13/vikes-quiz-app',
   },
@@ -208,6 +218,8 @@ export const projects: Project[] = [
     title: 'Event Center Website',
     tech: 'HTML, CSS, JS',
     imageUrl: 'images/Eventcentericon.png',
+    imageWidth: 2513,
+    imageHeight: 1260,
     liveUrl: 'https://acolyer13.github.io/Event-Center-Example-Website/',
     githubUrl: 'https://github.com/AColyer13/Event-Center-Example-Website',
   },
@@ -216,6 +228,8 @@ export const projects: Project[] = [
     title: 'Swimming Website',
     tech: 'HTML, CSS, JS',
     imageUrl: 'images/Swimmingsiteicon.png',
+    imageWidth: 2552,
+    imageHeight: 1278,
     liveUrl: 'https://acolyer13.github.io/Swim-Teaching-Website/',
     githubUrl: 'https://github.com/AColyer13/Swim-Teaching-Website',
   },

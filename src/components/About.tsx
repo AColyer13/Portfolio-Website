@@ -1,27 +1,29 @@
 import { withBase } from '../utils/baseUrl'
-import { containerClass, sectionContainerClass } from '../utils/layoutClasses'
+import {
+  containerClass,
+  imgHeroClass,
+  primaryBtnClass,
+  sectionContainerClass,
+} from '../utils/layoutClasses'
 
 const base = import.meta.env.BASE_URL
-
-const primaryBtnClass =
-  'inline-flex min-h-11 items-center justify-center gap-1 rounded-pill border-none bg-primary-600 px-4 py-2 text-btn font-bold text-surface-0 transition-[background-color,color,transform,box-shadow] duration-200 ease-in-out hover:-translate-y-[0.1875rem] hover:bg-primary-700 hover:text-surface-0 hover:shadow-btn'
 
 export function About() {
   return (
     <section
       id="about"
-      className="scroll-mt-(--header-offset) pt-(--section-hero-padding-top) pb-(--section-padding-y) [contain:layout]"
+      className="pt-(--section-hero-padding-top) pb-(--section-padding-y) [contain:layout]"
     >
       <div className={`${containerClass} ${sectionContainerClass} @container/about`}>
         <div className="grid grid-cols-1 items-center gap-6 @[48rem]:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
           <div className="pe-0 @[48rem]:pe-4">
-            <small className="mb-2 block text-fluid-1 font-bold text-primary-600">
+            <small className="mb-2 block text-fluid-1 font-bold text-primary-800">
               Welcome to{' '}
               <span className="inline @max-[47.98rem]:block">my portfolio!</span>
             </small>
             <h1>
               Hello everyone, I&apos;m{' '}
-              <span className="text-h1 text-primary-600">Adam Colyer</span>
+              <span className="text-h1 text-primary-800">Adam Colyer</span>
             </h1>
 
             <p>
@@ -49,8 +51,12 @@ export function About() {
           <div>
             <img
               src={withBase('images/IMG_4874.JPEG')}
-              className="mx-auto block h-auto max-w-full rounded-lg shadow-image"
-              alt="desk setup photo"
+              className={imgHeroClass}
+              alt="Desk setup photo"
+              width={2048}
+              height={1536}
+              fetchPriority="high"
+              decoding="async"
             />
           </div>
         </div>

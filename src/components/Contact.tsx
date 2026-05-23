@@ -8,9 +8,12 @@ import {
 import emailjs from '@emailjs/browser'
 import {
   containerClass,
+  primaryBtnSubmitClass,
   sectionBlockClass,
   sectionContainerClass,
+  sectionDeferredClass,
 } from '../utils/layoutClasses'
+import { retryWithBackoff } from '../utils/retryWithBackoff'
 
 type FieldName = 'name' | 'email' | 'message'
 
@@ -102,7 +105,9 @@ export function Contact() {
       if (timestampRef.current) {
         timestampRef.current.value = new Date().toISOString()
       }
-      await emailjs.sendForm('default_service', 'template_6dk6wl5', form)
+      await retryWithBackoff(() =>
+        emailjs.sendForm('default_service', 'template_6dk6wl5', form),
+      )
       setStatus({
         kind: 'success',
         message: 'Message sent. Thanks — I will get back to you soon.',
@@ -123,7 +128,10 @@ export function Contact() {
   }
 
   return (
-    <section className={`contact bg-surface-0 @container/contact ${sectionBlockClass}`} id="contact">
+    <section
+      className={`contact ${sectionDeferredClass} bg-surface-0 @container/contact ${sectionBlockClass}`}
+      id="contact"
+    >
       <div className={`${containerClass} ${sectionContainerClass}`}>
         <div className="grid grid-cols-1 items-stretch gap-6 @[62rem]:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
           <div className="flex h-full flex-col overflow-hidden rounded-lg border border-border-default bg-surface-0 contain-[layout_style]">
@@ -143,7 +151,9 @@ export function Contact() {
                 <h3 className="mb-2 text-fluid-3 text-text-default">Say hello</h3>
                 <p className="m-0 text-fluid-2 text-text-default">612.710.7700</p>
                 <p>
-                  <a href="mailto:adamcolyer@gmail.com">adamcolyer@gmail.com</a>
+                  <a href="mailto:adamcolyer@gmail.com" className="text-primary-800 hover:text-primary-800">
+                    adamcolyer@gmail.com
+                  </a>
                 </p>
               </div>
 
@@ -278,7 +288,7 @@ export function Contact() {
                 <div className="mt-2 @[62rem]:ms-auto @[62rem]:w-full @[62rem]:max-w-56">
                   <input
                     type="submit"
-                    className="submit-btn contact-form-input w-full min-h-11 cursor-pointer rounded-sm border-none bg-primary-600 px-4 py-2 font-bold text-text-on-primary transition-[background-color,transform,box-shadow] duration-200 ease-in-out hover:-translate-y-[0.1875rem] hover:bg-primary-700 hover:shadow-btn disabled:cursor-not-allowed disabled:opacity-60"
+                    className={`submit-btn contact-form-input ${primaryBtnSubmitClass}`}
                     value={isSubmitting ? 'Sending...' : 'Send'}
                     disabled={isSubmitting}
                   />

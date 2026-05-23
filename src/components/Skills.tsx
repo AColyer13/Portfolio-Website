@@ -1,9 +1,7 @@
 import { skillBlocks } from '../data/portfolio'
 import { withBase } from '../utils/baseUrl'
+import { skillCardClass } from '../utils/layoutClasses'
 import { Section, SubsectionHeading } from './Section'
-
-const skillCardClass =
-  'skill-card flex h-[9.375rem] min-h-[9.375rem] max-h-[9.375rem] w-full flex-1 items-center justify-center rounded-lg border border-border-default bg-surface-0 px-3 py-4 text-center transition-[transform,border-color,box-shadow] duration-200 ease-in-out hover:-translate-y-[0.3125rem] hover:border-primary-600 hover:shadow-card'
 
 function isFontAwesomeIcon(icon: string) {
   return /^(?:fab|fas|far|fal|fat|fad|fass|fasr|fasl|fast)\s+fa-/.test(icon)

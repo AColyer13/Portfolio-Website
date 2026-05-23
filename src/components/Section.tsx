@@ -3,14 +3,15 @@ import {
   containerClass,
   sectionBlockClass,
   sectionContainerClass,
+  sectionDeferredClass,
   sectionHeadingClass,
   subsectionHeadingClass,
 } from '../utils/layoutClasses'
 
 const variantClass = {
-  skills: 'bg-surface-50 @container/skills',
-  resume: 'bg-surface-0 @container/resume',
-  project: 'bg-surface-50 @container/portfolio',
+  skills: `${sectionDeferredClass} bg-surface-50 @container/skills`,
+  resume: `${sectionDeferredClass} bg-surface-0 @container/resume`,
+  project: `${sectionDeferredClass} bg-surface-50 @container/portfolio`,
 } as const
 
 export type SectionVariant = keyof typeof variantClass

@@ -1,5 +1,5 @@
 /**
- * Vite preview + axe-cli (WCAG color-contrast only — focused automated check per style guide).
+ * Vite preview + axe-cli (curated WCAG 2.x rules — contrast, landmarks, forms, headings).
  * Run after `npm run build` (see `npm run test:a11y`).
  */
 import { spawn, spawnSync } from 'node:child_process'
@@ -7,6 +7,25 @@ import http from 'node:http'
 import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
+
+/** Curated rules — broader than contrast-only, still stable on this static portfolio. */
+const AXE_RULES = [
+  'color-contrast',
+  'document-title',
+  'html-has-lang',
+  'landmark-one-main',
+  'landmark-no-duplicate-banner',
+  'region',
+  'heading-order',
+  'label',
+  'button-name',
+  'link-name',
+  'form-field-multiple-labels',
+  'aria-valid-attr',
+  'aria-required-attr',
+  'list',
+  'listitem',
+].join(',')
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, '..')
@@ -63,7 +82,16 @@ preview.on('error', (err) => {
 
 try {
   await waitForHttp(url)
-  const result = spawnSync('npx', ['axe', url, '--exit', '--rules', 'color-contrast'], {
+  const result = spawnSync(
+    'npx',
+    [
+      'axe',
+      url,
+      '--exit',
+      '--rules',
+      AXE_RULES,
+    ],
+    {
     cwd: root,
     stdio: 'inherit',
     shell: true,

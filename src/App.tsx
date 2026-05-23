@@ -145,6 +145,9 @@ function App() {
     syncOffset()
 
     const hash = window.location.hash.replace(/^#/, '')
+    if (!hash) {
+      window.scrollTo(0, 0)
+    }
     if (hash) {
       const target = document.getElementById(hash)
       if (target) scrollElementIntoViewInstant(target)
@@ -239,11 +242,13 @@ function App() {
         headerScrollHidden={headerScrollHidden}
         onMenuOpenChange={setMobileMenuOpen}
       />
-      <About />
-      <Skills />
-      <Experiences />
-      <Projects />
-      <Contact />
+      <main id="main-content">
+        <About />
+        <Skills />
+        <Experiences />
+        <Projects />
+        <Contact />
+      </main>
       <Footer />
     </div>
   )

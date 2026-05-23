@@ -1,5 +1,6 @@
 import { projects } from '../data/portfolio'
 import { withBase } from '../utils/baseUrl'
+import { imgCardThumbClass, portfolioCardClass } from '../utils/layoutClasses'
 import { Section } from './Section'
 
 export function Projects() {
@@ -13,12 +14,16 @@ export function Projects() {
             : 'fab fa-github-alt'
           return (
             <div key={project.id}>
-              <div className="portfolio-item-inner group mx-auto min-h-[23rem] max-w-full overflow-hidden rounded-lg border border-border-default bg-surface-0 contain-[layout_style] transition-[transform,box-shadow,border-color] duration-200 ease-in-out hover:-translate-y-[0.3125rem] hover:border-primary-600 hover:shadow-card-hover">
+              <div className={portfolioCardClass}>
                 <div className="relative h-[12.5rem] overflow-hidden">
                   <img
                     src={withBase(project.imageUrl)}
-                    alt=""
-                    className="mx-auto block h-full w-full max-w-full object-cover transition-transform duration-200 ease-in-out group-hover:scale-105"
+                    alt={project.title}
+                    width={project.imageWidth}
+                    height={project.imageHeight}
+                    loading="lazy"
+                    decoding="async"
+                    className={imgCardThumbClass}
                   />
                   <a
                     href={overlayHref}
@@ -32,10 +37,12 @@ export function Projects() {
                 </div>
                 <div className="p-3 text-center">
                   <div>
-                    <h6 className="tech mb-1 text-copyright uppercase tracking-wide text-primary-600">
+                    <p className="tech m-0 mb-1 text-copyright uppercase tracking-wide text-primary-800">
                       {project.tech}
-                    </h6>
-                    <h5 className="mb-2 text-fluid-3 text-text-default">{project.title}</h5>
+                    </p>
+                    <h3 className="m-0 mb-2 text-fluid-3 font-bold text-text-default">
+                      {project.title}
+                    </h3>
                   </div>
                   <a
                     href={project.githubUrl}
@@ -46,7 +53,7 @@ export function Projects() {
                   >
                     <i className="fab fa-github-alt text-fluid-3 text-primary-600 transition-colors duration-200 ease-in-out hover:text-primary-700" aria-hidden />
                   </a>
-                  <h6 className="mt-1 text-copyright text-text-subtle">Github</h6>
+                  <p className="m-0 mt-1 text-copyright text-text-subtle">Github</p>
                 </div>
               </div>
             </div>
