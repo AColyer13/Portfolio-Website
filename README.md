@@ -33,20 +33,13 @@ Open http://localhost:5173
 
 ## GitHub Pages deploy
 
-On push to **`main`**, CI runs tests, builds, removes stale published files at the repo root, then commits **`dist/`** to **`main`** (see [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)).
+On push to **`main`**, CI runs tests, builds, uploads **`dist/`** as a Pages artifact, and deploys with `deploy-pages` (see [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)).
 
-Single source of truth:
-- **Edit only:** `src/index.html` (Vite source entry)
-- **Do not edit:** root `index.html`, `assets/`, etc. (generated deploy artifacts committed by CI)
+**Pages settings (required):** Repository → **Settings** → **Pages** → **Build and deployment** → Source: **GitHub Actions** (not “Deploy from a branch”). If deploy fails with `401 Bad credentials`, this setting is almost always the cause.
 
-**Pages settings:** Branch **`main`**, folder **`/` (root)** — not `/docs`. Use **Deploy from a branch**, not “GitHub Actions” as the Pages source.
-
-**Local testing (important):**
+**Local testing:**
 - Day-to-day work: `npm run dev` (http://localhost:5173)
 - Production-like check: `npm run build && npm run preview` (http://localhost:4173)
-- Do **not** open the repo-root `index.html` in the browser or use `npx serve .` on the repo root — that file is the last deploy artifact, not the dev app.
-
-After a deploy, do **one** hard refresh (`Ctrl+Shift+R`) once to drop any old cached HTML/CSS from earlier broken builds. Normal reload should work after that.
 
 ## Contributing
 
