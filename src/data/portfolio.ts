@@ -30,7 +30,7 @@ export const skillBlocks: SkillBlock[] = [
     title: 'Core web / JS',
     skills: [
       { name: 'Vite', icon: 'images/vite.svg' },
-      { name: 'React', icon: 'fab fa-react' },
+      { name: 'React', icon: 'images/react.svg' },
       { name: 'React Native', icon: 'images/react-native.svg' },
       { name: 'Flutter', icon: 'images/flutter.svg' },
       { name: 'React Router', icon: 'images/reactrouter.svg' },
@@ -122,7 +122,7 @@ export const skillBlocks: SkillBlock[] = [
       { name: 'Prompt Engineering', icon: 'fas fa-wand-magic-sparkles' },
       { name: 'AI Rate Limiting', icon: 'fas fa-gauge-high' },
       { name: 'Local LLMs', icon: 'fas fa-microchip' },
-      { name: 'OpenClaw', icon: 'fas fa-shrimp' },
+      { name: 'OpenClaw', icon: 'images/openclaw.svg' },
     ],
   },
 ];
