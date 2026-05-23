@@ -3,16 +3,18 @@ import { render, screen } from '@testing-library/react'
 import { Skills } from './Skills'
 
 describe('Skills', () => {
-  it('renders FastAPI with the official inline SVG icon', () => {
+  it('renders FastAPI with the official logo asset mask', () => {
     render(<Skills />)
 
     const heading = screen.getByRole('heading', { name: 'FastAPI', level: 4 })
     const body = heading.closest('.skill-card__body')
-    const icon = body?.querySelector('.skill-card__icon path')
+    const icon = body?.querySelector<HTMLElement>('.skill-card__logo')
 
     expect(body?.querySelector('i.images\\/fastapi\\.svg')).toBeNull()
     expect(icon).toBeTruthy()
-    expect(icon).toHaveAttribute('fill', 'currentColor')
-    expect(icon?.getAttribute('d')).toContain('3.175 0.53433431')
+    expect(icon).toHaveStyle({
+      maskImage: 'url("/images/fastapi.svg")',
+      WebkitMaskImage: 'url("/images/fastapi.svg")',
+    })
   })
 })

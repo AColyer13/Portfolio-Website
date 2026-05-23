@@ -6,9 +6,6 @@ const base = import.meta.env.BASE_URL
 const primaryBtnClass =
   'inline-flex min-h-11 items-center justify-center gap-1 rounded-pill border-none bg-primary-600 px-4 py-2 text-btn font-bold text-surface-0 transition-[background-color,color,transform,box-shadow] duration-200 ease-in-out hover:-translate-y-[0.1875rem] hover:bg-primary-700 hover:text-surface-0 hover:shadow-btn'
 
-const outlineBtnClass =
-  'border-2 border-primary-600 bg-transparent text-primary-600 hover:bg-primary-600 hover:text-text-default'
-
 export function About() {
   return (
     <section
@@ -43,7 +40,7 @@ export function About() {
                 <span className="fa-solid fa-file-alt" aria-hidden />
                 Download Resume
               </a>
-              <a href={`${base}#contact`} className={`${primaryBtnClass} ${outlineBtnClass}`}>
+              <a href={`${base}#contact`} className={primaryBtnClass}>
                 Get in Touch
               </a>
             </div>
