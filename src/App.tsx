@@ -232,9 +232,7 @@ function App() {
   }, [mobileMenuOpen])
 
   return (
-    <div
-      className={`App${headerScrollHidden ? ' app--header-hidden' : ''}`}
-    >
+    <div className={`app-shell${headerScrollHidden ? ' app--header-hidden' : ''}`}>
       <Navbar
         activeSection={activeSection}
         onNavigate={setActiveSection}

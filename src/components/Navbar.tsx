@@ -4,6 +4,7 @@ import {
   type ResolvedTheme,
   type ThemePreference,
 } from '../theme/colorScheme'
+import { containerClass } from '../utils/layoutClasses'
 
 /** Session-only; reload returns to system / prefers-color-scheme (sunset scheduling, etc.). */
 type SessionOverride = 'light' | 'dark' | null
@@ -11,17 +12,18 @@ type SessionOverride = 'light' | 'dark' | null
 interface NavbarProps {
   activeSection: string
   onNavigate: (section: string) => void
-  /** Hide-on-scroll-down (class on header, driven by App) */
   headerScrollHidden?: boolean
   onMenuOpenChange?: (open: boolean) => void
 }
 
 const base = import.meta.env.BASE_URL
 
-/**
- * Cycle forced light → forced dark → match system → forced …
- * From system, first step forces the opposite of the OS scheme so each click is visible.
- */
+const iconBtnClass =
+  'inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-md border border-border-default bg-surface-0 p-0 text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
+
+const navLinkClass =
+  'nav-link-hover relative flex h-9 items-center rounded-sm px-2 py-1 text-menu text-text-default hover:text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
+
 function cycleSessionOverride(
   override: SessionOverride,
   osDark: boolean,
@@ -31,7 +33,6 @@ function cycleSessionOverride(
   return osDark ? 'light' : 'dark'
 }
 
-/** Track the OS color-scheme preference reactively. */
 function useOsDark(): boolean {
   const [osDark, setOsDark] = useState(
     () =>
@@ -62,11 +63,10 @@ function domTheme(override: SessionOverride): ThemePreference {
   return override ?? 'system'
 }
 
-/** Sun — use in dark mode; click switches to light. */
 function IconSun() {
   return (
     <svg
-      className="theme-toggle__icon"
+      className="h-[1.125rem] w-[1.125rem] shrink-0"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -81,11 +81,10 @@ function IconSun() {
   )
 }
 
-/** Moon — use in light mode; click switches to dark. */
 function IconMoon() {
   return (
     <svg
-      className="theme-toggle__icon"
+      className="h-[1.125rem] w-[1.125rem] shrink-0"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -141,14 +140,22 @@ export function Navbar({
 
   return (
     <header
-      className={`site-header${headerScrollHidden ? ' site-header--scroll-hidden' : ''}`}
+      className={`site-header @container/site-header fixed inset-x-0 top-0 z-[1000] w-full${
+        headerScrollHidden ? ' site-header--scroll-hidden' : ''
+      }`}
     >
-      <nav className="site-nav" aria-label="Primary">
-        <div className="container site-nav__inner">
-          <div className="site-nav__toolbar">
+      <nav
+        className="site-nav bg-surface-0 py-2 shadow-nav @max-[47.99rem]/site-header:pt-[calc(env(safe-area-inset-top,0px)+var(--spacing-1))] @max-[47.99rem]/site-header:pb-2"
+        aria-label="Primary"
+      >
+        <div
+          className={`${containerClass} grid grid-cols-1 items-center gap-2 @[48rem]/site-header:grid-cols-[1fr_auto_1fr] @[48rem]/site-header:gap-0`}
+        >
+          {/* Mobile toolbar */}
+          <div className="flex items-center justify-end gap-1 @[48rem]/site-header:hidden">
             <button
               type="button"
-              className="theme-toggle"
+              className={iconBtnClass}
               onClick={() =>
                 setSessionOverride((o) => cycleSessionOverride(o, osDark))
               }
@@ -159,7 +166,7 @@ export function Navbar({
             </button>
             <button
               type="button"
-              className="site-nav__toggle"
+              className={iconBtnClass}
               onClick={() =>
                 setIsMenuOpen((open) => {
                   const next = !open
@@ -170,22 +177,25 @@ export function Navbar({
               aria-controls="site-nav-menu"
               aria-expanded={isMenuOpen}
             >
-              <span className="visually-hidden">Toggle navigation</span>
-              <span className="site-nav__toggle-icon" aria-hidden />
+              <span className="sr-only">Toggle navigation</span>
+              <span className="nav-toggle-icon" aria-hidden />
             </button>
           </div>
 
+          {/* Nav links — centered in middle column on desktop */}
           <div
-            className={`site-nav__panel ${isMenuOpen ? 'is-open' : ''}`}
+            className={`py-2 @[48rem]/site-header:col-start-2 @[48rem]/site-header:row-start-1 @[48rem]/site-header:py-0 ${
+              isMenuOpen ? 'block' : 'hidden'
+            } @[48rem]/site-header:block`}
             id="site-nav-menu"
           >
-            <ul className="site-nav__list">
+            <ul className="m-0 flex list-none flex-col items-stretch gap-1 p-0 @[48rem]/site-header:flex-row @[48rem]/site-header:flex-wrap @[48rem]/site-header:items-center @[48rem]/site-header:justify-center @[48rem]/site-header:gap-0">
               {navItems.map((item) => (
                 <li key={item.id}>
                   <a
                     href={`${base}#${item.id}`}
-                    className={`site-nav__link ${
-                      activeSection === item.id ? 'active' : ''
+                    className={`${navLinkClass} ${
+                      activeSection === item.id ? 'active font-bold text-primary-600' : ''
                     }`}
                     onClick={() => {
                       onNavigate(item.id)
@@ -198,6 +208,21 @@ export function Navbar({
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* Desktop toolbar — right column balances mobile toolbar for true center nav */}
+          <div className="hidden items-center justify-end gap-1 @[48rem]/site-header:col-start-3 @[48rem]/site-header:row-start-1 @[48rem]/site-header:flex">
+            <button
+              type="button"
+              className={iconBtnClass}
+              onClick={() =>
+                setSessionOverride((o) => cycleSessionOverride(o, osDark))
+              }
+              aria-label={themeToggleLabel}
+              title={themeToggleTitle}
+            >
+              {effectiveTheme === 'light' ? <IconMoon /> : <IconSun />}
+            </button>
           </div>
         </div>
       </nav>
