@@ -1,14 +1,6 @@
-@layer reset, base, theme, components, utilities, overrides;
-
-@layer theme {
-  @import './styles/theme.css';
-}
-
+@import './styles/theme.css';
 @import 'tailwindcss';
-
-@layer components {
-  @import './styles/custom.css';
-}
+@import './styles/custom.css';
 
 @theme inline {
   --font-sans: var(--body-font-family);

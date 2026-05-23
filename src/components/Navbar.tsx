@@ -5,8 +5,6 @@ import {
   type ThemePreference,
 } from '../theme/colorScheme'
 import { containerClass } from '../utils/layoutClasses'
-import { isNativeScrollHeader } from '../utils/scrollHeader'
-
 /** Session-only; reload returns to system / prefers-color-scheme (sunset scheduling, etc.). */
 type SessionOverride = 'light' | 'dark' | null
 
@@ -126,14 +124,6 @@ export function Navbar({
     applyTheme(appliedTheme)
   }, [appliedTheme])
 
-  useEffect(() => {
-    if (!isNativeScrollHeader()) return
-    document.documentElement.toggleAttribute('data-nav-menu-open', isMenuOpen)
-    return () => {
-      document.documentElement.removeAttribute('data-nav-menu-open')
-    }
-  }, [isMenuOpen])
-
   const nextOverride = cycleSessionOverride(sessionOverride, osDark)
   const nextThemeLabel =
     nextOverride === 'light'
@@ -149,12 +139,10 @@ export function Navbar({
         : 'Dark override, this visit only'
   const themeToggleLabel = `Color theme: ${currentThemeLabel}. Activate to use ${nextThemeLabel}.`
   const themeToggleTitle = `Theme: ${currentThemeLabel}. Next: ${nextThemeLabel}.`
-  const jsHeaderHidden = headerScrollHidden && !isNativeScrollHeader()
-
   return (
     <header
-      className={`site-header @container/site-header fixed inset-x-0 top-0 z-[1000] w-full translate-y-0 transition-transform duration-[220ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
-        jsHeaderHidden ? '-translate-y-full pointer-events-none' : ''
+      className={`site-header @container/site-header fixed inset-x-0 top-0 z-[1000] w-full${
+        headerScrollHidden ? ' site-header--scroll-hidden' : ''
       }`}
     >
       <nav

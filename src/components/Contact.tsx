@@ -134,17 +134,8 @@ export function Contact() {
                 allowFullScreen
                 loading="lazy"
                 title="Map of Edina, MN"
-                className="contact-map-embed h-(--contact-map-height) w-full rounded-md border-0 grayscale transition-[filter] duration-200 ease-in-out hover:grayscale-0"
+                className="h-(--contact-map-height) w-full rounded-md border-0 grayscale transition-[filter] duration-200 ease-in-out hover:grayscale-0"
               />
-              <p className="contact-map-fallback m-0 hidden text-fluid-2 text-text-muted">
-                <a
-                  href="https://maps.google.com/?q=Edina,+MN"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View Edina, MN on Google Maps
-                </a>
-              </p>
             </div>
             <div className="mt-0 flex flex-wrap items-center justify-between gap-3 rounded-b-lg border border-t-0 border-border-default bg-surface-50 px-3 py-3">
               <div>

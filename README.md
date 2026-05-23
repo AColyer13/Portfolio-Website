@@ -54,7 +54,6 @@ Compare output in **`dist/`** to what lands at root on deploy.
 
 - **CI** (`.github/workflows/ci.yml`): lint, `npm audit` (high+), tests, build, axe, Lighthouse on PRs and `main`.
 - **Dependabot** (`.github/dependabot.yml`): weekly npm updates.
-- **PWA**: installable offline shell via `vite-plugin-pwa` (`manifest.webmanifest` + service worker).
 - **SEO**: Open Graph / Twitter meta tags in `src/index.html`.
 
 ## Contributing

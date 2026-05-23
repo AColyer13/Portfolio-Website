@@ -89,7 +89,9 @@ jobs:
           path: dist
 
       - name: Remove previous Pages output at repo root
-        run: rm -rf assets images files icons manifest.webmanifest sw.js workbox-*.js registerSW.js
+        run: |
+          rm -rf assets images files icons
+          rm -f manifest.webmanifest sw.js workbox-*.js registerSW.js
 
       - name: Publish dist/ to repository root on main
         uses: JamesIves/github-pages-deploy-action@v4
