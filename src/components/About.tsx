@@ -1,4 +1,5 @@
 import { withBase } from '../utils/baseUrl'
+import { downloadFile, shouldDownloadInPlace } from '../utils/downloadFile'
 import {
   containerClass,
   imgHeroClass,
@@ -7,8 +8,13 @@ import {
 } from '../utils/layoutClasses'
 
 const base = import.meta.env.BASE_URL
+const RESUME_PATH = 'files/AdamColyerResume2026v2.pdf'
+const RESUME_FILENAME = 'AdamColyerResume2026v2.pdf'
+const resumeUrl = withBase(RESUME_PATH)
 
 export function About() {
+  const resumeInPlace = shouldDownloadInPlace()
+
   return (
     <section
       id="about"
@@ -34,10 +40,25 @@ export function About() {
 
             <div className="mt-4 flex flex-wrap items-center gap-2">
               <a
-                href={withBase('files/AdamColyerResume2026v2.pdf')}
+                href={resumeUrl}
                 className={primaryBtnClass}
-                target="_blank"
-                rel="noopener noreferrer"
+                download={resumeInPlace ? RESUME_FILENAME : undefined}
+                {...(resumeInPlace
+                  ? {}
+                  : { target: '_blank', rel: 'noopener noreferrer' })}
+                onClick={
+                  resumeInPlace
+                    ? (e) => {
+                        e.preventDefault()
+                        void downloadFile(resumeUrl, RESUME_FILENAME).catch(() => {
+                          const link = document.createElement('a')
+                          link.href = resumeUrl
+                          link.download = RESUME_FILENAME
+                          link.click()
+                        })
+                      }
+                    : undefined
+                }
               >
                 <span className="fa-solid fa-file-alt" aria-hidden />
                 Download Resume
