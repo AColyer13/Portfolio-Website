@@ -5,7 +5,6 @@ import {
   sectionContainerClass,
   sectionDeferredClass,
   sectionHeadingClass,
-  subsectionHeadingClass,
 } from '../utils/layoutClasses'
 
 const variantClass = {
@@ -49,19 +48,5 @@ export function Section({
         {body}
       </div>
     </section>
-  )
-}
-
-interface SubsectionHeadingProps {
-  title: string
-}
-
-export function SubsectionHeading({ title }: SubsectionHeadingProps) {
-  return (
-    <div className={subsectionHeadingClass}>
-      <h3 className="m-0 text-fluid-3 font-medium leading-snug tracking-wide text-primary-500">
-        {title}
-      </h3>
-    </div>
   )
 }

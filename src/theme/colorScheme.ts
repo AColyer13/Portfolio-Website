@@ -1,5 +1,3 @@
-export const THEME_STORAGE_KEY = 'portfolio-color-scheme-v2'
-
 /** Applied to `document.documentElement` — `system` follows `prefers-color-scheme`. */
 export type ThemePreference = 'light' | 'dark' | 'system'
 
@@ -12,14 +10,17 @@ const THEME_COLOR: Record<ResolvedTheme, string> = {
   dark: '#18181c',
 }
 
+/** Legacy storage key — dropped on first paint so scheduled OS themes always apply. */
+const LEGACY_THEME_STORAGE_KEY = 'portfolio-color-scheme-v2'
+
 export function syncThemeColor(resolved: ResolvedTheme) {
-  let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]:not([media])')
-  if (!meta) {
-    meta = document.createElement('meta')
-    meta.name = 'theme-color'
-    document.head.appendChild(meta)
-  }
+  // Strip the two media-conditional theme-color metas in index.html (and any
+  // duplicates) so we end up with exactly one controlled by the resolved theme.
+  document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.remove())
+  const meta = document.createElement('meta')
+  meta.name = 'theme-color'
   meta.content = THEME_COLOR[resolved]
+  document.head.appendChild(meta)
 }
 
 export function applyTheme(theme: ThemePreference) {
@@ -29,9 +30,9 @@ export function applyTheme(theme: ThemePreference) {
 /** Drop legacy persisted light/dark so scheduled OS themes always apply on load. */
 export function migrateLegacyThemeStorage() {
   try {
-    const v = localStorage.getItem(THEME_STORAGE_KEY)
+    const v = localStorage.getItem(LEGACY_THEME_STORAGE_KEY)
     if (v === 'light' || v === 'dark') {
-      localStorage.removeItem(THEME_STORAGE_KEY)
+      localStorage.removeItem(LEGACY_THEME_STORAGE_KEY)
     }
   } catch {
     /* ignore */

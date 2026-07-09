@@ -381,21 +381,28 @@
 }
 
 /*
- * Touch / coarse pointer — pressed feedback via .touch-pressed (Pointer Events)
- * because :has(:active) is unreliable on iOS Safari.
+ * Touch / coarse pointer — pressed feedback via declarative :active / :has(:active)
+ * (2026 standard). :has() is Baseline; iOS Safari 15.4+ matches parent :active
+ * for descendants when `touch-action: manipulation` is set on the host element.
+ * `cursor: pointer` is also required so iOS Safari fires `:active` on non-anchor
+ * elements; `-webkit-tap-highlight-color: transparent` suppresses the default
+ * grey flash so our custom border-color transition is the only feedback.
  */
 @media (hover: none), (pointer: coarse) {
   .portfolio-item-inner,
   .skill-card {
     touch-action: manipulation;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
     transition-property: border-color;
     transition-duration: 0.2s;
     transition-timing-function: ease;
   }
 
-  .portfolio-item-inner.touch-pressed,
-  .skill-card.touch-pressed,
-  .portfolio-item-inner:has(:focus-visible) {
+  .portfolio-item-inner:has(:active),
+  .portfolio-item-inner:has(:focus-visible),
+  .skill-card:active,
+  .skill-card:has(:focus-visible) {
     border-color: var(--color-primary-600);
   }
 
@@ -442,7 +449,8 @@
   }
 }
 
-/* Skill logo mask (icon path set inline per skill) */
+/* Skill logo mask — the per-icon URL is set inline on the element; the
+ * static geometry (size, mode, repeat, position, color) lives here. */
 .skill-card__logo {
   flex-shrink: 0;
   display: block;
@@ -453,10 +461,6 @@
   mask-size: contain;
   mask-repeat: no-repeat;
   mask-position: center;
-  -webkit-mask-mode: alpha;
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
 }
 
 /* Contact form — autofill, placeholders, color-scheme */
@@ -498,5 +502,310 @@
 
   .field-error {
     color: Mark;
+  }
+}
+
+/* =====================================================================
+ * 2026 user-preference media queries
+ * ===================================================================== */
+
+/* WCAG 2.2 / 2026 — bump contrast for users who request it. */
+@media (prefers-contrast: more) {
+  :root {
+    --color-border-default: oklch(70% 0.01 260);
+    --color-text-muted: oklch(35% 0.03 260);
+    --color-text-subtle: oklch(45% 0.03 260);
+  }
+
+  :root[data-theme='dark'],
+  :root[data-theme='system'] {
+    --color-border-default: #71717a;
+    --color-text-muted: #d4d4d8;
+    --color-text-subtle: #e4e4e7;
+  }
+}
+
+/*
+ * Reduced transparency — solid surfaces, friendlier to low-vision / OLED users.
+ * Chrome 118+, Edge 118+, Opera 104+, Firefox 113+ (flag), Safari: no support.
+ */
+@media (prefers-reduced-transparency: reduce) {
+  .contact-map-placeholder,
+  .contact-form,
+  .portfolio-item-inner {
+    background-color: var(--color-surface-0) !important;
+  }
+}
+
+/*
+ * Forced colors (Windows High Contrast Mode) — the browser wipes box-shadow
+ * and background-image (non-URL), and forces border-color etc. to system
+ * palette keywords. Replace shadow-based emphasis with explicit borders using
+ * system color keywords so HCM users see visible state.
+ */
+@media (forced-colors: active) {
+  .skill-card,
+  .portfolio-item-inner,
+  .contact-map-placeholder,
+  .contact-form,
+  .contact > div > div {
+    border: 1px solid CanvasText !important;
+  }
+
+  .primary-btn,
+  .secondary-btn,
+  [class*='bg-primary-600'] {
+    border: 1px solid ButtonText !important;
+    background: ButtonFace !important;
+    color: ButtonText !important;
+    forced-color-adjust: none;
+  }
+
+  .field-error {
+    color: Mark;
+  }
+
+  /* Visible pressed state via system Highlight keyword */
+  .portfolio-item-inner:has(:active),
+  .skill-card:active {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  /* Focus indicator must be a system color, not a custom CSS var */
+  *:focus-visible {
+    outline: 2px solid Highlight !important;
+    outline-offset: 2px;
+  }
+}
+
+/* =====================================================================
+ * View Transitions API — fade between sections on hash navigation.
+ * Material Design 3 "Emphasized" decelerate easing for the entering view,
+ * standard ease for the leaving view. Both pseudo-elements gated on
+ * reduced-motion (reduced-motion users get an instant cut, no animation).
+ * Direction-aware animations: App.tsx passes a view-transition type
+ * ("forward" / "back") based on scroll direction; the matching CSS
+ * pseudo-class picks the right keyframes so navigating to a section below
+ * the current one slides up while going back slides down.
+ * ===================================================================== */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.25s;
+  animation-fill-mode: both;
+}
+
+::view-transition-old(root) {
+  animation-name: section-out-forward;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-new(root) {
+  animation-name: section-in-forward;
+  animation-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1);
+}
+
+:root:active-view-transition-type(back) ::view-transition-old(root) {
+  animation-name: section-out-back;
+}
+
+:root:active-view-transition-type(back) ::view-transition-new(root) {
+  animation-name: section-in-back;
+}
+
+@keyframes section-out-forward {
+  to {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+  }
+}
+
+@keyframes section-in-forward {
+  from {
+    opacity: 0;
+    transform: translateY(0.25rem);
+  }
+}
+
+@keyframes section-out-back {
+  to {
+    opacity: 0;
+    transform: translateY(0.25rem);
+  }
+}
+
+@keyframes section-in-back {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+/* =====================================================================
+ * Scroll-driven section reveal (Baseline 2024+; Safari 26, Firefox 155).
+ * Targets non-deferred sections only — [content-visibility:auto] can
+ * interfere with view() timelines, and we don't want to fight the
+ * existing perf optimizations in Section.tsx.
+ * ===================================================================== */
+@supports (animation-timeline: view()) {
+  section#about,
+  section#contact,
+  footer {
+    animation: section-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+
+  @keyframes section-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section#about,
+  section#contact,
+  footer {
+    animation: none !important;
+  }
+}
+
+/* =====================================================================
+ * Popover API — mobile nav menu.
+ * Popovers are hidden by default (UA stylesheet) and rendered in the top
+ * layer when open. We anchor it under the fixed header and slide it in
+ * using @starting-style + transition-behavior: allow-discrete (Baseline
+ * 2024+) so we get an enter animation in addition to the default exit.
+ * ===================================================================== */
+.site-nav-popover {
+  /* Reset UA popover defaults that don't fit a dropdown-menu look */
+  margin: 0;
+  inset: auto;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+  color: inherit;
+
+  /* Enter/exit transition (allow-discrete enables transition on `display`) */
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.05, 0.7, 0.1, 1),
+    overlay 0.2s ease allow-discrete, display 0.2s ease allow-discrete;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* The `@starting-style` rule sets the *initial* state when the popover
+ * transitions from closed → open, so the transition has somewhere to start. */
+@starting-style {
+  .site-nav-popover:popover-open {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav-popover {
+    transition: none !important;
+  }
+}
+
+/* =====================================================================
+ * CSS-only tooltip via data-tooltip attribute.
+ * Used on toolbar buttons where the `title` attribute UX (hover-delay)
+ * is too slow. Renders on :hover and :focus-visible for keyboard parity.
+ * `pointer-fine` guard avoids showing on touch (where there's no hover).
+ * ===================================================================== */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 0.375rem 0.625rem;
+  border-radius: 0.3125rem;
+  background-color: var(--color-text-default);
+  color: var(--color-surface-0);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 50;
+  box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 25%);
+}
+
+[data-tooltip]::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 0.3125rem solid transparent;
+  border-bottom-color: var(--color-text-default);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 50;
+}
+
+/* Show tooltips on hover (pointer-fine only — no hover on touch devices).
+ * Keyboard focus always shows the tooltip so :focus-visible parity holds. */
+@media (hover: hover) and (pointer: fine) {
+  [data-tooltip]:hover::after,
+  [data-tooltip]:focus-visible::after,
+  [data-tooltip]:hover::before,
+  [data-tooltip]:focus-visible::before {
+    opacity: 1;
+  }
+  [data-tooltip]:hover::after,
+  [data-tooltip]:focus-visible::after {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* On mobile (touch devices), the popover menu is the navigation target — the
+ * toolbar buttons get larger `data-tooltip` text positioned above the button
+ * so it doesn't get clipped by the popover when it opens. */
+@media (hover: none), (pointer: coarse) {
+  [data-tooltip]::after {
+    top: auto;
+    bottom: calc(100% + 0.5rem);
+  }
+  [data-tooltip]::before {
+    top: auto;
+    bottom: 100%;
+    border-bottom-color: transparent;
+    border-top-color: var(--color-text-default);
+  }
+  /* Tooltips on touch are usually noise; only show when the button is focused */
+  [data-tooltip]:focus-visible::after,
+  [data-tooltip]:focus-visible::before {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-tooltip]::after,
+  [data-tooltip]::before {
+    transition: none !important;
   }
 }
