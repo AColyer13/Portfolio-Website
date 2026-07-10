@@ -9,11 +9,11 @@ describe('Projects', () => {
     expect(screen.getAllByText('MissionCtrl').length).toBeGreaterThan(0)
   })
 
-  it('renders recent private-repo projects', () => {
+  it('renders private-repo projects that link to source on GitHub', () => {
     render(<Projects />)
     expect(screen.getAllByText('Legal Eagle Project').length).toBeGreaterThan(0)
     expect(screen.getAllByText('Dream Vacation App').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Moovellous').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('UFO Abductor').length).toBeGreaterThan(0)
     expect(screen.getAllByText('The Office').length).toBeGreaterThan(0)
     expect(screen.getAllByText('Writing Consultant').length).toBeGreaterThan(0)
     expect(screen.getAllByText('Stardust').length).toBeGreaterThan(0)
@@ -47,13 +47,13 @@ describe('Projects', () => {
     expect(zoom).toHaveAttribute('href', 'https://github.com/AColyer13/the-office')
   })
 
-  it('links Moovellous overlay to its GitHub Pages demo', () => {
+  it('links UFO Abductor overlay to its GitHub Pages demo', () => {
     const { container } = render(<Projects />)
     const cards = container.querySelectorAll('.portfolio-item-inner')
-    const moovellousCard = Array.from(cards).find((card) =>
-      card.textContent?.includes('Moovellous'),
+    const ufoCard = Array.from(cards).find((card) =>
+      card.textContent?.includes('UFO Abductor'),
     )
-    const zoom = moovellousCard?.querySelector('.portfolio-zoom-link')
+    const zoom = ufoCard?.querySelector('.portfolio-zoom-link')
     expect(zoom).toHaveAttribute(
       'href',
       'https://acolyer13.github.io/moovellous/',
@@ -84,7 +84,7 @@ describe('Projects', () => {
       Stardust: 'https://acolyer13.github.io/Stardust/',
       'Minnesota Snowmobile': 'https://acolyer13.github.io/minnesota-snowmobile/',
       'Legal Eagle Project': 'https://legaleagleproject-mu.vercel.app',
-      Moovellous: 'https://acolyer13.github.io/moovellous/',
+      'UFO Abductor': 'https://acolyer13.github.io/moovellous/',
     }
     for (const [title, href] of Object.entries(expectedLiveUrls)) {
       const card = Array.from(cards).find((c) => c.textContent?.includes(title))
@@ -92,4 +92,20 @@ describe('Projects', () => {
       expect(zoom).toHaveAttribute('href', href)
     }
   })
-})
+  it('no longer renders any FontAwesome classes (font icons migrated to SVG Icon)', () => {
+    const { container } = render(<Projects />)
+    // FA classes use the prefix `fa-` (e.g. `fab fa-github`, `fas fa-external-link-alt`).
+    // All project icons must now flow through the lucide/Icon component (svg element).
+    expect(container.querySelector('[class*="fa-"]')).toBeNull()
+    // Sanity: the GitHub icon is still present (just as an inline SVG).
+    expect(container.querySelectorAll('svg').length).toBeGreaterThan(0)
+  })
+
+  it('marks every card thumb with lazy loading for below-the-fold LCP savings', () => {
+    const { container } = render(<Projects />)
+    const imgs = container.querySelectorAll<HTMLImageElement>('img')
+    for (const img of imgs) {
+      expect(img.getAttribute('loading')).toBe('lazy')
+      expect(img.getAttribute('decoding')).toBe('async')
+    }
+  })})

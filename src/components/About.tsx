@@ -7,6 +7,7 @@ import {
   secondaryBtnClass,
   sectionContainerClass,
 } from '../utils/layoutClasses'
+import { Icon } from './Icons'
 
 const base = import.meta.env.BASE_URL
 const RESUME_PATH = 'files/AdamColyerResume2026v2.pdf'
@@ -43,7 +44,7 @@ export function About() {
                 className={primaryBtnClass}
                 download={RESUME_FILENAME}
               >
-                <span className="fa-solid fa-file-alt" aria-hidden />
+                <Icon name="file-alt" aria-hidden />
                 Download Resume
               </a>
               <a href={`${base}#contact`} className={secondaryBtnClass}>

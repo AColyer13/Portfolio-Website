@@ -1,6 +1,14 @@
 import '@testing-library/jest-dom/vitest'
 import '../index.css'
-import { vi } from 'vitest'
+import { afterEach, vi } from 'vitest'
+import { cleanup } from '@testing-library/react'
+
+// RTL auto-cleanup shim — register an explicit afterEach so DOM from a
+// prior render doesn't leak into the next test (which can happen with
+// Vitest's per-file workers if the `auto-cleanup` heuristic misses).
+afterEach(() => {
+  cleanup()
+})
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -14,3 +22,30 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: vi.fn(),
   })),
 })
+
+// jsdom doesn't implement window.scrollTo — stub it so we don't see
+// "Not implemented" warnings during scroll-spy tests.
+if (!window.scrollTo || /\[native code\]/.test(window.scrollTo.toString()) === false) {
+  ;(window as unknown as { scrollTo: unknown }).scrollTo = vi.fn()
+}
+
+// jsdom requires --localstorage-file to expose a working localStorage.
+// Provide an in-memory shim so theme/storage code can run under tests.
+if (!window.localStorage) {
+  const store = new Map<string, string>()
+  const shim = {
+    getItem: (k: string) => (store.has(k) ? store.get(k)! : null),
+    setItem: (k: string, v: string) => {
+      store.set(k, String(v))
+    },
+    removeItem: (k: string) => {
+      store.delete(k)
+    },
+    clear: () => store.clear(),
+    key: (i: number) => Array.from(store.keys())[i] ?? null,
+    get length() {
+      return store.size
+    },
+  }
+  Object.defineProperty(window, 'localStorage', { configurable: true, value: shim })
+}

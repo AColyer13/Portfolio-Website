@@ -57,9 +57,9 @@ export function Skills() {
               >
                 <path d="M9 6l6 6-6 6" />
               </svg>
-              <span className="text-fluid-3 font-medium leading-snug tracking-wide text-primary-500">
+              <h3 className="m-0 text-fluid-3 font-medium leading-snug tracking-wide text-primary-500">
                 {block.title}
-              </span>
+              </h3>
             </summary>
             <div className="grid w-full grid-cols-2 items-stretch justify-items-stretch gap-x-(--container-inline) gap-y-4 @[56rem]:grid-cols-4 @[56rem]:gap-x-4">
               {block.skills.map((skill) => (

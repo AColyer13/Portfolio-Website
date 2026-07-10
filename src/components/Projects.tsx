@@ -3,6 +3,7 @@ import { withBase } from '../utils/baseUrl'
 import { pictureSrcSet } from '../utils/pictureSources'
 import { imgCardThumbClass, portfolioCardClass } from '../utils/layoutClasses'
 import { Section } from './Section'
+import { Icon, type IconKey } from './Icons'
 
 export function Projects() {
   return (
@@ -10,9 +11,9 @@ export function Projects() {
       <div className="grid grid-cols-1 gap-3 text-center @[36rem]:grid-cols-2 @[60rem]:grid-cols-3">
         {projects.map((project) => {
           const overlayHref = project.liveUrl ?? project.githubUrl
-          const overlayIcon = project.liveUrl
-            ? 'fas fa-external-link-alt'
-            : 'fab fa-github-alt'
+          const overlayIcon: IconKey = project.liveUrl
+            ? 'external-link-alt'
+            : 'github-alt'
           return (
             <div key={project.id}>
               <div className={portfolioCardClass}>
@@ -47,7 +48,7 @@ export function Projects() {
                     rel="noopener noreferrer"
                     aria-label={`Open ${project.title} (external)`}
                   >
-                    <i className={`${overlayIcon} text-fluid-3 text-surface-0`} aria-hidden />
+                    <Icon name={overlayIcon} className="text-fluid-3 text-surface-0" aria-hidden />
                   </a>
                 </div>
                 <div className="p-3 text-center">
@@ -66,7 +67,7 @@ export function Projects() {
                     rel="noopener noreferrer"
                     aria-label={`${project.title} on GitHub`}
                   >
-                    <i className="fab fa-github-alt text-fluid-3 text-primary-600 transition-colors duration-200 ease-in-out hover:text-primary-700" aria-hidden />
+                    <Icon name="github-alt" className="text-fluid-3 text-primary-600 transition-colors duration-200 ease-in-out hover:text-primary-700" aria-hidden />
                   </a>
                   <p className="m-0 mt-1 text-copyright text-text-subtle">Github</p>
                 </div>

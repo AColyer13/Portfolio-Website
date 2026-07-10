@@ -9,6 +9,7 @@ lerna-debug.log*
 
 # Stray local preview output (don't accidentally commit deprecation noise)
 preview-*.err
+preview-*.log
 
 node_modules
 dist
@@ -20,7 +21,7 @@ docs
 # Cursor local
 .cursor/
 
-# Editor directories and files
+# OS / editor metadata
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -30,3 +31,9 @@ docs
 *.njsproj
 *.sln
 *.sw?
+
+# Build / test caches
+.tsbuildinfo
+.tmp-previews/
+coverage/
+

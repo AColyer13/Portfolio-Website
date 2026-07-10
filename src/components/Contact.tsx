@@ -5,14 +5,14 @@ import {
   type FocusEvent,
   type FormEvent,
 } from 'react'
-import emailjs from '@emailjs/browser'
 import {
   containerClass,
   primaryBtnSubmitClass,
   sectionContainerClass,
   sectionDeferredClass,
 } from '../utils/layoutClasses'
-import { retryWithBackoff } from '../utils/retryWithBackoff'
+import { sendContactForm } from '../utils/contact'
+import { Icon } from './Icons'
 
 type FieldName = 'name' | 'email' | 'message'
 
@@ -117,9 +117,7 @@ export function Contact() {
       if (timestampRef.current) {
         timestampRef.current.value = new Date().toISOString()
       }
-      await retryWithBackoff(() =>
-        emailjs.sendForm('default_service', 'template_6dk6wl5', form),
-      )
+      await sendContactForm(form)
       setStatus({
         kind: 'success',
         message: 'Message sent. Thanks — I will get back to you soon.',
@@ -173,7 +171,7 @@ export function Contact() {
                       Edina, MN
                     </span>
                     <span className="inline-flex items-center gap-1 rounded-pill border border-primary-600 px-3 py-1 text-fluid-1 font-medium text-primary-600 transition-colors duration-200 group-hover:bg-primary-600 group-hover:text-surface-0">
-                      <i className="fas fa-map-marker-alt" aria-hidden />
+                      <Icon name="map-marker-alt" aria-hidden />
                       Load interactive map
                     </span>
                   </span>
@@ -198,7 +196,7 @@ export function Contact() {
                     className={socialLinkClass}
                     aria-label="GitHub profile"
                   >
-                    <i className="fab fa-github block text-2xl leading-none" aria-hidden="true" />
+                    <Icon name="github" className="block text-2xl leading-none" aria-hidden="true" />
                   </a>
                 </li>
                 <li className="flex">
@@ -209,7 +207,7 @@ export function Contact() {
                     className={socialLinkClass}
                     aria-label="LinkedIn profile"
                   >
-                    <i className="fab fa-linkedin block text-2xl leading-none" aria-hidden="true" />
+                    <Icon name="linkedin" className="block text-2xl leading-none" aria-hidden="true" />
                   </a>
                 </li>
               </ul>
