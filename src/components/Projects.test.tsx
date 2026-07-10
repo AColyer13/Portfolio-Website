@@ -101,11 +101,14 @@ describe('Projects', () => {
     expect(container.querySelectorAll('svg').length).toBeGreaterThan(0)
   })
 
-  it('marks every card thumb with lazy loading for below-the-fold LCP savings', () => {
+  it('renders every card thumb with eager loading and async decoding so all 12 thumbnails paint reliably (no deferred IntersectionObserver race)', () => {
     const { container } = render(<Projects />)
     const imgs = container.querySelectorAll<HTMLImageElement>('img')
+    expect(imgs.length).toBeGreaterThan(0)
     for (const img of imgs) {
-      expect(img.getAttribute('loading')).toBe('lazy')
+      // 12 small AVIF thumbnails — eager loading is the simplest reliable fix
+      // for the lazy-loader not firing after fragment navigation on GitHub Pages.
+      expect(img.getAttribute('loading')).toBe('eager')
       expect(img.getAttribute('decoding')).toBe('async')
     }
   })})

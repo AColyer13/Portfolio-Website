@@ -15,8 +15,8 @@ export function Projects() {
             ? 'external-link-alt'
             : 'github-alt'
           return (
-            <div key={project.id}>
-              <div className={portfolioCardClass}>
+            <div key={project.id} className="flex">
+              <div className={`${portfolioCardClass} flex h-full w-full flex-col`}>
                 <div className="relative h-[12.5rem] overflow-hidden">
                   <picture>
                     <source
@@ -36,8 +36,9 @@ export function Projects() {
                       alt={project.title}
                       width={project.imageWidth}
                       height={project.imageHeight}
-                      loading="lazy"
+                      loading="eager"
                       decoding="async"
+                      fetchPriority="high"
                       className={imgCardThumbClass}
                     />
                   </picture>
@@ -51,18 +52,16 @@ export function Projects() {
                     <Icon name={overlayIcon} className="text-fluid-3 text-surface-0" aria-hidden />
                   </a>
                 </div>
-                <div className="p-3 text-center">
-                  <div>
-                    <p className="tech m-0 mb-1 text-copyright uppercase tracking-wide text-primary-600">
-                      {project.tech}
-                    </p>
-                    <h3 className="m-0 mb-2 text-fluid-3 font-bold text-text-default">
-                      {project.title}
-                    </h3>
-                  </div>
+                <div className="flex grow flex-col p-3 text-center">
+                  <p className="tech m-0 mb-1 text-copyright uppercase tracking-wide text-primary-600">
+                    {project.tech}
+                  </p>
+                  <h3 className="m-0 mb-2 text-fluid-3 font-bold text-text-default">
+                    {project.title}
+                  </h3>
                   <a
                     href={project.githubUrl}
-                    className="portfolio-link mt-2 inline-flex min-h-11 min-w-11 items-center justify-center"
+                    className="portfolio-link mt-auto inline-flex min-h-11 min-w-11 items-center justify-center pt-2"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${project.title} on GitHub`}
