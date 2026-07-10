@@ -147,13 +147,22 @@ export function Contact() {
           <div className="flex flex-col overflow-hidden rounded-lg border border-border-default bg-surface-0 contain-[layout_style]">
             <div className="w-full p-3">
               {mapLoaded ? (
+                // loading="eager" (not "lazy") on purpose: lazy iframes can stick at
+                // about:blank when the parent section uses content-visibility: auto
+                // and Chromium's IntersectionObserver decides the iframe isn't near
+                // enough to the viewport to start loading. The iframe only mounts
+                // after the user clicks the placeholder, so eager is the right
+                // behavior here.
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90444.17968810473!2d-93.44258962458554!3d44.89525237382178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87f6213ace55a039%3A0xcdaf9c3796fa2779!2sEdina%2C%20MN!5e0!3m2!1sen!2sus!4v1764804107343!5m2!1sen!2sus"
                   width="100%"
+                  height="100%"
+                  style={{ minHeight: 'clamp(14rem, 30vh, 22rem)', border: 0 }}
                   allowFullScreen
-                  loading="lazy"
+                  loading="eager"
+                  referrerPolicy="no-referrer-when-downgrade"
                   title="Map of Edina, MN"
-                  className="contact-map h-[clamp(14rem,30vh,22rem)] w-full rounded-md border-0 grayscale transition-[filter] duration-200 ease-in-out pointer-fine:hover:grayscale-0"
+                  className="contact-map block h-[clamp(14rem,30vh,22rem)] w-full rounded-md grayscale transition-[filter] duration-200 ease-in-out pointer-fine:hover:grayscale-0"
                 />
               ) : (
                 <button
