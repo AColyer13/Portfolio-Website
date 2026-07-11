@@ -17,9 +17,9 @@ CI runs axe on a production build (`npm run test:a11y`). Spot-check on a real ph
 | `prefers-contrast: more` | `src/index.css` | Higher contrast |
 | `forced-colors: active` | `src/index.css` | Windows High Contrast |
 | `hover` / `pointer` media | `src/index.css` | Touch vs mouse feedback |
-| `@supports (animation-timeline: view())` | `src/index.css` | Scroll reveal (graceful skip) |
 | `env(safe-area-inset-*)` | Navbar, layout classes | iPhone notch |
 | `scrollbar-gutter: stable` | `src/index.css` | No layout shift from scrollbars |
+| `startViewTransition` (View Transitions API) | `useSectionNavigation` | Cross-fade between section jumps |
 
 ## Known quirks
 

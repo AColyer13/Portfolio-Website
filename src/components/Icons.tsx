@@ -17,9 +17,11 @@ import {
   type LucideProps,
   Mail,
   MapPin,
+  Moon,
   Shield,
   ShieldUser,
   SlidersHorizontal,
+  Sun,
   Table,
   WandSparkles,
 } from 'lucide-react'
@@ -49,6 +51,9 @@ export type IconKey =
   | 'code-branch'
   | 'docker'
   | 'git-alt'
+  // Theme toggle (mobile + desktop).
+  | 'moon'
+  | 'sun'
   // Brand logos — custom paths below.
   | 'aws'
   | 'github'
@@ -85,6 +90,8 @@ const LUCIDE: Partial<Record<IconKey, Lucide>> = {
   'code-branch': GitBranch,
   'docker': Container,
   'git-alt': GitMerge,
+  'moon': Moon,
+  'sun': Sun,
 }
 
 /** Custom paths for brand logos (lucide omits brand glyphs). 24x24 viewBox. */

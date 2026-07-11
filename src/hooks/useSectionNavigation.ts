@@ -4,7 +4,6 @@ import {
   headerScrollInset,
   isSectionId,
   scrollToSection,
-  SECTION_IDS,
   syncLocationHashWithActiveSection,
   viewDirection,
   type SectionId,
@@ -198,5 +197,3 @@ export function useSectionNavigation(
 
   return { activeSection, headerScrollHidden, navigateToSection }
 }
-
-export const NAV_SECTION_IDS = SECTION_IDS

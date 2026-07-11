@@ -41,9 +41,3 @@ export async function sendContactForm(form: HTMLFormElement): Promise<void> {
     emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form),
   )
 }
-
-export const CONTACT_EMAIL_CONFIG = {
-  publicKey: EMAILJS_PUBLIC_KEY,
-  serviceId: EMAILJS_SERVICE_ID,
-  templateId: EMAILJS_TEMPLATE_ID,
-} as const

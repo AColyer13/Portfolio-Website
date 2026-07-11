@@ -6,6 +6,7 @@ import {
   type ThemePreference,
 } from '../theme/colorScheme'
 import { containerClass } from '../utils/layoutClasses'
+import { Icon } from './Icons'
 
 /** Session-only; reload returns to system / prefers-color-scheme (sunset scheduling, etc.). */
 type SessionOverride = 'light' | 'dark' | null
@@ -71,40 +72,9 @@ function domTheme(override: SessionOverride): ThemePreference {
   return override ?? 'system'
 }
 
-function IconSun() {
-  return (
-    <svg
-      className="h-[1.125rem] w-[1.125rem] shrink-0"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-    </svg>
-  )
-}
-
-function IconMoon() {
-  return (
-    <svg
-      className="h-[1.125rem] w-[1.125rem] shrink-0"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-    </svg>
-  )
-}
+/** Sun → click activates "force dark" for this session. Moon → click returns to system. */
+const THEME_ICON_CLASS =
+  'h-[1.125rem] w-[1.125rem] shrink-0 text-[1.125rem]'
 
 const navItems = [
   { id: 'about', label: 'About' },
@@ -194,9 +164,7 @@ export function Navbar({
       : sessionOverride === 'light'
         ? 'Light override, this visit only'
         : 'Dark override, this visit only'
-  const themeToggleLabel = `Color theme: ${currentThemeLabel}. Activate to use ${nextThemeLabel}.`
-  const themeToggleTitle = `Theme: ${currentThemeLabel}. Next: ${nextThemeLabel}.`
-  const themeToggleShortLabel = `Theme: ${currentThemeLabel}. Next: ${nextThemeLabel}.`
+  const themeToggleLabel = `Theme: ${currentThemeLabel}. Next: ${nextThemeLabel}.`
 
   // Programmatic close on link click (popover=auto would only close on
   // outside-click/Escape; clicking a link inside the popover still navigates
@@ -229,10 +197,13 @@ export function Navbar({
               onClick={() =>
                 setSessionOverride((o) => cycleSessionOverride(o, osDark))
               }
-              aria-label={themeToggleShortLabel}
-              data-tooltip={themeToggleShortLabel}
+              aria-label={themeToggleLabel}
+              data-tooltip={themeToggleLabel}
             >
-              {effectiveTheme === 'light' ? <IconMoon /> : <IconSun />}
+              <Icon
+                name={effectiveTheme === 'light' ? 'moon' : 'sun'}
+                className={THEME_ICON_CLASS}
+              />
             </button>
             <button
               type="button"
@@ -279,10 +250,13 @@ export function Navbar({
                 setSessionOverride((o) => cycleSessionOverride(o, osDark))
               }
               aria-label={themeToggleLabel}
-              title={themeToggleTitle}
-              data-tooltip={themeToggleTitle}
+              title={themeToggleLabel}
+              data-tooltip={themeToggleLabel}
             >
-              {effectiveTheme === 'light' ? <IconMoon /> : <IconSun />}
+              <Icon
+                name={effectiveTheme === 'light' ? 'moon' : 'sun'}
+                className={THEME_ICON_CLASS}
+              />
             </button>
           </div>
         </div>

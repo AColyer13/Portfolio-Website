@@ -2,6 +2,9 @@ import { withBase } from './baseUrl'
 
 export type PictureFormat = 'avif' | 'webp' | 'original'
 
+const RASTER_RE = /\.(png|jpe?g|webp)$/i
+const AVIF_RE = /\.(png|jpe?g|webp)$/i
+
 /**
  * Build a format-specific `srcSet` for `<picture>`:
  *   AVIF source → avif URLs only
@@ -15,23 +18,21 @@ export function pictureSrcSet(
   widths: readonly number[],
   format: PictureFormat,
 ): string {
-  const extMatch = sourceUrl.match(/\.(png|jpe?g|webp)$/i)
+  const extMatch = sourceUrl.match(RASTER_RE)
   if (!extMatch) return withBase(sourceUrl)
 
-  const ext = extMatch[1]!.toLowerCase()
-  const dotExt = ext.startsWith('jp') ? '.jpeg' : `.${ext === 'jpeg' ? 'jpeg' : ext}`
+  // Normalize `.jpg` → `.jpeg` so the variant filename matches the
+  // generator's output naming.
+  const ext = extMatch[1]!.toLowerCase().replace(/^jpg$/, 'jpeg')
+  const dotExt = `.${ext}`
 
   const parts: string[] = []
   for (const w of widths) {
-    const variantPath = sourceUrl.replace(/\.(png|jpe?g|webp)$/i, `-${w}${dotExt}`)
+    const variantPath = sourceUrl.replace(RASTER_RE, `-${w}${dotExt}`)
     if (format === 'avif') {
-      parts.push(
-        `${withBase(variantPath.replace(/\.(png|jpe?g|webp)$/i, '.avif'))} ${w}w`,
-      )
+      parts.push(`${withBase(variantPath.replace(AVIF_RE, '.avif'))} ${w}w`)
     } else if (format === 'webp') {
-      parts.push(
-        `${withBase(variantPath.replace(/\.(png|jpe?g|webp)$/i, '.webp'))} ${w}w`,
-      )
+      parts.push(`${withBase(variantPath.replace(AVIF_RE, '.webp'))} ${w}w`)
     } else {
       parts.push(`${withBase(variantPath)} ${w}w`)
     }

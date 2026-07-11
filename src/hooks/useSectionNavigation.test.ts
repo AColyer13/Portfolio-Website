@@ -2,16 +2,6 @@ import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
 import { useSectionNavigation } from './useSectionNavigation'
 
-// jsdom does not implement IntersectionObserver / ResizeObserver.
-class MockResizeObserver {
-  observe = vi.fn()
-  unobserve = vi.fn()
-  disconnect = vi.fn()
-}
-// Minimal shim — typed via unknown cast so the assignment compiles under strict.
-;(globalThis as unknown as { ResizeObserver: unknown }).ResizeObserver =
-  MockResizeObserver
-
 beforeEach(() => {
   // Mount a minimal DOM tree with a hero that extends below the header so
   // the layout-effect scroll-spy reports "about" as the initial active.
