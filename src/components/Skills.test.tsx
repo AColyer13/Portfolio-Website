@@ -3,19 +3,14 @@ import { render, screen } from '@testing-library/react'
 import { Skills } from './Skills'
 
 describe('Skills', () => {
-  it('renders FastAPI with the logo mask like other SVG skills', () => {
+  it('renders curated skill groups as typographic lists', () => {
     render(<Skills />)
 
-    const heading = screen.getByRole('heading', { name: 'FastAPI', level: 4 })
-    const body = heading.closest('.skill-card__body')
-    const icon = body?.querySelector<HTMLElement>('.skill-card__logo')
-
-    expect(icon).toBeTruthy()
-    // The mask URL is set inline on `mask-image` so the browser resolves it
-    // relative to the document (not the external stylesheet). Static mask
-    // geometry (size, mode, repeat, position) still lives in index.css.
-    expect(icon?.style.maskImage || icon?.style.webkitMaskImage).toBe(
-      'url("/images/fastapi.svg")',
-    )
+    expect(screen.getByRole('heading', { name: 'Build', level: 3 })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Data & cloud', level: 3 })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Quality', level: 3 })).toBeInTheDocument()
+    expect(screen.getByText('TypeScript')).toBeInTheDocument()
+    expect(screen.getByText('Gemini API')).toBeInTheDocument()
+    expect(screen.queryByText('FastAPI')).not.toBeInTheDocument()
   })
 })

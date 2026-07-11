@@ -5,8 +5,8 @@ import { About } from './About'
 describe('About', () => {
   it('renders the hero heading and intro copy', () => {
     render(<About />)
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Adam Colyer/i)
-    expect(screen.getByText(/Welcome to/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Adam Colyer')
+    expect(screen.getByText(/Full-stack developer/i)).toBeInTheDocument()
   })
 
   it('does not depend on any FontAwesome class (replaced by Icon)', () => {
@@ -23,19 +23,9 @@ describe('About', () => {
     expect(link.getAttribute('href')).toContain('AdamColyerResume')
   })
 
-  it('marks the hero image as high-priority + async for LCP', () => {
+  it('does not render a hero image', () => {
     const { container } = render(<About />)
-    const hero = container.querySelector('img')!
-    expect(hero.getAttribute('fetchpriority')).toBe('high')
-    expect(hero.getAttribute('decoding')).toBe('async')
-  })
-
-  it('uses <picture> for AVIF + WebP variants of the hero', () => {
-    const { container } = render(<About />)
-    const sources = container.querySelectorAll('picture source')
-    expect(sources.length).toBeGreaterThanOrEqual(2)
-    const types = Array.from(sources).map((s) => s.getAttribute('type'))
-    expect(types).toContain('image/avif')
-    expect(types).toContain('image/webp')
+    expect(container.querySelector('img')).toBeNull()
+    expect(container.querySelector('picture')).toBeNull()
   })
 })

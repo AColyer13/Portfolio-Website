@@ -1,50 +1,36 @@
 # SPEC — Portfolio Website
 
-> What this site **must** do. Single source of truth for what "done" means.
-> Source-of-data → [`src/data/portfolio.ts`](src/data/portfolio.ts).
-> Source-of-content → [`src/components/`](src/components/).
+Plain checklist for what this site must do. Content lives in [`src/data/portfolio.ts`](src/data/portfolio.ts). UI lives in [`src/components/`](src/components/).
 
-## Requirements
+## Must-haves
 
-1. Show **who** (intro, contact) — About section + contact details.
-2. Show **what** (projects) — thumbnails linking to live demos / repos.
-3. Show **how** (skills, experience) — Skills grid + timeline.
-4. Let visitors **reach out** — EmailJS form + social links.
-5. **Navigate fast** — sticky Navbar, scroll-spy active state, URL hash sync.
-6. **Work everywhere** — light / dark / system, mobile / desktop, reduced-motion / high-contrast / reduced-transparency / forced-colors. Cross-browser matrix and feature-detection rules documented in [`docs/COMPAT.md`](docs/COMPAT.md).
-7. **Be accessible** — skip link, semantic landmarks, valid markup (axe-clean).
-8. **Be fast** — bundle code-split, images in AVIF/WebP + intrinsic size, lazy-load 3rd-party widgets.
+1. **Intro** — Name, role, short bio, resume download, link to contact (`#about`).
+2. **Skills** — Three skill groups in a grid (`#skills`).
+3. **Experience** — Work history timeline (`#experience`).
+4. **Projects** — Featured cards first; button reveals the rest. Each card links to live demo and/or GitHub (`#projects`).
+5. **Contact** — Email form (EmailJS, loaded only on submit), map (click to load), social links (`#contact`).
+6. **Navigation** — Sticky header, scroll-spy highlights the current section, URL hash stays in sync.
+7. **Every device** — Light / dark / system theme. Works on phone and desktop. Respects reduced motion, high contrast, and forced-colors. Browser details: [`docs/COMPAT.md`](docs/COMPAT.md).
+8. **Accessible** — Skip link, semantic HTML, passes axe scan after build.
+9. **Fast** — Small CSS bundle, AVIF/WebP images with correct `<picture>` sources, lazy-load images below the fold, EmailJS in its own chunk.
 
-## Sections (DOM order)
+## Page sections (top to bottom)
 
-| id        | Component       | Purpose                                |
-| --------- | --------------- | -------------------------------------- |
-| `#about`  | `About`         | Intro, resume download, hero image     |
-| `#skills` | `Skills`        | Categorized skill grid                 |
-| `#experience` | `Experiences` | Timeline (year · role · description)   |
-| `#projects` | `Projects`    | Project cards (thumb + live + repo)    |
-| `#contact` | `Contact`      | Form + map + socials                   |
+| Section id   | Component     | What it shows                          |
+| ------------ | ------------- | -------------------------------------- |
+| `#about`     | `About`       | Intro, resume, contact CTA             |
+| `#skills`    | `Skills`      | Skill groups                           |
+| `#experience`| `Experiences` | Timeline                               |
+| `#projects`  | `Projects`    | Project cards                          |
+| `#contact`   | `Contact`     | Form, map, socials                     |
 
-## Stack (pinned)
+## Stack
 
-- React 19 + TypeScript + Vite 7
-- Tailwind CSS v4 (OKLCH design tokens)
-- `lucide-react` + custom SVG paths (FontAwesome dropped — see Changelog)
-- `vitest` + Testing Library for tests
-- `axe-core/cli` for a11y scans after build
+- React 19, TypeScript, Vite 7
+- Tailwind CSS v4 (OKLCH tokens in `src/index.css`)
+- `lucide-react` + `Icons.tsx` for SVG icons
+- Vitest + Testing Library; `npm run test:a11y` after build
 
-## Non-goals
+## Out of scope
 
-- No CMS — content is in TS data files.
-- No web fonts — system stack only (`Plain` → `-apple-system` / `BlinkMacSystemFont` → `Segoe UI` → `system-ui`).
-- No analytics — GitHub Pages privacy.
-- No router — single page, hash anchors.
-
-## Changelog
-
-- **2026-07-10** — Cross-browser matrix document [`docs/COMPAT.md`](docs/COMPAT.md) added. Font stack extended with `-apple-system`, `BlinkMacSystemFont`, `Segoe UI` for native macOS / Windows rendering. `scrollbar-gutter: stable` on `html` to eliminate Windows "always show scrollbars" layout shift. Skip-link uses logical `focus:start-2`. `browserslist` block added to `package.json`. Two physical `left-*` Tailwind classes audited — only `Projects.tsx:47` overlay centering intentionally retained (documented in `docs/COMPAT.md`).
-- **2026-07-10** — Dropped `@fortawesome/fontawesome-free` (~300 KB CSS).
-  All FA glyph classes replaced with `Icon` (`lucide-react` + custom paths).
-  Extracted scroll-spy from `App.tsx` → `src/hooks/useSectionNavigation.ts`.
-  Lazy-loaded `@emailjs/browser` → separate chunk fetched on first submit.
-  CSS: **343 KB → 43 KB** (~87% smaller).
+- No CMS, no web fonts, no analytics, no client-side router.

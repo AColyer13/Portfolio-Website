@@ -15,26 +15,20 @@ export const sectionDeferredClass =
   '[content-visibility:auto] [contain-intrinsic-size:auto_50rem]'
 
 export const primaryBtnClass =
-  'inline-flex min-h-11 items-center justify-center gap-1 rounded-pill border-none bg-primary-600 px-4 py-2 text-btn font-bold text-surface-0 transition-[background-color,color,transform,box-shadow] duration-200 ease-in-out hover:-translate-y-[0.1875rem] hover:bg-primary-700 hover:text-surface-0 hover:shadow-btn'
+  'inline-flex min-h-11 items-center justify-center gap-1 rounded-md border-none bg-primary-600 px-4 py-2 text-btn font-medium text-text-on-primary transition-colors duration-150 ease-in-out hover:bg-primary-700'
 
 /** Secondary (outline) CTA — for hero pairing, keeps one clear primary action. */
 export const secondaryBtnClass =
-  'inline-flex min-h-11 items-center justify-center gap-1 rounded-pill border border-primary-600 bg-transparent px-4 py-2 text-btn font-bold text-primary-600 transition-[background-color,color,transform,box-shadow] duration-200 ease-in-out hover:-translate-y-[0.1875rem] hover:bg-primary-600 hover:text-surface-0 hover:shadow-btn'
+  'inline-flex min-h-11 items-center justify-center gap-1 rounded-md border border-border-default bg-transparent px-4 py-2 text-btn font-medium text-text-default transition-colors duration-150 ease-in-out hover:border-text-muted hover:bg-surface-50'
 
 export const cardClass =
-  'rounded-lg border border-border-default bg-surface-0 contain-[layout_style] transition-[transform,box-shadow,border-color] duration-200 ease-in-out'
+  'rounded-md border border-border-default bg-surface-0 contain-[layout_style] transition-colors duration-150 ease-in-out'
 
-/** Above-the-fold LCP (hero) */
-export const imgHeroClass =
-  'mx-auto block h-auto max-w-full rounded-lg shadow-image'
-
-export const skillCardClass = `${cardClass} skill-card pointer-fine:hover:-translate-y-[0.3125rem] pointer-fine:hover:border-primary-600 pointer-fine:hover:shadow-card flex h-[9.375rem] min-h-[9.375rem] max-h-[9.375rem] w-full flex-1 items-center justify-center px-3 py-4 text-center`
-
-export const portfolioCardClass = `${cardClass} portfolio-item-inner group mx-auto min-h-[23rem] max-w-full overflow-hidden pointer-fine:hover:-translate-y-[0.3125rem] pointer-fine:hover:border-primary-600 pointer-fine:hover:shadow-card-hover`
+export const portfolioCardClass = `${cardClass} portfolio-item-inner mx-auto min-h-[20rem] max-w-full overflow-hidden pointer-fine:hover:border-text-muted`
 
 /** Contact submit — primary button with full-width / square corners */
-export const primaryBtnSubmitClass = `${primaryBtnClass} w-full cursor-pointer rounded-sm text-text-on-primary disabled:cursor-not-allowed disabled:opacity-60`
+export const primaryBtnSubmitClass = `${primaryBtnClass} w-full cursor-pointer text-text-on-primary disabled:cursor-not-allowed disabled:opacity-60`
 
 /** Below-the-fold card thumbs — fixed crop box in Projects */
 export const imgCardThumbClass =
-  'mx-auto block h-full w-full max-w-full object-cover transition-transform duration-200 ease-in-out pointer-fine:group-hover:scale-105'
+  'mx-auto block h-full w-full max-w-full object-cover'

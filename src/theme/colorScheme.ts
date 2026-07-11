@@ -4,9 +4,9 @@ export type ThemePreference = 'light' | 'dark' | 'system'
 /** Resolved light/dark for icons / labels only */
 export type ResolvedTheme = 'light' | 'dark'
 
-/** Browser chrome — light primary violet; dark nav surface */
+/** Browser chrome — neutral surfaces */
 const THEME_COLOR: Record<ResolvedTheme, string> = {
-  light: '#7c3aed',
+  light: '#fafafa',
   dark: '#18181c',
 }
 

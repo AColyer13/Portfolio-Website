@@ -1,114 +1,94 @@
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import { Projects } from './Projects'
-
-describe('Projects', () => {
-  it('renders titles from portfolio data', () => {
-    render(<Projects />)
-    expect(screen.getAllByText('Valley Forge Automotive').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('MissionCtrl').length).toBeGreaterThan(0)
-  })
-
-  it('renders private-repo projects that link to source on GitHub', () => {
-    render(<Projects />)
-    expect(screen.getAllByText('Legal Eagle Project').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Dream Vacation App').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('UFO Abductor').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('The Office').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Writing Consultant').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Stardust').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Minnesota Snowmobile').length).toBeGreaterThan(0)
-  })
-
-  it('resolves image src for public assets', () => {
-    const { container } = render(<Projects />)
-    const imgs = container.querySelectorAll('img')
-    expect(imgs.length).toBeGreaterThan(0)
-    expect(imgs[0].getAttribute('src')).toContain(
-      'images/missionctrl-tr41-groundctrl',
-    )
-  })
-
-  it('uses live URL for overlay when present', () => {
-    const { container } = render(<Projects />)
-    const firstCard = container.querySelector('.portfolio-item-inner')
-    const zoom = firstCard?.querySelector('.portfolio-zoom-link')
-    expect(zoom).toHaveAttribute('href', 'https://missionctrl.org')
-  })
-
-  it('falls back to GitHub overlay when no liveUrl', () => {
-    const { container } = render(<Projects />)
-    const cards = container.querySelectorAll('.portfolio-item-inner')
-    // The Office has no liveUrl — its overlay should target the GitHub repo
-    const officeCard = Array.from(cards).find((card) =>
-      card.textContent?.includes('The Office'),
-    )
-    const zoom = officeCard?.querySelector('.portfolio-zoom-link')
-    expect(zoom).toHaveAttribute('href', 'https://github.com/AColyer13/the-office')
-  })
-
-  it('links UFO Abductor overlay to its GitHub Pages demo', () => {
-    const { container } = render(<Projects />)
-    const cards = container.querySelectorAll('.portfolio-item-inner')
-    const ufoCard = Array.from(cards).find((card) =>
-      card.textContent?.includes('UFO Abductor'),
-    )
-    const zoom = ufoCard?.querySelector('.portfolio-zoom-link')
-    expect(zoom).toHaveAttribute(
-      'href',
-      'https://acolyer13.github.io/moovellous/',
-    )
-  })
-
-  it('renders GitHub links for all new private-repo projects', () => {
-    const { container } = render(<Projects />)
-    const expectedLinks = [
-      'https://github.com/AColyer13/legaleagleproject',
-      'https://github.com/AColyer13/DreamVacationApp',
-      'https://github.com/AColyer13/the-office',
-      'https://github.com/AColyer13/writing_consultant',
-      'https://github.com/AColyer13/Stardust',
-      'https://github.com/AColyer13/minnesota-snowmobile',
-    ]
-    for (const href of expectedLinks) {
-      expect(
-        container.querySelector(`a.portfolio-link[href="${href}"]`),
-      ).toBeTruthy()
-    }
-  })
-
-  it('links live overlays to verified demo URLs', () => {
-    const { container } = render(<Projects />)
-    const cards = container.querySelectorAll('.portfolio-item-inner')
-    const expectedLiveUrls: Record<string, string> = {
-      Stardust: 'https://acolyer13.github.io/Stardust/',
-      'Minnesota Snowmobile': 'https://acolyer13.github.io/minnesota-snowmobile/',
-      'Legal Eagle Project': 'https://legaleagleproject-mu.vercel.app',
-      'UFO Abductor': 'https://acolyer13.github.io/moovellous/',
-    }
-    for (const [title, href] of Object.entries(expectedLiveUrls)) {
-      const card = Array.from(cards).find((c) => c.textContent?.includes(title))
-      const zoom = card?.querySelector('.portfolio-zoom-link')
-      expect(zoom).toHaveAttribute('href', href)
-    }
-  })
-  it('no longer renders any FontAwesome classes (font icons migrated to SVG Icon)', () => {
-    const { container } = render(<Projects />)
-    // FA classes use the prefix `fa-` (e.g. `fab fa-github`, `fas fa-external-link-alt`).
-    // All project icons must now flow through the lucide/Icon component (svg element).
-    expect(container.querySelector('[class*="fa-"]')).toBeNull()
-    // Sanity: the GitHub icon is still present (just as an inline SVG).
-    expect(container.querySelectorAll('svg').length).toBeGreaterThan(0)
-  })
-
-  it('renders every card thumb with eager loading and async decoding so all 12 thumbnails paint reliably (no deferred IntersectionObserver race)', () => {
-    const { container } = render(<Projects />)
-    const imgs = container.querySelectorAll<HTMLImageElement>('img')
-    expect(imgs.length).toBeGreaterThan(0)
-    for (const img of imgs) {
-      // 12 small AVIF thumbnails — eager loading is the simplest reliable fix
-      // for the lazy-loader not firing after fragment navigation on GitHub Pages.
-      expect(img.getAttribute('loading')).toBe('eager')
-      expect(img.getAttribute('decoding')).toBe('async')
-    }
-  })})
+import { describe, it, expect } from 'vitest'
+import { fireEvent, render, screen } from '@testing-library/react'
+import { featuredProjects } from '../data/portfolio'
+import { Projects } from './Projects'
+
+describe('Projects', () => {
+  it('renders featured project titles by default', () => {
+    render(<Projects />)
+    expect(screen.getByText('Valley Forge Automotive')).toBeInTheDocument()
+    expect(screen.getByText('MissionCtrl')).toBeInTheDocument()
+    expect(screen.getByText('Legal Eagle Project')).toBeInTheDocument()
+  })
+
+  it('hides non-featured projects until expanded', () => {
+    render(<Projects />)
+
+    expect(screen.queryByText('Dream Vacation App')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /View all projects/i }))
+    expect(screen.getByText('Dream Vacation App')).toBeInTheDocument()
+  })
+
+  it('resolves image src for public assets', () => {
+    const { container } = render(<Projects />)
+    const imgs = container.querySelectorAll('img')
+    expect(imgs.length).toBe(featuredProjects.length)
+    expect(imgs[0].getAttribute('src')).toContain(
+      'images/missionctrl-tr41-groundctrl',
+    )
+  })
+
+  it('uses format-specific srcSet on each picture source', () => {
+    const { container } = render(<Projects />)
+    const picture = container.querySelector('picture')!
+    const [avif, webp] = picture.querySelectorAll('source')
+    const img = picture.querySelector('img')!
+
+    expect(avif.getAttribute('type')).toBe('image/avif')
+    expect(avif.getAttribute('srcset')).toMatch(/\.avif /)
+    expect(avif.getAttribute('srcset')).not.toMatch(/\.webp |\.png /)
+
+    expect(webp.getAttribute('type')).toBe('image/webp')
+    expect(webp.getAttribute('srcset')).toMatch(/\.webp /)
+    expect(webp.getAttribute('srcset')).not.toMatch(/\.avif |\.png /)
+
+    expect(img.getAttribute('srcset')).toMatch(/\.png /)
+    expect(img.getAttribute('srcset')).not.toMatch(/\.avif |\.webp /)
+  })
+
+  it('prioritizes only the first card image; others load eagerly when featured', () => {
+    const { container } = render(<Projects />)
+    const imgs = container.querySelectorAll<HTMLImageElement>('img')
+    expect(imgs[0].getAttribute('fetchpriority')).toBe('high')
+    expect(imgs[0].getAttribute('loading')).toBe('eager')
+    for (let i = 1; i < featuredProjects.length; i++) {
+      expect(imgs[i].getAttribute('fetchpriority')).toBeNull()
+      expect(imgs[i].getAttribute('loading')).toBe('eager')
+    }
+  })
+
+  it('lazy-loads images for projects revealed after expand', () => {
+    const { container } = render(<Projects />)
+    fireEvent.click(screen.getByRole('button', { name: /View all projects/i }))
+    const imgs = container.querySelectorAll<HTMLImageElement>('img')
+    expect(imgs.length).toBeGreaterThan(featuredProjects.length)
+    for (let i = featuredProjects.length; i < imgs.length; i++) {
+      expect(imgs[i].getAttribute('loading')).toBe('lazy')
+      expect(imgs[i].getAttribute('fetchpriority')).toBeNull()
+    }
+  })
+
+  it('renders live demo and source links for featured projects', () => {
+    render(<Projects />)
+    expect(screen.getAllByRole('link', { name: /Live demo/i }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: /source on GitHub/i }).length).toBe(3)
+  })
+
+  it('links expanded live demos to verified URLs', () => {
+    render(<Projects />)
+    fireEvent.click(screen.getByRole('button', { name: /View all projects/i }))
+
+    const liveLinks = screen.getAllByRole('link', { name: /Live demo/i })
+    const ufoLive = liveLinks.find((link) =>
+      link.getAttribute('href')?.includes('moovellous'),
+    )
+    expect(ufoLive).toHaveAttribute('href', 'https://acolyer13.github.io/moovellous/')
+  })
+
+  it('no longer renders any FontAwesome classes (font icons migrated to SVG Icon)', () => {
+    const { container } = render(<Projects />)
+    expect(container.querySelector('[class*="fa-"]')).toBeNull()
+    expect(container.querySelectorAll('svg').length).toBeGreaterThan(0)
+  })
+})
+

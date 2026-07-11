@@ -2,13 +2,8 @@
 // Runs before the production build so the public/images tree always has the
 // modern formats alongside the original JPEG/PNG.
 //
-// Output naming convention (matches the `<picture>` markup in About.tsx + Projects.tsx):
-//   source.jpg            →  source-960.jpg, source-960.avif, source-960.webp
-//   source.png            →  source-640.png, source-640.avif, source-640.webp
-//
-// Width thresholds are intentional:
-//   - Hero (IMG_4874.JPEG): 960w mobile variant, source is 2048w (1024w desktop)
-//   - Project cards: 640w mobile variant, source width from project.imageWidth
+// Output naming convention (matches `<picture>` markup in Projects.tsx):
+//   source.png → source-640.png, source-640.avif, source-640.webp (+ 1280w set)
 
 import { mkdir, readdir, stat } from 'node:fs/promises'
 import { dirname, extname, join, resolve } from 'node:path'
@@ -51,18 +46,13 @@ async function exists(path) {
  *
  * Pair this with `pictureSrcSet(project.imageUrl, [640, 1280])` in `Projects.tsx`.
  */
-const WIDTH_OVERRIDES = {
-  'IMG_4874.JPEG': [960], // hero — original is 2048w; 960w satisfies mobile 1x/2x.
-}
-
 async function processFile(filename) {
   const parsed = parseFilename(filename)
   if (!parsed) return
   const { base, ext } = parsed
   const fullSource = join(PUBLIC_IMAGES, filename)
 
-  // Widths for this source: override list OR default [640, 1280]
-  const widths = WIDTH_OVERRIDES[filename] ?? [640, 1280]
+  const widths = [640, 1280]
 
   for (const width of widths) {
     const baseVariant = `${base}-${width}`

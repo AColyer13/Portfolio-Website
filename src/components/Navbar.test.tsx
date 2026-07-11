@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { Navbar } from './Navbar'
 
-const SECTION_LABELS = ['About', 'Skills', 'Experiences', 'Projects', 'Contact']
+const SECTION_LABELS = ['About', 'Skills', 'Experience', 'Projects', 'Contact']
 
 describe('Navbar', () => {
   it('renders all section links (desktop + mobile popover)', () => {

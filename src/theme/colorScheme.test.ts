@@ -37,10 +37,10 @@ describe('syncThemeColor', () => {
     expect(metas).toHaveLength(1)
   })
 
-  it('uses light primary violet for light mode', () => {
+  it('uses light surface for light mode', () => {
     syncThemeColor('light')
     const meta = document.head.querySelector('meta[name="theme-color"]')
-    expect(meta?.getAttribute('content')).toBe('#7c3aed')
+    expect(meta?.getAttribute('content')).toBe('#fafafa')
   })
 
   it('uses dark surface for dark mode', () => {

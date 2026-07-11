@@ -24,7 +24,7 @@ const inputClass =
   'contact-form-input w-full rounded-sm border border-border-default bg-surface-0 px-3 py-2 text-base text-text-default transition-[border-color,box-shadow] duration-200 ease-in-out placeholder:text-text-muted focus:border-primary-600 focus:outline-none focus:shadow-[0_0_0_3px_var(--color-focus-ring)] aria-invalid:border-danger-600'
 
 const socialLinkClass =
-  'social-link inline-flex h-11 w-11 items-center justify-center rounded-sm bg-border-default text-primary-600 no-underline transition-[background-color,color,transform] duration-200 ease-in-out pointer-fine:hover:-translate-y-[0.1875rem] pointer-fine:hover:bg-primary-600 pointer-fine:hover:text-text-default'
+  'social-link inline-flex h-11 w-11 items-center justify-center rounded-md border border-border-default bg-surface-0 text-text-default no-underline transition-colors duration-150 ease-in-out hover:border-text-muted hover:bg-surface-50'
 
 /* `<input type="email">` already runs the browser's RFC-5321/5322 check via
  * the Constraint Validation API. Our `emailInputRef.current.checkValidity()`
@@ -162,27 +162,19 @@ export function Contact() {
                   loading="eager"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Map of Edina, MN"
-                  className="contact-map block h-[clamp(14rem,30vh,22rem)] w-full rounded-md grayscale transition-[filter] duration-200 ease-in-out pointer-fine:hover:grayscale-0"
+                  className="contact-map block h-[clamp(14rem,30vh,22rem)] w-full rounded-md"
                 />
               ) : (
                 <button
                   type="button"
                   onClick={() => setMapLoaded(true)}
                   aria-label="Load interactive map of Edina, MN"
-                  className="contact-map-placeholder group relative h-[clamp(14rem,30vh,22rem)] w-full cursor-pointer overflow-hidden rounded-md border border-border-default bg-surface-100 text-text-default transition-[background-color,border-color] duration-200 ease-in-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 hover:border-primary-600"
+                  className="contact-map-placeholder flex h-[clamp(14rem,30vh,22rem)] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-border-default bg-surface-50 text-center text-text-default transition-colors duration-150 ease-in-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 hover:border-text-muted"
                 >
-                  <span
-                    aria-hidden
-                    className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,color-mix(in_oklch,var(--color-primary-600)_25%,transparent),transparent_60%),radial-gradient(circle_at_70%_60%,color-mix(in_oklch,var(--color-primary-600)_18%,transparent),transparent_55%)] opacity-60 transition-opacity duration-200 group-hover:opacity-90"
-                  />
-                  <span className="relative flex h-full w-full flex-col items-center justify-center gap-2 text-center">
-                    <span className="text-fluid-3 font-bold text-primary-600">
-                      Edina, MN
-                    </span>
-                    <span className="inline-flex items-center gap-1 rounded-pill border border-primary-600 px-3 py-1 text-fluid-1 font-medium text-primary-600 transition-colors duration-200 group-hover:bg-primary-600 group-hover:text-surface-0">
-                      <Icon name="map-marker-alt" aria-hidden />
-                      Load interactive map
-                    </span>
+                  <span className="text-fluid-3 font-medium text-text-default">Edina, MN</span>
+                  <span className="inline-flex items-center gap-1 text-fluid-1 text-text-muted">
+                    <Icon name="map-marker-alt" aria-hidden />
+                    Load map
                   </span>
                 </button>
               )}
@@ -235,7 +227,7 @@ export function Contact() {
                 aria-atomic="true"
                 className={`mb-2 rounded-sm p-2 text-fluid-1 ${
                   status.kind === 'success'
-                    ? 'bg-[oklch(from_var(--color-primary-600)_l_c_h/12%)] text-text-default'
+                    ? 'bg-surface-100 text-text-default'
                     : 'bg-danger-bg text-danger-700'
                 }`}
               >

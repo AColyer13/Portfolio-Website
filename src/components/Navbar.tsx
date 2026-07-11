@@ -28,7 +28,7 @@ const iconBtnMobileClass =
   'inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-md border border-border-default bg-surface-0 p-0 text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
 
 const navLinkClass =
-  'nav-link-hover relative flex h-9 items-center rounded-sm px-2 py-1 text-menu text-text-default hover:text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
+  'flex h-9 items-center rounded-sm border-b-2 border-transparent px-2 py-1 text-menu text-text-muted transition-colors duration-150 ease-in-out hover:text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
 
 const navLinkMobileClass = `${navLinkClass} min-h-11 justify-center px-4 py-2`
 
@@ -109,7 +109,7 @@ function IconMoon() {
 const navItems = [
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },
-  { id: 'experience', label: 'Experiences' },
+  { id: 'experience', label: 'Experience' },
   { id: 'projects', label: 'Projects' },
   { id: 'contact', label: 'Contact' },
 ] as const
@@ -133,7 +133,9 @@ function NavLinks({
           <a
             href={`${base}#${item.id}`}
             className={`${linkClass} ${
-              activeSection === item.id ? 'active font-bold text-primary-600' : ''
+              activeSection === item.id
+                ? 'active border-text-default font-medium text-text-default'
+                : ''
             }`}
             onClick={(e) => {
               e.preventDefault()
@@ -141,7 +143,7 @@ function NavLinks({
               onAfterNavigate?.()
             }}
           >
-            <span data-hover={item.label}>{item.label}</span>
+            {item.label}
           </a>
         </li>
       ))}

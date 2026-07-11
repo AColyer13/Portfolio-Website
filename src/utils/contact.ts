@@ -1,9 +1,6 @@
 /**
- * EmailJS is ~40 KB gzipped. The package ships in the initial bundle via
- * `main.tsx`'s top-level `import emailjs from '@emailjs/browser'` plus its
- * eager `emailjs.init(...)` call. None of it is needed until the user
- * submits the contact form — by which point the section may be many
- * scrolls down.
+ * EmailJS is ~40 KB gzipped. None of it is needed until the user submits
+ * the contact form — by which point the section may be many scrolls down.
  *
  * This module:
  *   - Stores the public key + service + template IDs (configured here so

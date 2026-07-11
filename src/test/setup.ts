@@ -23,6 +23,15 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 })
 
+// jsdom doesn't implement ResizeObserver — stub for scroll-spy / header sync.
+class MockResizeObserver {
+  observe = vi.fn()
+  unobserve = vi.fn()
+  disconnect = vi.fn()
+}
+;(globalThis as unknown as { ResizeObserver: unknown }).ResizeObserver =
+  MockResizeObserver
+
 // jsdom doesn't implement window.scrollTo — stub it so we don't see
 // "Not implemented" warnings during scroll-spy tests.
 if (!window.scrollTo || /\[native code\]/.test(window.scrollTo.toString()) === false) {
