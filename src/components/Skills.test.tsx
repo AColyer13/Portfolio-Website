@@ -3,14 +3,16 @@ import { render, screen } from '@testing-library/react'
 import { Skills } from './Skills'
 
 describe('Skills', () => {
-  it('renders curated skill groups as typographic lists', () => {
+  it('renders FastAPI with the logo mask like other SVG skills', () => {
     render(<Skills />)
 
-    expect(screen.getByRole('heading', { name: 'Build', level: 3 })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Data & cloud', level: 3 })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Quality', level: 3 })).toBeInTheDocument()
-    expect(screen.getByText('TypeScript')).toBeInTheDocument()
-    expect(screen.getByText('Gemini API')).toBeInTheDocument()
-    expect(screen.queryByText('FastAPI')).not.toBeInTheDocument()
+    const heading = screen.getByRole('heading', { name: 'FastAPI', level: 4 })
+    const body = heading.closest('.skill-card__body')
+    const icon = body?.querySelector<HTMLElement>('.skill-card__logo')
+
+    expect(icon).toBeTruthy()
+    expect(icon?.style.maskImage || icon?.style.webkitMaskImage).toBe(
+      'url("/images/fastapi.svg")',
+    )
   })
 })

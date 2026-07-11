@@ -15,7 +15,7 @@ export const sectionDeferredClass =
   '[content-visibility:auto] [contain-intrinsic-size:auto_50rem]'
 
 export const primaryBtnClass =
-  'inline-flex min-h-11 items-center justify-center gap-1 rounded-md border-none bg-primary-600 px-4 py-2 text-btn font-medium text-text-on-primary transition-colors duration-150 ease-in-out hover:bg-primary-700'
+  'inline-flex min-h-11 items-center justify-center gap-1 rounded-md border-none bg-btn-bg px-4 py-2 text-btn font-medium text-btn-fg transition-colors duration-150 ease-in-out hover:bg-btn-hover'
 
 /** Secondary (outline) CTA — for hero pairing, keeps one clear primary action. */
 export const secondaryBtnClass =
@@ -24,10 +24,16 @@ export const secondaryBtnClass =
 export const cardClass =
   'rounded-md border border-border-default bg-surface-0 contain-[layout_style] transition-colors duration-150 ease-in-out'
 
+/** Above-the-fold LCP (hero) */
+export const imgHeroClass =
+  'mx-auto block h-auto max-w-full rounded-md border border-border-default'
+
+export const skillCardClass = `${cardClass} skill-card flex h-[9.375rem] min-h-[9.375rem] max-h-[9.375rem] w-full flex-1 items-center justify-center px-3 py-4 text-center pointer-fine:hover:border-text-muted`
+
 export const portfolioCardClass = `${cardClass} portfolio-item-inner mx-auto min-h-[20rem] max-w-full overflow-hidden pointer-fine:hover:border-text-muted`
 
 /** Contact submit — primary button with full-width / square corners */
-export const primaryBtnSubmitClass = `${primaryBtnClass} w-full cursor-pointer text-text-on-primary disabled:cursor-not-allowed disabled:opacity-60`
+export const primaryBtnSubmitClass = `${primaryBtnClass} w-full cursor-pointer disabled:cursor-not-allowed disabled:opacity-60`
 
 /** Below-the-fold card thumbs — fixed crop box in Projects */
 export const imgCardThumbClass =

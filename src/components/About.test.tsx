@@ -23,9 +23,19 @@ describe('About', () => {
     expect(link.getAttribute('href')).toContain('AdamColyerResume')
   })
 
-  it('does not render a hero image', () => {
+  it('marks the hero image as high-priority + async for LCP', () => {
     const { container } = render(<About />)
-    expect(container.querySelector('img')).toBeNull()
-    expect(container.querySelector('picture')).toBeNull()
+    const hero = container.querySelector('img')!
+    expect(hero.getAttribute('fetchpriority')).toBe('high')
+    expect(hero.getAttribute('decoding')).toBe('async')
+  })
+
+  it('uses <picture> for AVIF + WebP variants of the hero', () => {
+    const { container } = render(<About />)
+    const sources = container.querySelectorAll('picture source')
+    expect(sources.length).toBeGreaterThanOrEqual(2)
+    const types = Array.from(sources).map((s) => s.getAttribute('type'))
+    expect(types).toContain('image/avif')
+    expect(types).toContain('image/webp')
   })
 })

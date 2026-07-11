@@ -1,5 +1,6 @@
 export interface Skill {
   name: string;
+  icon: string;
 }
 
 export interface SkillBlock {
@@ -26,33 +27,113 @@ interface Project {
   featured?: boolean;
 }
 
-/** Curated skills — three groups, four items each. */
+/** Skills in display order: Block 1 (top) → Block 8 (bottom). */
 export const skillBlocks: SkillBlock[] = [
   {
-    title: 'Build',
+    title: 'Core web / JS',
     skills: [
-      { name: 'TypeScript' },
-      { name: 'React' },
-      { name: 'Node.js' },
-      { name: 'Python' },
+      { name: 'JavaScript', icon: 'js' },
+      { name: 'PWA', icon: 'images/pwa.svg' },
+      { name: 'TypeScript', icon: 'images/typescript.svg' },
+      { name: 'React', icon: 'images/react.svg' },
+      { name: 'Vite', icon: 'images/vite.svg' },
+      { name: 'React Router', icon: 'images/reactrouter.svg' },
+      { name: 'React Query', icon: 'images/tanstack.svg' },
+      { name: 'Tailwind CSS', icon: 'images/tailwindcss.svg' },
+      { name: 'Node.js', icon: 'node-js' },
+      { name: 'Express.js', icon: 'images/express.svg' },
+      { name: 'React Hook Form', icon: 'images/reacthookform.svg' },
+      { name: 'Framer Motion', icon: 'images/framer.svg' },
+      { name: 'React Native', icon: 'images/react-native.svg' },
+      { name: 'Flutter', icon: 'images/flutter.svg' },
+      { name: 'Python', icon: 'python' },
+      { name: 'FastAPI', icon: 'images/fastapi.svg' },
+      { name: 'Flask', icon: 'images/flask.svg' },
+      { name: 'Java', icon: 'java' },
     ],
   },
   {
-    title: 'Data & cloud',
+    title: 'UI / 3D / content',
     skills: [
-      { name: 'PostgreSQL' },
-      { name: 'Firebase' },
-      { name: 'AWS' },
-      { name: 'Docker' },
+      { name: 'Radix UI', icon: 'images/radixui.svg' },
+      { name: 'Lucide', icon: 'images/lucide.svg' },
+      { name: 'Recharts', icon: 'images/recharts.svg' },
+      { name: 'React Markdown', icon: 'markdown' },
+      { name: 'Three.js & R3F', icon: 'images/threedotjs.svg' },
+      { name: 'Disco UI', icon: 'compact-disc' },
     ],
   },
   {
-    title: 'Quality',
+    title: 'Data, auth, realtime',
     skills: [
-      { name: 'Vitest' },
-      { name: 'Playwright' },
-      { name: 'CI/CD' },
-      { name: 'Gemini API' },
+      { name: 'SQL', icon: 'table' },
+      { name: 'PostgreSQL', icon: 'images/postgresql.svg' },
+      { name: 'Amazon RDS', icon: 'images/amazon-rds.svg' },
+      { name: 'DynamoDB', icon: 'images/dynamodb.svg' },
+      { name: 'Firebase', icon: 'images/firebase.svg' },
+      { name: 'AWS Amplify', icon: 'images/aws-amplify.svg' },
+      { name: 'Firestore', icon: 'images/firestore-hosting.svg' },
+      { name: 'Cognito', icon: 'images/cognito.svg' },
+      { name: 'JWT & OAuth', icon: 'key' },
+      { name: 'Zod', icon: 'images/zod.svg' },
+      { name: 'Amazon API Gateway', icon: 'images/api-gateway.svg' },
+      { name: 'Socket.IO', icon: 'images/socketdotio.svg' },
+    ],
+  },
+  {
+    title: 'API, docs, integration',
+    skills: [
+      { name: 'Axios', icon: 'images/axios.svg' },
+      { name: 'OpenAPI', icon: 'images/swagger.svg' },
+      { name: 'Postman', icon: 'images/postman.svg' },
+      { name: 'SMTP / Email APIs', icon: 'envelope' },
+    ],
+  },
+  {
+    title: 'Testing & quality',
+    skills: [
+      { name: 'Vitest', icon: 'images/vitest.svg' },
+      { name: 'Jest', icon: 'images/jest.svg' },
+      { name: 'Playwright', icon: 'images/playwright.svg' },
+      { name: 'Lighthouse', icon: 'lightbulb' },
+      { name: 'axe', icon: 'universal-access' },
+      { name: 'Supertest', icon: 'images/supertest.svg' },
+      { name: 'Firebase Emulators', icon: 'flask-vial' },
+    ],
+  },
+  {
+    title: 'DevOps & cloud',
+    skills: [
+      { name: 'Git', icon: 'git-alt' },
+      { name: 'GitHub Actions', icon: 'github' },
+      { name: 'CI/CD', icon: 'code-branch' },
+      { name: 'Docker', icon: 'docker' },
+      { name: 'Google Cloud', icon: 'images/googlecloud.svg' },
+      { name: 'AWS', icon: 'aws' },
+      { name: 'Cloud Run', icon: 'images/cloudrun.svg' },
+      { name: 'Secrets & IAM', icon: 'user-shield' },
+    ],
+  },
+  {
+    title: 'Security & architecture',
+    skills: [
+      { name: 'OWASP / AppSec', icon: 'images/owasp.svg' },
+      { name: 'CSP', icon: 'shield-halved' },
+      { name: 'Helmet', icon: 'hard-hat' },
+      { name: 'Rate Limiting', icon: 'sliders' },
+    ],
+  },
+  {
+    title: 'AI',
+    skills: [
+      { name: 'Gemini API', icon: 'images/googlegemini.svg' },
+      { name: 'Cursor', icon: 'images/cursor.svg' },
+      { name: 'Claude Code', icon: 'images/claude-code.svg' },
+      { name: 'Prompt Engineering', icon: 'wand-magic-sparkles' },
+      { name: 'AI Agent Development', icon: 'robot' },
+      { name: 'AI Rate Limiting', icon: 'gauge-high' },
+      { name: 'Local LLMs', icon: 'microchip' },
+      { name: 'OpenClaw', icon: 'images/openclaw.svg' },
     ],
   },
 ];

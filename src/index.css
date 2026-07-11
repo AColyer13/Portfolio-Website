@@ -3,7 +3,12 @@
   /* Declare both so UA form controls / accessibility tools can align; data-theme narrows when set. */
   color-scheme: light dark;
 
-  /* Accent — neutral charcoal (links, buttons, focus) */
+  /* Solid CTA buttons — high contrast on neutral surfaces */
+  --color-btn-bg: oklch(18% 0.01 260);
+  --color-btn-fg: oklch(99% 0 0);
+  --color-btn-hover: oklch(28% 0.02 260);
+
+  /* Accent — neutral charcoal (focus, subtle emphasis) */
   --color-primary-600: oklch(28% 0.02 260);
   --color-primary-700: oklch(20% 0.02 260);
   --color-primary-500: oklch(40% 0.02 260);
@@ -99,6 +104,10 @@
   :root[data-theme='system'] {
     color-scheme: dark;
 
+    --color-btn-bg: #fafafa;
+    --color-btn-fg: #18181c;
+    --color-btn-hover: #e4e4e7;
+
     --color-primary-600: #e4e4e7;
     --color-primary-700: #fafafa;
     --color-primary-500: #a1a1aa;
@@ -130,6 +139,10 @@
 
 :root[data-theme='dark'] {
   color-scheme: dark;
+
+  --color-btn-bg: #fafafa;
+  --color-btn-fg: #18181c;
+  --color-btn-hover: #e4e4e7;
 
   --color-primary-600: #e4e4e7;
   --color-primary-700: #fafafa;
@@ -174,6 +187,9 @@
   --color-primary-500: var(--color-primary-500);
   --color-primary-600: var(--color-primary-600);
   --color-primary-700: var(--color-primary-700);
+  --color-btn-bg: var(--color-btn-bg);
+  --color-btn-fg: var(--color-btn-fg);
+  --color-btn-hover: var(--color-btn-hover);
   --color-surface-0: var(--color-surface-0);
   --color-surface-50: var(--color-surface-50);
   --color-surface-100: var(--color-surface-100);
@@ -383,6 +399,31 @@
   .social-link:active {
     border-color: var(--color-text-muted);
     background-color: var(--color-surface-50);
+  }
+}
+
+/* Skill logo mask — per-icon URL is set inline; geometry lives here. */
+.skill-card__logo {
+  flex-shrink: 0;
+  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--color-text-muted);
+  mask-mode: alpha;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .skill-card {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .skill-card:active,
+  .skill-card:has(:focus-visible) {
+    border-color: var(--color-text-muted);
   }
 }
 
