@@ -487,11 +487,12 @@
 }
 
 .skill-popover {
-  /* JS-owned positioning - the open effect sets inline right/bottom/width
-     from the (i) trigger's bounding rect so the popover reads as a
-     callout emerging from the (i) chip. */
-  max-height: 70vh;
-  overflow-y: auto;
+  /* JS-owned sizing: width is fixed (22rem class) and height + overflow-y
+     are written inline on every open so a scrollbar only appears when
+     the content actually exceeds the available viewport height.
+     `overflow: hidden` here is a fallback for the brief moment between
+     showPopover() and the JS measure pass. */
+  overflow: hidden;
   color: inherit;
 
   /* In/out animation (allow-discrete enables the `display` transition).

@@ -125,7 +125,14 @@ function SkillCard({ skill }: SkillCardProps) {
       popover.style.width = ''
       popover.style.maxWidth = ''
 
-      const popoverWidth = Math.min(22 * 16, window.innerWidth - 16)
+      const popoverWidth = Math.min(26 * 16, window.innerWidth - 16)
+
+      // Reset the popover's height/overflow so we can measure it cleanly.
+      // `max-height` and `overflow` are restored just below, after we've
+      // computed how tall the panel actually wants to be.
+      popover.style.maxHeight = 'none'
+      popover.style.overflow = 'visible'
+
       const popoverHeight = popover.getBoundingClientRect().height || 0
 
       // Anchor the popover's bottom-right corner just above the (i)'s
@@ -140,10 +147,19 @@ function SkillCard({ skill }: SkillCardProps) {
       )
       const top = Math.max(margin, desiredTop)
 
+      // Cap height to whatever fits between the popover's top and the
+      // viewport bottom. Enable the vertical scrollbar only when the
+      // natural content height exceeds that cap, so the panel never
+      // shows a scrollbar when its content actually fits.
+      const availableHeight = Math.max(0, window.innerHeight - top - margin)
+      const needsScroll = popoverHeight > availableHeight
+
       popover.style.width = `${Math.round(popoverWidth)}px`
       popover.style.maxWidth = `calc(100vw - ${margin * 2}px)`
       popover.style.top = `${Math.round(top)}px`
       popover.style.left = `${Math.round(left)}px`
+      popover.style.maxHeight = `${Math.round(availableHeight)}px`
+      popover.style.overflowY = needsScroll ? 'auto' : 'hidden'
       // Mark the corner so the CSS arrow picks the right placement.
       popover.dataset.placement = 'bottom-end'
     }
