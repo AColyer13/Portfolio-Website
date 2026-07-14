@@ -7,7 +7,7 @@ import { Section } from './Section'
 
 function SkillIcon({ icon }: { icon: string }) {
   if (isRegisteredIcon(icon)) {
-    return <Icon name={icon} className="shrink-0 text-[2.25rem] leading-none text-text-muted" />
+    return <Icon name={icon} className="shrink-0 text-[2rem] leading-none text-text-muted" />
   }
   if (/\.(?:svg|png|jpe?g|webp)$/i.test(icon)) {
     const logoUrl = withBase(icon)
@@ -23,7 +23,7 @@ function SkillIcon({ icon }: { icon: string }) {
     )
   }
   return (
-    <i className="skill-card__emoji shrink-0 text-[1.875rem] not-italic" aria-hidden>
+    <i className="skill-card__emoji shrink-0 text-[1.625rem] not-italic" aria-hidden>
       {icon}
     </i>
   )
@@ -122,35 +122,73 @@ function SkillCard({ skill }: SkillCardProps) {
 
 interface SkillBlockSectionProps {
   block: SkillBlock
+  /** Stable id prefix so the open/close animation can target the contents. */
+  index: number
 }
 
 /**
- * One top-level discipline block: heading + summary + the skill grid.
- * Each block is open by default so the page reads like a competence map on
- * first load, not a stacked accordion list.
+ * One collapsible discipline block. Compact by default — heading + summary +
+ * chevron only. The skill grid slides open when the user expands the row.
+ *
+ * The animation is pure CSS: the body height transitions between 0 and its
+ * natural size using `interpolate-size: allow-keywords` (Baseline 2024) so
+ * we don't need JavaScript-measured heights. `prefers-reduced-motion` users
+ * get an instant open/close.
  */
-function SkillBlockSection({ block }: SkillBlockSectionProps) {
-  const summaryId = useId()
+function SkillBlockSection({ block, index }: SkillBlockSectionProps) {
+  const blockId = useId()
+  const headerId = `${blockId}-header`
+  const bodyId = `${blockId}-body`
+  const regionClass = `skills-block skills-block--${index} w-full`
+
   return (
-    <details className="skills-details w-full" open>
-      <summary className="skills-details__summary mx-auto mb-(--section-subheading-gap) flex max-w-[52ch] cursor-pointer list-none items-baseline justify-center gap-2 text-center [&::-webkit-details-marker]:hidden">
-        <h3 className="m-0 text-fluid-4 font-bold leading-tight tracking-tight text-text-default">
-          {block.title}
-        </h3>
+    <details
+      // Unique id so a status bar/screen-reader can target an individual block.
+      id={`${blockId}-details`}
+      className={regionClass}
+      name="skills-blocks"
+    >
+      <summary
+        id={headerId}
+        aria-controls={bodyId}
+        className="skills-block__summary mx-auto mb-3 flex w-full max-w-[60rem] cursor-pointer list-none items-center justify-between gap-3 rounded-md border border-border-default bg-surface-0 px-4 py-3 text-text-default transition-colors duration-150 ease-in-out hover:border-text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 [&::-webkit-details-marker]:hidden"
+      >
+        <span className="flex min-w-0 grow flex-col gap-0.5 text-start">
+          <h3 className="m-0 text-fluid-3 font-bold leading-tight tracking-tight text-text-default">
+            {block.title}
+          </h3>
+          <span className="m-0 truncate text-fluid-1 text-text-muted @[40rem]:whitespace-normal">
+            {block.summary}
+          </span>
+        </span>
+        <span className="skills-block__chevron inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-border-default bg-surface-50 text-text-muted transition-transform duration-200 ease-out" aria-hidden>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2.25}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="size-4"
+          >
+            <path d="M9 6l6 6-6 6" />
+          </svg>
+        </span>
       </summary>
-      <p
-        id={summaryId}
-        className="mx-auto mb-(--section-subheading-gap) max-w-[52ch] text-center text-fluid-1 leading-relaxed text-text-muted"
-      >
-        {block.summary}
-      </p>
+
       <div
-        className="grid w-full grid-cols-2 items-stretch justify-items-stretch gap-x-(--container-inline) gap-y-4 @[56rem]:grid-cols-4 @[56rem]:gap-x-4"
-        aria-describedby={summaryId}
+        id={bodyId}
+        role="region"
+        aria-labelledby={headerId}
+        className="skills-block__body mx-auto w-full max-w-[60rem] overflow-hidden"
       >
-        {block.skills.map((skill) => (
-          <SkillCard key={skill.name} skill={skill} />
-        ))}
+        <div className="skills-block__panel px-1 pb-2 pt-1">
+          <div className="grid w-full grid-cols-2 items-stretch justify-items-stretch gap-x-(--container-inline) gap-y-3 @[56rem]:grid-cols-4 @[56rem]:gap-x-3">
+            {block.skills.map((skill) => (
+              <SkillCard key={skill.name} skill={skill} />
+            ))}
+          </div>
+        </div>
       </div>
     </details>
   )
@@ -164,9 +202,9 @@ export function Skills() {
       variant="skills"
       headingClassName="flow-root mb-3 mx-auto max-w-[52ch] text-center"
     >
-      <div className="flex w-full flex-col gap-(--spacing-8)">
-        {skillBlocks.map((block) => (
-          <SkillBlockSection key={block.title} block={block} />
+      <div className="skills-blocks flex w-full flex-col gap-3">
+        {skillBlocks.map((block, index) => (
+          <SkillBlockSection key={block.title} block={block} index={index} />
         ))}
       </div>
     </Section>
