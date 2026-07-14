@@ -101,7 +101,7 @@ function SkillCard({ skill }: SkillCardProps) {
       <button
         type="button"
         id={triggerId}
-        className="skill-info-btn right-1.5 bottom-1.5 inline-flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-full bg-surface-50 text-copyright font-medium leading-none text-text-muted transition-colors duration-150 ease-in-out hover:text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
+        className="skill-info-btn right-2 bottom-2 inline-flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-full bg-surface-50 text-copyright font-medium leading-none text-text-muted transition-colors duration-150 ease-in-out hover:text-text-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
         aria-label={`About ${skill.name} — show description and how I use it`}
         aria-describedby={popoverId}
         popoverTarget={popoverId}

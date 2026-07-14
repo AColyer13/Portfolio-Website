@@ -38,6 +38,57 @@ describe('Skills', () => {
     }
   })
 
+  it('includes the AZ-900 Azure entry next to AWS', () => {
+    const cloud = skillBlocks.find((b) => b.title === 'Cloud, DevOps & Infrastructure')
+    expect(cloud).toBeTruthy()
+    const aws = cloud?.skills.find((s) => s.name === 'AWS')
+    const azure = cloud?.skills.find((s) =>
+      s.name.toLowerCase().includes('azure'),
+    )
+    expect(aws).toBeTruthy()
+    expect(azure).toBeTruthy()
+    // Azure sits below AWS in the list.
+    expect(cloud?.skills.indexOf(azure!)).toBeGreaterThan(cloud?.skills.indexOf(aws!) ?? -1)
+    // And its icon path points to the azure SVG.
+    expect(azure?.icon).toBe('images/microsoftazure.svg')
+  })
+
+  it('has a Data Science & ML Foundations block with the canonical stack', () => {
+    const block = skillBlocks.find((b) => b.title === 'Data Science & ML Foundations')
+    expect(block).toBeTruthy()
+    const names = block?.skills.map((s) => s.name) ?? []
+    expect(names).toContain('Pandas')
+    expect(names).toContain('PyTorch')
+    expect(names).toContain('Matplotlib')
+    expect(names).toContain('Seaborn')
+  })
+
+  it('lists PII Redaction (Presidio) under Data, Auth & Security', () => {
+    const security = skillBlocks.find((b) => b.title === 'Data, Auth & Security')
+    expect(security).toBeTruthy()
+    const redaction = security?.skills.find((s) =>
+      s.name.toLowerCase().includes('pii redaction'),
+    )
+    expect(redaction).toBeTruthy()
+    // Application text should mention the legal-eagle privacy service.
+    expect(redaction?.application.toLowerCase()).toContain('legal-eagle')
+    expect(redaction?.application.toLowerCase()).toContain('presidio')
+  })
+
+  it('every skill icon either uses a registered IconKey or references an existing /public image', () => {
+    // Cheaper than a browser hit: just assert the icon string is well-formed.
+    for (const block of skillBlocks) {
+      for (const skill of block.skills) {
+        if (skill.icon.includes('/')) {
+          expect(
+            /\.(?:svg|png|jpe?g|webp)$/i.test(skill.icon),
+            `${skill.name} icon should be a file path with an image extension`,
+          ).toBe(true)
+        }
+      }
+    }
+  })
+
   it('starts every category collapsed (compact by default)', () => {
     render(<Skills />)
     const details = Array.from(document.querySelectorAll<HTMLDetailsElement>('details'))
@@ -121,9 +172,9 @@ describe('Skills', () => {
     for (const trigger of triggers) {
       // The (i) chip is fully contained inside the card - never spills past
       // the card border. It's tucked into the bottom-right corner with a
-      // small inset (right-1.5, bottom-1.5).
-      expect(trigger.classList.contains('right-1.5')).toBe(true)
-      expect(trigger.classList.contains('bottom-1.5')).toBe(true)
+      // small inset (right-2, bottom-2).
+      expect(trigger.classList.contains('right-2')).toBe(true)
+      expect(trigger.classList.contains('bottom-2')).toBe(true)
       expect(trigger.classList.contains('size-4')).toBe(true)
       // No translate hooks - the chip is anchored purely via offsets.
       expect(trigger.classList.contains('-translate-x-1/3')).toBe(false)

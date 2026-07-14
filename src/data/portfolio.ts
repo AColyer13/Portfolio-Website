@@ -405,6 +405,14 @@ export const skillBlocks: SkillBlock[] = [
         application:
           'Threat model before every launch; Semgrep and `npm audit`/pip-audit run on every CI green.',
       },
+      {
+        name: 'PII Redaction (Presidio)',
+        icon: 'images/presidio.svg',
+        description:
+          'Pattern- and NLP-based detection of personally identifiable information (names, emails, phones, SSNs, IDs) with deterministic token replacement before any text reaches an external service.',
+        application:
+          'Production privacy-service in the legal-eagle project: Microsoft Presidio runs as a FastAPI micro-service, redacts OCR/ASR transcripts, and guarantees no PII leaves the host on the way to Anthropic/OpenAI/MiniMax.',
+      },
     ],
   },
   {
@@ -418,6 +426,14 @@ export const skillBlocks: SkillBlock[] = [
           'Broad cloud platform spanning compute, storage, networking, serverless, identity, and managed databases.',
         application:
           'Used for production deploys — ECS tasks, Lambda, S3, Cognito, and Secrets Manager across client work.',
+      },
+      {
+        name: 'Microsoft Azure (AZ-900)',
+        icon: 'images/microsoftazure.svg',
+        description:
+          'Microsoft cloud platform with strong hybrid, identity (Entra ID), governance (Azure Policy), and integration story across the Microsoft 365 and Active Directory ecosystem.',
+        application:
+          'Currently working through the AZ-900 fundamentals syllabus — cloud-concepts, core Azure services, and management/governance tooling. Complements AWS by adding the Microsoft 365 / Entra ID integration that enterprise clients expect.',
       },
       {
         name: 'Google Cloud',
@@ -490,6 +506,44 @@ export const skillBlocks: SkillBlock[] = [
           'Simple cloud for web services, workers, cron, Postgres, and managed infrastructure-as-code Blueprints.',
         application:
           'Hosts the Stardust FastAPI service, cron-based DB backups, and the Postgres instance behind it.',
+      },
+    ],
+  },
+  {
+    title: 'Data Science & ML Foundations',
+    summary: 'Numerical Python stack for analysis and modeling — the tools behind dashboards, eval pipelines, and ML prototypes.',
+    skills: [
+      {
+        name: 'Pandas',
+        icon: 'images/pandas.svg',
+        description:
+          'DataFrame-centric Python library for tabular data manipulation, joins, group-by aggregation, and time-series resampling.',
+        application:
+          'Used to analyse evaluation runs, score LLM trajectories, and shape the telemetry feeds that feed into dashboards and reports.',
+      },
+      {
+        name: 'PyTorch',
+        icon: 'images/pytorch.svg',
+        description:
+          'Python-first deep-learning framework with dynamic computation graphs, GPU acceleration, and a mature ecosystem of training utilities.',
+        application:
+          'Studying the fundamentals — building small models for evaluation, fine-tuning experiments, and reproducible training runs.',
+      },
+      {
+        name: 'Matplotlib',
+        icon: 'images/matplotlib.svg',
+        description:
+          'Foundational static plotting library for Python — the underlying engine that every other Python viz library renders through.',
+        application:
+          'Default for low-level chart control: ROC curves, attention overlays, and one-off diagnostic plots when Seaborn defaults do not fit the artefact.',
+      },
+      {
+        name: 'Seaborn',
+        icon: 'images/seaborn.svg',
+        description:
+          'High-level statistical visualisation library built on Matplotlib with sensible defaults for distributions, regressions, and categorical comparisons.',
+        application:
+          'Reached for any statistical or model-evaluation chart: confusion matrices, calibration plots, distribution comparisons — reads natively from Pandas DataFrames.',
       },
     ],
   },
