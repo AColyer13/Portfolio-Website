@@ -213,7 +213,7 @@ function SkillBlockSection({ block }: SkillBlockSectionProps) {
   const summaryId = useId()
   return (
     <details className="skills-details w-full">
-      <summary className="skills-details__summary mx-auto mb-(--section-subheading-gap) flex max-w-[52ch] cursor-pointer list-none items-center justify-center gap-2 text-center [&::-webkit-details-marker]:hidden">
+      <summary className="skills-details__summary mx-auto mb-(--section-subheading-gap) flex w-full max-w-[52ch] cursor-pointer list-none items-center justify-between gap-2 text-left [&::-webkit-details-marker]:hidden">
         <h3 className="m-0 text-fluid-4 font-bold leading-tight tracking-tight text-text-default">
           {block.title}
         </h3>
