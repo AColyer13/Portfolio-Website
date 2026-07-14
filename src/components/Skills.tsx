@@ -160,7 +160,7 @@ function SkillBlockSection({ block }: SkillBlockSectionProps) {
         {block.summary}
       </p>
       <div
-        className="grid w-full grid-cols-2 items-stretch justify-items-stretch gap-x-(--container-inline) gap-y-4 @[56rem]:grid-cols-4 @[56rem]:gap-x-4"
+        className="grid w-full grid-cols-2 items-stretch justify-items-stretch gap-x-(--container-inline) gap-y-4 pb-3 @[56rem]:grid-cols-4 @[56rem]:gap-x-4"
         aria-describedby={summaryId}
       >
         {block.skills.map((skill) => (

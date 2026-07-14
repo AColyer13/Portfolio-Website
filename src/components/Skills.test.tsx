@@ -38,21 +38,6 @@ describe('Skills', () => {
     }
   })
 
-  it('includes the AZ-900 Azure entry next to AWS', () => {
-    const cloud = skillBlocks.find((b) => b.title === 'Cloud, DevOps & Infrastructure')
-    expect(cloud).toBeTruthy()
-    const aws = cloud?.skills.find((s) => s.name === 'AWS')
-    const azure = cloud?.skills.find((s) =>
-      s.name.toLowerCase().includes('azure'),
-    )
-    expect(aws).toBeTruthy()
-    expect(azure).toBeTruthy()
-    // Azure sits below AWS in the list.
-    expect(cloud?.skills.indexOf(azure!)).toBeGreaterThan(cloud?.skills.indexOf(aws!) ?? -1)
-    // And its icon path points to the azure SVG.
-    expect(azure?.icon).toBe('images/microsoftazure.svg')
-  })
-
   it('has a Data Science & ML Foundations block with the canonical stack', () => {
     const block = skillBlocks.find((b) => b.title === 'Data Science & ML Foundations')
     expect(block).toBeTruthy()
@@ -75,7 +60,7 @@ describe('Skills', () => {
     expect(redaction?.application.toLowerCase()).toContain('presidio')
   })
 
-  it('every skill icon either uses a registered IconKey or references an existing /public image', () => {
+  it('every skill icon either uses a registered IconKey or references a /public image', () => {
     // Cheaper than a browser hit: just assert the icon string is well-formed.
     for (const block of skillBlocks) {
       for (const skill of block.skills) {

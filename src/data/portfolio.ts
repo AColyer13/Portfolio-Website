@@ -428,14 +428,6 @@ export const skillBlocks: SkillBlock[] = [
           'Used for production deploys — ECS tasks, Lambda, S3, Cognito, and Secrets Manager across client work.',
       },
       {
-        name: 'Microsoft Azure (AZ-900)',
-        icon: 'images/microsoftazure.svg',
-        description:
-          'Microsoft cloud platform with strong hybrid, identity (Entra ID), governance (Azure Policy), and integration story across the Microsoft 365 and Active Directory ecosystem.',
-        application:
-          'Currently working through the AZ-900 fundamentals syllabus — cloud-concepts, core Azure services, and management/governance tooling. Complements AWS by adding the Microsoft 365 / Entra ID integration that enterprise clients expect.',
-      },
-      {
         name: 'Google Cloud',
         icon: 'images/googlecloud.svg',
         description:
