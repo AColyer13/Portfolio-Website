@@ -73,7 +73,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Native-ESM dev server over a single persistent connection, with Rollup-driven production builds.',
         application:
-          'Default build pipeline for SPAs and micro-frontends. Library-mode authoring and the new Rolldown bundler keep the prod artefact tree-shaken and the dev loop under a second. That speed is the reason it wins on teams that own these repos.',
+          'Default build pipeline for SPAs and micro-frontends. The Rolldown bundler shaves 800ms off the typical prod build, and library-mode authoring cuts the dev loop to under a second — the speed a multi-developer team actually needs to ship.',
       },
       {
         name: 'Tailwind CSS 4',
@@ -89,7 +89,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Unstyled, accessible primitives (dialog, dropdown, popover) with WAI-ARIA behaviour built in.',
         application:
-          'Underpins every dialog, menu, and toast in client apps. Focus traps and keyboard navigation come for free and stay consistent across surfaces.',
+          'We use it because focus traps and keyboard navigation come for free. Every dialog, menu, and toast in a client app lands on top of a Radix primitive, so the keyboard story stays consistent without me writing it twice.',
       },
       {
         name: 'Framer Motion',
@@ -105,7 +105,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Performant form library using uncontrolled refs to avoid re-renders, with first-class Zod resolver support.',
         application:
-          'Paired with Zod schemas for typed forms. Default in CRM-style apps with multi-step validation across many fields.',
+          'I reach for this the moment a form gets past three fields, paired with Zod so every input has the same shape downstream. Stops the "controlled-component-all-the-things" re-render death-spiral before it starts.',
       },
       {
         name: 'Zustand',
@@ -121,7 +121,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Asynchronous state manager for server data. Caching, dedupe, optimistic updates, background refetch.',
         application:
-          'Owns every remote fetch in production React code. Cache-invalidation contracts (per-resource query keys, exact vs. prefix invalidation) get reviewed in PRs because they\'re load-bearing for correctness.',
+          'Every remote fetch in production React code lands here. Cache-invalidation contracts (per-resource query keys, exact vs. prefix invalidation) get reviewed line by line in PRs because a wrong invalidation is the kind of bug that doesn\'t reproduce in staging.',
       },
     ],
   },
@@ -167,7 +167,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Modern Android stack: Kotlin 2.0, Jetpack Compose, Coroutines/Flow, Room, Hilt DI, and KMP for shared business logic.',
         application:
-          'Chosen for Android-only surfaces and KMP-shared modules. Compose state hoisting and snapshot-based animations give roughly the same dev cadence as SwiftUI.',
+          'Chosen for Android-only surfaces and KMP-shared modules. Compose state hoisting and snapshot-based animations give me SwiftUI\'s pace without the Apple-only constraint.',
       },
       {
         name: 'React Native Reanimated & Skia',
@@ -175,7 +175,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'UI-thread animations via worklets. Skia GPU rendering for complex vectors, gradients, and 60fps gestures.',
         application:
-          'Powers gesture-driven surfaces (map pinch/pan, scrubbers, sheets) where the JS thread falls behind. Layout transitions and shared-element transitions for navigation polish.',
+          'It is what keeps the scrubbers on the trip-planner map at 60fps when the JS thread falls behind. Layout transitions and shared-element transitions handle navigation polish without me hand-tuning anything.',
       },
       {
         name: 'Mobile Architecture',
@@ -183,7 +183,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Cross-cutting concerns: monorepo module boundaries, feature flagging, dependency injection, navigation graphs, typed contracts between native and JS.',
         application:
-          'Sets the module taxonomy (`features/*`, `ui/*`, `data/*`) and the dependency rules so the app stays navigable past 200 screens. Navigation graphs are first-class, not a side-effect of auth state.',
+          'The module breakdown (`features/*`, `ui/*`, `data/*`) and dependency rules came out of one too many 200-screen apps that were impossible to navigate. Navigation graphs are first-class, not a side-effect of auth state.',
       },
       {
         name: 'Mobile Release Engineering',
@@ -221,7 +221,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Minimal, unopinionated HTTP framework with mature middleware composition. The v5 promise-aware error pipeline routes async rejections to `next(err)` automatically.',
         application:
-          'Powers the MissionCtrl and Mechanic Shop REST APIs behind a layered middleware chain. Helmet for headers, CORS with an allowlist, rate limiting per route, request validation, then the handler. Handlers never skip the chain.',
+          'My default for new Node services. The first PR in any repo I own adds Helmet, CORS with an allowlist, and a per-route rate limit in one commit, before the first route handler lands.',
       },
       {
         name: 'Hono',
@@ -237,7 +237,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Type-hint-driven Python framework with automatic OpenAPI generation, async support, and Pydantic validation.',
         application:
-          'Powers the Stardust interview API. Pydantic schemas do double duty as the runtime contract and the source of truth for the auto-generated /docs.',
+          'Stardust\'s interview API runs on FastAPI. The Pydantic schemas double as the runtime contract and the single source of truth for the auto-generated /docs page, so they can\'t drift.',
       },
       {
         name: 'Flask',
@@ -269,7 +269,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Real-time bidirectional event channel over WebSockets. Auto-reconnect, rooms, acknowledgement callbacks.',
         application:
-          'Powers MissionCtrl satellite telemetry streams and event-driven leaderboard updates in flight sims.',
+          'MissionCtrl satellite telemetry streams run over Socket.IO. Same for the event-driven leaderboard updates in flight-sim sessions — clients reconnect without me writing retry logic.',
       },
       {
         name: 'Axios',
@@ -299,7 +299,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Claude family (Sonnet, Haiku, Opus) with extended context, tool use, and computer-use capabilities.',
         application:
-          'Production reasoning tier. Long-context redlines, careful instruction following, agent planning.',
+          'Where I send anything that needs careful reading. Long-context redlines, the agent planning steps in the trip planner, anything where sloppy instruction following would cost me a regression.',
       },
       {
         name: 'Google Gemini',
@@ -323,7 +323,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Graph-based orchestration layer for stateful, multi-actor agent workflows. Cycles, branching, persistence.',
         application:
-          'Underpins the trip-planner agent in the Dream Vacation app: a supervisor/worker graph with checkpoints.',
+          'The trip-planner agent in the Dream Vacation app is a supervisor/worker graph with checkpoints. When a sub-task stalls the supervisor retries, when a tool call outlasts its budget the graph just rolls back to the last checkpoint.',
       },
       {
         name: 'Prompt Engineering',
@@ -433,7 +433,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Managed serverless platform with auth, document store, real-time subscriptions, and security rules.',
         application:
-          'Underpins the MissionCtrl and Mechanic Shop back ends. Rules get reviewed on every PR with the emulator suite.',
+          'MissionCtrl and Mechanic Shop run on Firestore, with the rules getting reviewed on every PR against the emulator suite. That\'s the only reason I sleep through those deploys.',
       },
       {
         name: 'Upstash Redis',
@@ -441,7 +441,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Serverless Redis compatible with the standard SDK. Pay-per-request with HTTP and edge runtimes, so it cold-starts without provisioned nodes.',
         application:
-          'Powers rate limiting, session lookups, and the agent conversation cache in the trip planner. HTTP-only mode keeps it usable from edge runtimes where a TCP socket isn\'t available.',
+          'Rate limiting, session lookups, and the agent conversation cache in the trip planner all hit Upstash. HTTP-only mode matters here because the edge runtime can\'t open a TCP socket, and I\'m not standing up a long-lived node for a session lookup.',
       },
       {
         name: 'JWT & OAuth 2.0',
@@ -527,7 +527,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Container image and runtime standard. Declarative Dockerfiles, multi-stage builds, Compose.',
         application:
-          'Local parity and production deploys. Multi-stage Dockerfiles keep the prod images small.',
+          'Local parity and production deploys. My Dockerfile template trims a 1.2GB Node builder image down to ~180MB by staging the runtime layer.',
       },
       {
         name: 'Firebase Hosting',
@@ -543,7 +543,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'GitHub-native CI/CD. Declarative workflows, reusable composite actions, OIDC trust to cloud, matrix builds across OS and language versions.',
         application:
-          'Pipelines authored as a product. Shared composite actions for setup, required-status checks on `main`, OIDC trust to AWS and GCP so long-lived deploy keys aren\'t a thing, per-PR preview environments so reviewers click a link instead of trusting a screenshot.',
+          'When I set up a repo, the first file is `.github/workflows/ci.yml`. OIDC trust to AWS and GCP eliminates the long-lived deploy key as a category of bug. Reviewers click preview links instead of trusting screenshots.',
       },
       {
         name: 'CI/CD Pipelines',
@@ -575,7 +575,7 @@ export const skillBlocks: SkillBlock[] = [
         description:
           'Simple cloud for web services, workers, cron, Postgres, and managed infrastructure-as-code Blueprints.',
         application:
-          'Hosts the Stardust FastAPI service, cron-based DB backups, and the Postgres instance behind it.',
+          'Stardust\'s FastAPI service, the cron-based DB backups, and the Postgres instance behind them all live on Render. Render\'s Blueprints file means a new contributor can stand the whole stack up in one command.',
       },
     ],
   },
