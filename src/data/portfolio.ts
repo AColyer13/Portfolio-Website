@@ -130,7 +130,7 @@ export const skillBlocks: SkillBlock[] = [
     summary: 'Cross-platform and native mobile: release engineering, performance budgets, production app stores.',
     skills: [
       {
-        name: 'React Native (New Architecture)',
+        name: 'React Native',
         icon: 'images/react-native.svg',
         description:
           'Cross-platform native-rendering framework with Fabric, TurboModules, Hermes, and synchronous JSI bindings instead of the legacy bridge.',
@@ -154,7 +154,7 @@ export const skillBlocks: SkillBlock[] = [
           'Reached for design-heavy, brand-sensitive mobile surfaces where pixel-perfect motion and 120fps rendering are non-negotiable. Riverpod for state, go_router for typed navigation.',
       },
       {
-        name: 'Native iOS (Swift / SwiftUI)',
+        name: 'Native iOS',
         icon: 'images/ios-swift.svg',
         description:
           'Apple platform stack: Swift 5.10, SwiftUI, UIKit interop, Combine, structured concurrency, and actors.',
@@ -162,7 +162,7 @@ export const skillBlocks: SkillBlock[] = [
           'Used for the platform-specific surface of a cross-platform app, App Clip and Widget extensions, and any feature where the RN bridge cost won\'t do. Auth flows, ARKit, Apple Pay.',
       },
       {
-        name: 'Native Android (Kotlin / Jetpack Compose)',
+        name: 'Native Android',
         icon: 'images/android-kotlin.svg',
         description:
           'Modern Android stack: Kotlin 2.0, Jetpack Compose, Coroutines/Flow, Room, Hilt DI, and KMP for shared business logic.',
@@ -476,7 +476,7 @@ export const skillBlocks: SkillBlock[] = [
           'Threat model produced before every launch. Semgrep rules run in CI alongside `npm audit`/pip-audit and gitleaks, and findings get triaged into the sprint instead of the next-next-next backlog.',
       },
       {
-        name: 'PII Redaction (Presidio)',
+        name: 'PII Redaction',
         icon: 'images/presidio.svg',
         description:
           'Pattern- and NLP-based detection of personally identifiable information (names, emails, phones, SSNs, IDs) with deterministic token replacement before any text reaches an external service.',

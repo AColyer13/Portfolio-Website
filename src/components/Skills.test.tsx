@@ -86,11 +86,11 @@ describe('Skills', () => {
     const block = skillBlocks.find((b) => b.title === 'Mobile Development')
     expect(block).toBeTruthy()
     const names = block?.skills.map((s) => s.name) ?? []
-    expect(names).toContain('React Native (New Architecture)')
+    expect(names).toContain('React Native')
     expect(names).toContain('Expo & EAS')
     expect(names).toContain('Flutter')
-    expect(names).toContain('Native iOS (Swift / SwiftUI)')
-    expect(names).toContain('Native Android (Kotlin / Jetpack Compose)')
+    expect(names).toContain('Native iOS')
+    expect(names).toContain('Native Android')
     expect(names).toContain('Mobile Release Engineering')
     expect(names).toContain('Offline-First & Sync')
     // React Native should not leak into the web-frontend block any more.
@@ -123,7 +123,7 @@ describe('Skills', () => {
     expect(pytest?.icon).toBe('images/pytest.svg')
   })
 
-  it('lists PII Redaction (Presidio) under Data, Auth & Security', () => {
+  it('lists PII Redaction under Data, Auth & Security', () => {
     const security = skillBlocks.find((b) => b.title === 'Data, Auth & Security')
     expect(security).toBeTruthy()
     const redaction = security?.skills.find((s) =>
