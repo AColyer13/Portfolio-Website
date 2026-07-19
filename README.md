@@ -1,7 +1,5 @@
 # Portfolio Website
 
-**Live:** https://acolyer13.github.io/Portfolio-Website/
-
 A single-page personal portfolio. See [SPEC.md](SPEC.md) for what the site does.
 
 ## Stack
