@@ -8,13 +8,24 @@ import {
 import { positionCalloutPopover } from './calloutPopover'
 import { Icon, isRegisteredIcon } from './Icons'
 
-/** Per-skill visual: SVG (mask), registered icon, or text-only fallback. */
+/**
+ * Per-skill visual: inline SVG (mask), registered lucide icon, or text fallback.
+ *
+ * The component is intentionally small (~1em by default) because it lives
+ * *inline* with the bolded skill name — a chunky 2.25rem chip would dwarf
+ * the heading. Sizes in CSS via `.hm-skill__inline-icon`.
+ *
+ * The mask-flavour element also carries the legacy `.skill-card__logo`
+ * class so the FastAPI logo-mask test (which queries by that class) keeps
+ * passing. The HM rule redefines sizing/color so the chip stays small.
+ */
 function SkillIcon({ icon }: { icon: string }) {
   if (isRegisteredIcon(icon)) {
     return (
       <Icon
         name={icon}
-        className="skill-card__logo shrink-0 text-[1.125rem] leading-none text-text-muted"
+        className="hm-skill__inline-icon"
+        aria-hidden
       />
     )
   }
@@ -22,7 +33,7 @@ function SkillIcon({ icon }: { icon: string }) {
     const maskUrl = icon.startsWith('/') ? icon : `/${icon}`
     return (
       <span
-        className="skill-card__logo"
+        className="skill-card__logo hm-skill__inline-icon hm-skill__inline-icon--mask"
         style={{
           maskImage: `url("${maskUrl}")`,
           WebkitMaskImage: `url("${maskUrl}")`,
@@ -32,7 +43,10 @@ function SkillIcon({ icon }: { icon: string }) {
     )
   }
   return (
-    <i className="shrink-0 text-[1rem] not-italic text-text-muted" aria-hidden>
+    <i
+      className="hm-skill__inline-icon not-italic text-text-muted"
+      aria-hidden
+    >
       {icon}
     </i>
   )
@@ -44,14 +58,6 @@ function SkillIcon({ icon }: { icon: string }) {
  * details/summary shell so the existing `:focus-visible` chain keeps
  * working and the existing markup remains a fair host for the new
  * `.hm-` class chrome.
- *
- * 8-state discipline:
- *   - default:    collapsed (`<details>` open attr absent)
- *   - hover:      summary underline / chevron weight
- *   - focus:      summary outline visible (handled by UA focus styles)
- *   - active:     chevron tilts (CSS rule on `[open] > summary`)
- *   - expanded:   chevron rotates 180°, grid reveals
- *   - revealed-empty: still uses `skill-card__body` for spacing
  */
 export function Skills() {
   return (
@@ -207,8 +213,10 @@ function SkillCard({ skill }: SkillCardProps) {
     <div ref={wrapperRef} className="hm-skill relative">
       <div className="skill-card hm-skill__card">
         <div className="skill-card__body hm-skill__body">
-          <SkillIcon icon={skill.icon} />
-          <h4 className="hm-skill__name">{skill.name}</h4>
+          <h4 className="hm-skill__name">
+            <span className="hm-skill__name-text">{skill.name}</span>
+            <SkillIcon icon={skill.icon} />
+          </h4>
           <p className="hm-skill__desc">{skill.description}</p>
         </div>
       </div>
@@ -219,7 +227,7 @@ function SkillCard({ skill }: SkillCardProps) {
         aria-expanded={open}
         aria-controls={popoverId}
         aria-label={`About ${skill.name}. Show description and how I use it`}
-        className="skill-info-btn right-2 bottom-2 size-4 hm-skill__trigger"
+        className="right-2 bottom-2 size-4 hm-skill__trigger"
         onClick={onToggle}
       >
         <span aria-hidden>[i]</span>

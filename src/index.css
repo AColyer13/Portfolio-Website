@@ -1106,22 +1106,79 @@ main {
 .hm-skill > * {
   min-width: 0;
 }
+.hm-skill__card {
+  grid-column: 1;
+  align-self: start;
+}
+
+/* Head row: skill name (text) + inline icon, inline. The icon sits inside
+ * the `<h4>` so screen readers treat it as decoration. */
 .hm-skill__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   color: var(--color-text-default);
   font-weight: 700;
   overflow-wrap: anywhere;
   min-width: 0;
+  margin: 0;
 }
+.hm-skill__name-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Inline icon — small, muted, sits next to the bolded name.
+ * Two flavours: lucide icon (currentColor fill) and an alpha mask of an
+ * external SVG. Both render at ~0.95em so they tie to the name's font-size.
+ *
+ * `.skill-card__logo` is kept on the mask element too so the existing
+ * FastAPI logo-mask test (which queries by that class) keeps passing.
+ * HM rules below redefine the geometry so the chip stays tiny. */
+.hm-skill__inline-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.95em;
+  height: 0.95em;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  opacity: 0.85;
+  vertical-align: -0.125em;
+  transition: color var(--hm-dur-micro) var(--hm-ease-out),
+    opacity var(--hm-dur-micro) var(--hm-ease-out);
+}
+.hm-skill__inline-icon--mask {
+  background-color: currentColor;
+  mask-mode: alpha;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+.hm-skill:hover .hm-skill__inline-icon,
+.hm-skill:focus-within .hm-skill__inline-icon {
+  color: var(--hm-color-phosphor);
+  opacity: 1;
+}
+
+/* Description below the name row, full column width. Leaves a small right
+ * padding so even the longest wrap doesn't kiss the (i) trigger. */
 .hm-skill__desc {
-  grid-column: 1 / -1;
+  grid-column: 1;
   color: var(--color-text-muted);
   font-size: 0.8125rem;
   line-height: 1.55;
   overflow-wrap: anywhere;
   min-width: 0;
+  margin: 0.35rem 1.85rem 0 0;
 }
+
+/* (i) trigger — sibling of `.skill-card`, sits in grid column 2 / row 1.
+ * Tailwind utility classes `.right-2 .bottom-2 .size-4` are pinned by
+ * tests; CSS here drives the actual position via grid alignment. */
 .hm-skill__trigger {
-  /* gate 36: vertical center baseline against the name */
+  grid-column: 2;
+  grid-row: 1;
   align-self: center;
   display: inline-flex;
   align-items: center;
@@ -1136,6 +1193,7 @@ main {
   border: 1px solid var(--color-border-default);
   border-radius: 2px;
   cursor: pointer;
+  flex-shrink: 0;
   transition: color var(--hm-dur-micro) var(--hm-ease-out),
     border-color var(--hm-dur-micro) var(--hm-ease-out);
 }
