@@ -88,9 +88,9 @@ describe('SECTION_IDS + isSectionId', () => {
   it('lists sections in DOM order', () => {
     expect(SECTION_IDS).toEqual([
       'about',
-      'skills',
       'experience',
       'projects',
+      'skills',
       'contact',
     ])
   })

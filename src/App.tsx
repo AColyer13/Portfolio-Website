@@ -34,9 +34,9 @@ function App() {
       />
       <main id="main-content">
         <About />
-        <Skills />
         <Experiences />
         <Projects />
+        <Skills />
         <Contact />
       </main>
       <Footer />
