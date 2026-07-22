@@ -725,9 +725,13 @@
  * 2024+) so we get an enter animation in addition to the default exit.
  * ===================================================================== */
 .site-nav-popover {
-  /* Reset UA popover defaults that don't fit a dropdown-menu look */
+  /* Reset UA popover defaults that don't fit a dropdown-menu look. Keep the
+   * explicit top/inset here (rather than only in Tailwind utilities) because
+   * this unlayered rule outranks Tailwind's utility layer. */
   margin: 0;
   inset: auto;
+  inset-inline: 0;
+  top: var(--header-offset);
   width: 100%;
   max-width: 100%;
   height: auto;
